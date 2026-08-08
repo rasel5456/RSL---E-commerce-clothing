@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 
 type ProductCardProps = {
@@ -20,7 +21,8 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
   const [justAdded, setJustAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // যাতে বাটনে ক্লিক করলে Link এর কারণে পেজ পাল্টে না যায়
     addToCart({
       id,
       name,
@@ -35,8 +37,8 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
 
   return (
     <div className="group">
-      {/* Image */}
-      <div className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4">
+      {/* Image — click করলে product details পেজে যাবে */}
+      <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 block">
         <img
           src={image}
           alt={name}
@@ -45,7 +47,10 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
 
         {/* Wishlist */}
         <button
-          onClick={() => setWishlisted((w) => !w)}
+          onClick={(e) => {
+            e.preventDefault();
+            setWishlisted((w) => !w);
+          }}
           aria-label="Wishlist"
           className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-[#F7F4EF]/90 backdrop-blur"
         >
@@ -72,11 +77,13 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
         >
           {justAdded ? '✓ ADDED TO CART' : 'QUICK ADD'}
         </button>
-      </div>
+      </Link>
 
       {/* Info */}
       <div style={{ fontFamily: 'var(--font-sans)' }}>
-        <h3 className="text-sm text-[#14120F] mb-1">{name}</h3>
+        <Link href={`/product/${id}`}>
+          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors">{name}</h3>
+        </Link>
         <p className="text-sm text-[#6E675C] mb-3">৳{price}</p>
 
         {/* Color chips */}
