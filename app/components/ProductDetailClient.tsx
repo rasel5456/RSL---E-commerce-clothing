@@ -1,7 +1,8 @@
-'use client';
+﻿"use client";
 
-import { useState } from 'react';
-import { useCart } from '@/context/CartContext';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 type Product = {
   id: string;
@@ -15,22 +16,22 @@ type Product = {
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const { addToCart } = useCart();
+  const router = useRouter();
 
   const images = product.images && product.images.length > 0
     ? product.images
-    : ['https://placehold.co/600x750/F7F4EF/14120F?text=RSL'];
+    : ["https://placehold.co/600x750/F7F4EF/14120F?text=RSL"];
 
   const sizes = product.sizes || [];
   const colors = product.colors || [];
 
   const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [selectedSize, setSelectedSize] = useState(sizes[0] || '');
-  const [selectedColor, setSelectedColor] = useState(colors[0] || '');
+  const [selectedSize, setSelectedSize] = useState(sizes[0] || "");
+  const [selectedColor, setSelectedColor] = useState(colors[0] || "");
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
 
-  const handleAddToCart = () => {
-    // quantity যতগুলো, ততবার cart-এ add করছি (CartContext-এ একবারে ১টা করে add করার লজিক আছে)
+  const addItemsToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart({
         id: product.id,
@@ -41,17 +42,25 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         color: selectedColor,
       });
     }
+  };
+
+  const handleAddToCart = () => {
+    addItemsToCart();
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
+  };
+
+  const handleOrderNow = () => {
+    addItemsToCart();
+    router.push("/cart");
   };
 
   return (
     <div
       className="min-h-screen bg-[#F7F4EF] text-[#14120F]"
-      style={{ fontFamily: 'var(--font-bangla), var(--font-sans), sans-serif' }}
+      style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}
     >
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 grid md:grid-cols-2 gap-12">
-        {/* Left: Images */}
         <div>
           <div className="aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4">
             <img
@@ -68,7 +77,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   key={idx}
                   onClick={() => setSelectedImage(img)}
                   className={`w-20 h-24 overflow-hidden border-2 ${
-                    selectedImage === img ? 'border-[#14120F]' : 'border-transparent'
+                    selectedImage === img ? "border-[#14120F]" : "border-transparent"
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -78,18 +87,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           )}
         </div>
 
-        {/* Right: Info */}
-        <div style={{ fontFamily: 'var(--font-sans)' }}>
-          <h1 className="text-3xl mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+        <div style={{ fontFamily: "var(--font-sans)" }}>
+          <h1 className="text-3xl mb-2" style={{ fontFamily: "var(--font-display)" }}>
             {product.name}
           </h1>
-          <p className="text-xl text-[#6E675C] mb-6">৳{product.price}</p>
+          <p className="text-xl text-[#6E675C] mb-6">Taka {product.price}</p>
 
           {product.description && (
             <p className="text-[#6E675C] mb-8 leading-relaxed">{product.description}</p>
           )}
 
-          {/* Color selection */}
           {colors.length > 0 && (
             <div className="mb-6">
               <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">COLOR</p>
@@ -100,8 +107,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     onClick={() => setSelectedColor(color)}
                     className={`px-4 py-2 text-sm border transition-colors ${
                       selectedColor === color
-                        ? 'border-[#14120F] text-[#14120F]'
-                        : 'border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]'
+                        ? "border-[#14120F] text-[#14120F]"
+                        : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
                     }`}
                   >
                     {color}
@@ -111,7 +118,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Size selection */}
           {sizes.length > 0 && (
             <div className="mb-6">
               <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">SIZE</p>
@@ -122,8 +128,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     onClick={() => setSelectedSize(size)}
                     className={`w-10 h-10 text-sm border transition-colors ${
                       selectedSize === size
-                        ? 'border-[#14120F] text-[#14120F]'
-                        : 'border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]'
+                        ? "border-[#14120F] text-[#14120F]"
+                        : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
                     }`}
                   >
                     {size}
@@ -133,7 +139,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Quantity */}
           <div className="mb-8">
             <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">QUANTITY</p>
             <div className="flex items-center border border-[#DDD6C8] w-fit">
@@ -141,7 +146,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 className="w-10 h-10 hover:bg-[#EFEAE0] transition-colors"
               >
-                −
+                -
               </button>
               <span className="w-12 text-center">{quantity}</span>
               <button
@@ -153,15 +158,23 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
           </div>
 
-          {/* Add to cart */}
-          <button
-            onClick={handleAddToCart}
-            className={`w-full py-4 text-[13px] tracking-[0.1em] transition-colors ${
-              justAdded ? 'bg-[#9C7A44] text-[#F7F4EF]' : 'bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]'
-            }`}
-          >
-            {justAdded ? '✓ ADDED TO CART' : 'ADD TO CART'}
-          </button>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={handleAddToCart}
+              className={`w-full py-4 text-[13px] tracking-[0.1em] transition-colors ${
+                justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
+              }`}
+            >
+              {justAdded ? "ADDED TO CART" : "ADD TO CART"}
+            </button>
+
+            <button
+              onClick={handleOrderNow}
+              className="w-full py-4 text-[13px] tracking-[0.1em] border-2 border-[#14120F] text-[#14120F] hover:bg-[#14120F] hover:text-[#F7F4EF] transition-colors"
+            >
+              ORDER NOW
+            </button>
+          </div>
         </div>
       </div>
     </div>
