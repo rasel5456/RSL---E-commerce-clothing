@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,14 +13,12 @@ export default function AddProductPage() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
   const [sizes, setSizes] = useState("");
   const [colors, setColors] = useState("");
-
-  // এখন images একটা array হিসেবে রাখছি, প্রতিটা upload হওয়া ছবির URL এখানে জমা হবে
   const [images, setImages] = useState<string[]>([]);
 
-  // এই ফাংশনটা তখন চলে যখন ইউজার একটা ছবি ফাইল সিলেক্ট করে
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -40,13 +38,11 @@ export default function AddProductPage() {
     setUploading(false);
 
     if (data.success) {
-      // নতুন uploaded ছবির URL, আগের লিস্টের সাথে যোগ করছি
       setImages((prev) => [...prev, data.url]);
     } else {
       setError(data.message || "Image upload failed");
     }
 
-    // input field রিসেট করছি, যাতে আবার একই ফাইল দিয়ে চাইলে re-select করা যায়
     e.target.value = "";
   };
 
@@ -64,6 +60,7 @@ export default function AddProductPage() {
       description,
       price: Number(price),
       category,
+      gender,
       stock: Number(stock),
       sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
       colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
@@ -114,7 +111,7 @@ export default function AddProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label>Price (৳)</label>
+          <label>Price (Taka)</label>
           <input
             type="text"
             inputMode="numeric"
@@ -135,6 +132,19 @@ export default function AddProductPage() {
             required
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label>Gender</label>
+          <select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+          >
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="unisex">Unisex</option>
+          </select>
         </div>
 
         <div style={{ marginBottom: "15px" }}>
@@ -166,12 +176,11 @@ export default function AddProductPage() {
             type="text"
             value={colors}
             onChange={(e) => setColors(e.target.value)}
-            placeholder="কালো, সাদা, নেভি ব্লু"
+            placeholder="Black, White, Navy Blue"
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
         </div>
 
-        {/* --- Image Upload Section --- */}
         <div style={{ marginBottom: "15px" }}>
           <label>Product Images</label>
           <div style={{ marginTop: "5px" }}>
@@ -181,17 +190,16 @@ export default function AddProductPage() {
               onChange={handleImageUpload}
               disabled={uploading}
             />
-            {uploading && <p style={{ color: "#9C7A44" }}>Uploading...</p>}
+            {uploading ? <p style={{ color: "#9C7A44" }}>Uploading...</p> : null}
           </div>
 
-          {/* Upload হওয়া ছবিগুলোর প্রিভিউ দেখাচ্ছি */}
-          {images.length > 0 && (
+          {images.length > 0 ? (
             <div style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
               {images.map((url, index) => (
                 <div key={index} style={{ position: "relative" }}>
                   <img
                     src={url}
-                    alt={`Product ${index + 1}`}
+                    alt={"Product " + (index + 1)}
                     style={{ width: "80px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
                   />
                   <button
@@ -211,15 +219,15 @@ export default function AddProductPage() {
                       fontSize: "12px",
                     }}
                   >
-                    ×
+                    x
                   </button>
                 </div>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error ? <p style={{ color: "red" }}>{error}</p> : null}
 
         <button
           type="submit"

@@ -1,7 +1,6 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-// GET: à¦à¦•à¦Ÿà¦¾ à¦¨à¦¿à¦°à§à¦¦à¦¿à¦·à§à¦Ÿ product à¦à¦° data à¦¨à¦¿à¦¯à¦¼à§‡ à¦†à¦¸à¦¾
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -9,7 +8,7 @@ export async function GET(
   const { id } = await params;
 
   const { data, error } = await supabaseAdmin
-    .from("products")
+    .from("banners")
     .select("*")
     .eq("id", id)
     .single();
@@ -21,10 +20,9 @@ export async function GET(
     );
   }
 
-  return NextResponse.json({ success: true, product: data });
+  return NextResponse.json({ success: true, banner: data });
 }
 
-// PUT: existing product à¦à¦° data à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¾
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -33,17 +31,14 @@ export async function PUT(
   const body = await request.json();
 
   const { data, error } = await supabaseAdmin
-    .from("products")
+    .from("banners")
     .update({
-      name: body.name,
-      description: body.description,
-      price: body.price,
-      category: body.category,
-      gender: body.gender,
-      stock: body.stock,
-      sizes: body.sizes,
-      colors: body.colors,
-      images: body.images,
+      image_url: body.image_url,
+      title: body.title,
+      subtitle: body.subtitle,
+      link_url: body.link_url,
+      display_order: body.display_order,
+      is_active: body.is_active,
     })
     .eq("id", id)
     .select();
@@ -55,10 +50,9 @@ export async function PUT(
     );
   }
 
-  return NextResponse.json({ success: true, product: data[0] });
+  return NextResponse.json({ success: true, banner: data[0] });
 }
 
-// DELETE: product à¦®à§à¦›à§‡ à¦«à§‡à¦²à¦¾
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -66,7 +60,7 @@ export async function DELETE(
   const { id } = await params;
 
   const { error } = await supabaseAdmin
-    .from("products")
+    .from("banners")
     .delete()
     .eq("id", id);
 

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import ProductCard from "./components/ProductCard";
 import BannerCarousel from "./components/BannerCarousel";
+import CategorySlider from "./components/CategorySlider";
 import CartIcon from "./components/CartIcon";
 import SearchBox from "./components/SearchBox";
 import WishlistIcon from "./components/WishlistIcon";
@@ -29,9 +30,9 @@ const sans = Inter({
 });
 
 const categories = [
-  { label: "MEN", from: "#2B2620", to: "#14120F" },
-  { label: "WOMEN", from: "#3A3227", to: "#221F1B" },
-  { label: "NEW ARRIVALS", from: "#4A3F2E", to: "#26221C" },
+  { label: "MEN", from: "#2B2620", to: "#14120F", href: "/shop?gender=men" },
+  { label: "WOMEN", from: "#3A3227", to: "#221F1B", href: "/shop?gender=women" },
+  { label: "NEW ARRIVALS", from: "#4A3F2E", to: "#26221C", href: "/shop" },
 ];
 
 const whyItems = [
@@ -42,14 +43,23 @@ const whyItems = [
 ];
 
 export default async function Home() {
-  const [productsRes, bannersRes] = await Promise.all([
+  const [productsRes, bannersRes, allProductsRes] = await Promise.all([
     supabase.from("products").select("*").order("created_at", { ascending: false }).limit(6),
     supabase.from("banners").select("*").eq("is_active", true).order("display_order", { ascending: true }),
+    supabase.from("products").select("*").order("created_at", { ascending: false }),
   ]);
 
   const products = productsRes.data;
   const error = productsRes.error;
   const banners = bannersRes.data;
+  const allProducts = allProductsRes.data || [];
+
+  const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category).filter(Boolean)));
+
+  const productsByCategory = uniqueCategories.map((cat) => ({
+    category: cat,
+    items: allProducts.filter((p) => p.category === cat),
+  }));
 
   return (
     <div
@@ -94,7 +104,7 @@ export default async function Home() {
         <div className="grid md:grid-cols-3 gap-4">
           {categories.map(function (cat) {
             return (
-              <a key={cat.label} href="#" className="group relative h-[420px] overflow-hidden flex items-end p-7" style={{ background: "linear-gradient(160deg, " + cat.from + ", " + cat.to + ")" }}>
+              <a key={cat.label} href={cat.href} className="group relative h-[420px] overflow-hidden flex items-end p-7" style={{ background: "linear-gradient(160deg, " + cat.from + ", " + cat.to + ")" }}>
                 <div className="relative text-[#F7F4EF]">
                   <span className="block text-2xl mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
                   <span className="text-[11px] tracking-[0.15em] border-b border-[#F7F4EF]/50 pb-1 group-hover:border-[#9C7A44] transition-colors">SHOP NOW</span>
@@ -130,6 +140,10 @@ export default async function Home() {
           }) : null}
         </div>
       </section>
+
+      {productsByCategory.map(function (group) {
+        return <CategorySlider key={group.category} title={group.category} products={group.items} />;
+      })}
 
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-2 gap-14 items-center">
         <div className="h-[420px]" style={{ background: "linear-gradient(160deg, #E8E2D6, #DDD6C8)" }} />
@@ -205,7 +219,4 @@ export default async function Home() {
     </div>
   );
 }
-
-
-
 

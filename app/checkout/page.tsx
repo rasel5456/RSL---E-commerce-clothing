@@ -1,11 +1,14 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 export default function CheckoutPage() {
   const { cartItems, totalPrice, clearCart } = useCart();
+  const { user } = useAuth();
   const router = useRouter();
 
   const [name, setName] = useState("");
@@ -14,6 +17,27 @@ export default function CheckoutPage() {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!user) return;
+
+    const loadProfile = async () => {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (profile) {
+        setName(profile.full_name || "");
+        setPhone(profile.phone || "");
+        setAddress(profile.address || "");
+        setCity(profile.city || "");
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +58,7 @@ export default function CheckoutPage() {
       items: cartItems,
       total_amount: totalPrice,
       payment_method: "cod",
+      customer_id: user ? user.id : null,
     };
 
     const res = await fetch("/api/orders", {
@@ -70,6 +95,12 @@ export default function CheckoutPage() {
         <h1 className="text-2xl md:text-3xl mb-8" style={{ fontFamily: "var(--font-display)" }}>
           Checkout
         </h1>
+
+        {!user ? (
+          <p className="text-[#6E675C] text-sm mb-6">
+            Have an account? <a href="/account" className="text-[#9C7A44] underline">Sign in</a> to auto-fill your details.
+          </p>
+        ) : null}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -154,4 +185,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-

@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       items: body.items,
       total_amount: body.total_amount,
       payment_method: body.payment_method,
+      customer_id: body.customer_id,
     })
     .select();
 
@@ -55,3 +56,4 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ success: true, order: order });
 }
+

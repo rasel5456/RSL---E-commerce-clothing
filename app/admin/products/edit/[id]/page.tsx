@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
@@ -16,13 +16,12 @@ export default function EditProductPage() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
   const [sizes, setSizes] = useState("");
   const [colors, setColors] = useState("");
   const [images, setImages] = useState("");
 
-  // পেজ লোড হওয়ার সাথে সাথেই existing product data নিয়ে আসছি
-  // Python এর সাথে তুলনা করলে এটা অনেকটা __init__ এর মতো, কম্পোনেন্ট প্রথমবার লোড হলে একবার চলে
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await fetch(`/api/admin/products/${id}`);
@@ -34,6 +33,7 @@ export default function EditProductPage() {
         setDescription(p.description);
         setPrice(String(p.price));
         setCategory(p.category);
+        setGender(p.gender || "unisex");
         setStock(String(p.stock));
         setSizes((p.sizes || []).join(", "));
         setColors((p.colors || []).join(", "));
@@ -57,6 +57,7 @@ export default function EditProductPage() {
       description,
       price: Number(price),
       category,
+      gender,
       stock: Number(stock),
       sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
       colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
@@ -80,7 +81,7 @@ export default function EditProductPage() {
   };
 
   const handleDelete = async () => {
-    const confirmed = confirm("আপনি কি নিশ্চিত এই প্রোডাক্টটি Delete করতে চান?");
+    const confirmed = confirm("Are you sure you want to delete this product?");
     if (!confirmed) return;
 
     const res = await fetch(`/api/admin/products/${id}`, {
@@ -128,7 +129,7 @@ export default function EditProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label>Price (৳)</label>
+          <label>Price (Taka)</label>
           <input
             type="text"
             inputMode="numeric"
@@ -148,6 +149,19 @@ export default function EditProductPage() {
             required
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label>Gender</label>
+          <select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+          >
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="unisex">Unisex</option>
+          </select>
         </div>
 
         <div style={{ marginBottom: "15px" }}>
@@ -192,7 +206,7 @@ export default function EditProductPage() {
           />
         </div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error ? <p style={{ color: "red" }}>{error}</p> : null}
 
         <div style={{ display: "flex", gap: "10px" }}>
           <button
