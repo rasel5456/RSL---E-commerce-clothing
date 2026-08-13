@@ -1,14 +1,29 @@
 ﻿"use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-const WishlistContext = createContext(undefined);
+export interface WishlistItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+}
 
-export function WishlistProvider({ children }) {
-  const [wishlistItems, setWishlistItems] = useState([]);
+interface WishlistContextType {
+  wishlistItems: WishlistItem[];
+  isInWishlist: (id: string) => boolean;
+  toggleWishlist: (item: WishlistItem) => void;
+  removeFromWishlist: (id: string) => void;
+  totalWishlistItems: number;
+}
+
+const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+
+export function WishlistProvider({ children }: { children: ReactNode }) {
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(function () {
+  useEffect(() => {
     const saved = localStorage.getItem("rsl_wishlist");
     if (saved) {
       setWishlistItems(JSON.parse(saved));
@@ -16,30 +31,28 @@ export function WishlistProvider({ children }) {
     setIsLoaded(true);
   }, []);
 
-  useEffect(function () {
+  useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("rsl_wishlist", JSON.stringify(wishlistItems));
     }
   }, [wishlistItems, isLoaded]);
 
-  const isInWishlist = function (id) {
-    return wishlistItems.some(function (item) { return item.id === id; });
+  const isInWishlist = (id: string) => {
+    return wishlistItems.some((item) => item.id === id);
   };
 
-  const toggleWishlist = function (item) {
-    setWishlistItems(function (prev) {
-      const exists = prev.some(function (i) { return i.id === item.id; });
+  const toggleWishlist = (item: WishlistItem) => {
+    setWishlistItems((prev) => {
+      const exists = prev.some((i) => i.id === item.id);
       if (exists) {
-        return prev.filter(function (i) { return i.id !== item.id; });
+        return prev.filter((i) => i.id !== item.id);
       }
       return [...prev, item];
     });
   };
 
-  const removeFromWishlist = function (id) {
-    setWishlistItems(function (prev) {
-      return prev.filter(function (i) { return i.id !== id; });
-    });
+  const removeFromWishlist = (id: string) => {
+    setWishlistItems((prev) => prev.filter((i) => i.id !== id));
   };
 
   const totalWishlistItems = wishlistItems.length;

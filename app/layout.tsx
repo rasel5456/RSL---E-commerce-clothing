@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Your one-stop shop for trendy clothing",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">

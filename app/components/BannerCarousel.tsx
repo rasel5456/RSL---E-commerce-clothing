@@ -2,21 +2,25 @@
 
 import { useState } from "react";
 
-export default function BannerCarousel({ banners }) {
+interface Banner {
+  id: string;
+  image_url: string;
+  title: string | null;
+  subtitle: string | null;
+  link_url: string | null;
+}
+
+export default function BannerCarousel({ banners }: { banners: Banner[] }) {
   const [current, setCurrent] = useState(0);
 
   if (!banners || banners.length === 0) return null;
 
-  const goPrev = function () {
-    setCurrent(function (prev) {
-      return prev === 0 ? banners.length - 1 : prev - 1;
-    });
+  const goPrev = () => {
+    setCurrent((prev) => (prev === 0 ? banners.length - 1 : prev - 1));
   };
 
-  const goNext = function () {
-    setCurrent(function (prev) {
-      return prev === banners.length - 1 ? 0 : prev + 1;
-    });
+  const goNext = () => {
+    setCurrent((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
   };
 
   const banner = banners[current];
@@ -57,16 +61,14 @@ export default function BannerCarousel({ banners }) {
           </button>
 
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-            {banners.map(function (b, index) {
-              return (
-                <button
-                  key={index}
-                  onClick={function () { setCurrent(index); }}
-                  aria-label={"Go to slide " + (index + 1)}
-                  className={index === current ? "w-2 h-2 rounded-full bg-[#F7F4EF]" : "w-2 h-2 rounded-full bg-[#F7F4EF]/40"}
-                />
-              );
-            })}
+            {banners.map((b, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrent(index)}
+                aria-label={"Go to slide " + (index + 1)}
+                className={index === current ? "w-2 h-2 rounded-full bg-[#F7F4EF]" : "w-2 h-2 rounded-full bg-[#F7F4EF]/40"}
+              />
+            ))}
           </div>
         </div>
       ) : null}

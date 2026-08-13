@@ -1,16 +1,20 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SearchBox() {
   const [query, setQuery] = useState("");
   const router = useRouter();
 
-  const handleSubmit = function (e) {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (query.trim() === "") return;
     router.push("/search?q=" + encodeURIComponent(query.trim()));
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
   };
 
   return (
@@ -19,7 +23,7 @@ export default function SearchBox() {
       <input
         type="text"
         value={query}
-        onChange={function (e) { setQuery(e.target.value); }}
+        onChange={handleChange}
         placeholder="Search products..."
         className="bg-transparent text-[13px] px-2 py-1.5 w-32 md:w-44 focus:outline-none placeholder:text-[#6E675C]/60"
       />
