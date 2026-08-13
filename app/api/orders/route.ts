@@ -39,20 +39,17 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: "RSL Shop <onboarding@resend.dev>",
       to: "rslbdshop@gmail.com",
-      subject: "New Order Received - " + order.customer_name,
+      subject: "New Order #" + order.order_number + " - " + order.customer_name,
       html:
-        "<h2>New Order Received</h2>" +
+        "<h2>New Order #" + order.order_number + "</h2>" +
         "<p><strong>Customer:</strong> " + order.customer_name + "</p>" +
         "<p><strong>Phone:</strong> " + order.customer_phone + "</p>" +
         "<p><strong>Address:</strong> " + order.customer_address + ", " + order.customer_city + "</p>" +
         "<p><strong>Total:</strong> Taka " + order.total_amount + "</p>" +
         "<p><strong>Items:</strong></p>" +
-        "<ul>" + itemsListHtml + "</ul>" +
-        "<p><strong>Order ID:</strong> " + order.id + "</p>",
+        "<ul>" + itemsListHtml + "</ul>",
     });
   } catch (emailError) {
-    // ইমেইল পাঠাতে ব্যর্থ হলেও, অর্ডার তো সফলভাবে database এ save হয়ে গেছে
-    // তাই আমরা customer কে error দেখাবো না, শুধু server-এ log করে রাখবো
     console.error("Email sending failed:", emailError);
   }
 

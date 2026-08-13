@@ -47,7 +47,7 @@ export default function CheckoutPage() {
 
     if (data.success) {
       clearCart();
-      router.push("/order-confirmation?id=" + data.order.id);
+      router.push("/order-confirmation?order_number=" + data.order.order_number);
     } else {
       setError(data.message || "Something went wrong. Please try again.");
     }
@@ -154,3 +154,4 @@ export default function CheckoutPage() {
     </div>
   );
 }
+

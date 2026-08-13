@@ -1,6 +1,7 @@
-import { supabase } from "@/lib/supabase";
+﻿import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "@/app/components/ProductDetailClient";
+import ReviewSection from "@/app/components/ReviewSection";
 
 export const dynamic = "force-dynamic";
 
@@ -21,5 +22,17 @@ export default async function ProductPage({
     notFound();
   }
 
-  return <ProductDetailClient product={product} />;
+  const { data: reviews } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("product_id", id)
+    .eq("is_approved", true)
+    .order("created_at", { ascending: false });
+
+  return (
+    <div>
+      <ProductDetailClient product={product} />
+      <ReviewSection productId={id} initialReviews={reviews || []} />
+    </div>
+  );
 }

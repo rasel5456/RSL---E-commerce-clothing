@@ -27,7 +27,7 @@ export default async function AdminOrdersPage() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
                 <div>
-                  <p style={{ fontWeight: "bold", margin: 0 }}>{order.customer_name}</p>
+                  <p style={{ fontWeight: "bold", margin: 0 }}>Order #{order.order_number} - {order.customer_name}</p>
                   <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{order.customer_phone}</p>
                   <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{order.customer_address}, {order.customer_city}</p>
                 </div>
@@ -54,4 +54,5 @@ export default async function AdminOrdersPage() {
     </div>
   );
 }
+
 

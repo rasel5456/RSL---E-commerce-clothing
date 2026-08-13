@@ -50,7 +50,7 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
       size: selectedSize,
       color: selectedColor,
     });
-    router.push("/cart");
+    router.push("/checkout");
   };
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
@@ -148,3 +148,4 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
     </div>
   );
 }
+

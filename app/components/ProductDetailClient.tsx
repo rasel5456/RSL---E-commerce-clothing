@@ -52,7 +52,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const handleOrderNow = () => {
     addItemsToCart();
-    router.push("/cart");
+    router.push("/checkout");
   };
 
   return (
@@ -180,3 +180,4 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
+
