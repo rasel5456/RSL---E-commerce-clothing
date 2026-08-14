@@ -1,5 +1,7 @@
-import { supabase } from "@/lib/supabase";
+﻿import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminBannersPage() {
   const { data: banners, error } = await supabase
@@ -52,7 +54,7 @@ export default async function AdminBannersPage() {
                 <p style={{ fontWeight: "bold", margin: 0 }}>{banner.title || "(No title)"}</p>
                 <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{banner.subtitle}</p>
                 <p style={{ margin: 0, fontSize: "13px", color: banner.is_active ? "green" : "red" }}>
-                  {banner.is_active ? "Active" : "Inactive"} · Order: {banner.display_order}
+                  {banner.is_active ? "Active" : "Inactive"} Â· Order: {banner.display_order}
                 </p>
               </div>
               <Link href={`/admin/banners/edit/${banner.id}`}>Edit</Link>

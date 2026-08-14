@@ -1,5 +1,7 @@
-import { supabase } from "@/lib/supabase";
+﻿import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
   const { data: products, error } = await supabase
@@ -45,7 +47,7 @@ export default async function AdminProductsPage() {
               <tr key={product.id} style={{ borderBottom: "1px solid #eee" }}>
                 <td style={{ padding: "10px" }}>{product.name}</td>
                 <td style={{ padding: "10px" }}>{product.category}</td>
-                <td style={{ padding: "10px" }}>৳{product.price}</td>
+                <td style={{ padding: "10px" }}>à§³{product.price}</td>
                 <td style={{ padding: "10px" }}>{product.stock ?? "N/A"}</td>
                 <td style={{ padding: "10px" }}>
                   <Link href={`/admin/products/edit/${product.id}`} style={{ marginRight: "10px" }}>

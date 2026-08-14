@@ -25,12 +25,6 @@ const sans = Inter({
   variable: "--font-sans",
 });
 
-const categories = [
-  { label: "MEN", from: "#2B2620", to: "#14120F", href: "/shop?gender=men" },
-  { label: "WOMEN", from: "#3A3227", to: "#221F1B", href: "/shop?gender=women" },
-  { label: "NEW ARRIVALS", from: "#4A3F2E", to: "#26221C", href: "/shop" },
-];
-
 const whyItems = [
   "Premium Quality",
   "Modern Design",
@@ -52,25 +46,31 @@ export default async function Home() {
 
   const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category).filter(Boolean)));
 
-  const productsByCategory = uniqueCategories.map((cat) => ({
-    category: cat,
-    items: allProducts.filter((p) => p.category === cat),
-  }));
+  const productsByCategory = uniqueCategories.map((cat) => {
+    return { category: cat, items: allProducts.filter((p) => p.category === cat) };
+  });
+
+  const menProduct = allProducts.find((p) => p.gender === "men" && p.images && p.images[0]);
+  const womenProduct = allProducts.find((p) => p.gender === "women" && p.images && p.images[0]);
+  const newestProduct = allProducts.find((p) => p.images && p.images[0]);
+
+  const placeholderImg = "https://placehold.co/600x750/26221C/F7F4EF?text=RSL";
+
+  const categories = [
+    { label: "MEN", href: "/shop?gender=men", image: menProduct && menProduct.images && menProduct.images[0] ? menProduct.images[0] : placeholderImg },
+    { label: "WOMEN", href: "/shop?gender=women", image: womenProduct && womenProduct.images && womenProduct.images[0] ? womenProduct.images[0] : placeholderImg },
+    { label: "NEW ARRIVALS", href: "/shop", image: newestProduct && newestProduct.images && newestProduct.images[0] ? newestProduct.images[0] : placeholderImg },
+  ];
 
   return (
-    <div
-      className={`${display.variable} ${bangla.variable} ${sans.variable} min-h-screen bg-[#F7F4EF] text-[#14120F]`}
-      style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}
-    >
+    <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
       <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
         FREE SHIPPING ON ORDERS OVER TAKA 2000
       </div>
 
       <SiteHeader />
 
-      {banners && banners.length > 0 ? (
-        <BannerCarousel banners={banners} />
-      ) : (
+      {banners && banners.length > 0 ? <BannerCarousel banners={banners} /> : (
         <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 text-center text-[#6E675C]">
           Ekhono kono Banner jog kora hoyni. Admin Panel theke Banner jog korun.
         </section>
@@ -80,7 +80,9 @@ export default async function Home() {
         <div className="grid md:grid-cols-3 gap-4">
           {categories.map(function (cat) {
             return (
-              <a key={cat.label} href={cat.href} className="group relative h-[420px] overflow-hidden flex items-end p-7" style={{ background: "linear-gradient(160deg, " + cat.from + ", " + cat.to + ")" }}>
+              <a key={cat.label} href={cat.href} className="group relative h-[420px] overflow-hidden flex items-end p-7">
+                <img src={cat.image} alt={cat.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,18,15,0) 40%, rgba(20,18,15,0.85) 100%)" }} />
                 <div className="relative text-[#F7F4EF]">
                   <span className="block text-2xl mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
                   <span className="text-[11px] tracking-[0.15em] border-b border-[#F7F4EF]/50 pb-1 group-hover:border-[#9C7A44] transition-colors">SHOP NOW</span>
@@ -200,5 +202,3 @@ export default async function Home() {
     </div>
   );
 }
-
-
