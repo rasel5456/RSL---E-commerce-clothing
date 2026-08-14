@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
       name: body.name,
       description: body.description,
       price: body.price,
+      discount_price: body.discount_price,
       category: body.category,
       gender: body.gender,
       stock: body.stock,
@@ -30,3 +31,4 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ success: true, product: data[0] });
 }
+

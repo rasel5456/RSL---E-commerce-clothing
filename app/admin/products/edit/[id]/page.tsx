@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 
+const availableSizes = ["S", "M", "L", "XL", "XXL"];
+
 export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
@@ -15,12 +17,19 @@ export default function EditProductPage() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
   const [category, setCategory] = useState("");
   const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
-  const [sizes, setSizes] = useState("");
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [colors, setColors] = useState("");
   const [images, setImages] = useState("");
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes((prev) =>
+      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    );
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,10 +41,11 @@ export default function EditProductPage() {
         setName(p.name);
         setDescription(p.description);
         setPrice(String(p.price));
+        setDiscountPrice(p.discount_price ? String(p.discount_price) : "");
         setCategory(p.category);
         setGender(p.gender || "unisex");
         setStock(String(p.stock));
-        setSizes((p.sizes || []).join(", "));
+        setSelectedSizes(p.sizes || []);
         setColors((p.colors || []).join(", "));
         setImages((p.images || []).join(", "));
       } else {
@@ -56,10 +66,11 @@ export default function EditProductPage() {
       name,
       description,
       price: Number(price),
+      discount_price: discountPrice ? Number(discountPrice) : null,
       category,
       gender,
       stock: Number(stock),
-      sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
+      sizes: selectedSizes,
       colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
       images: images.split(",").map((i) => i.trim()).filter(Boolean),
     };
@@ -141,6 +152,18 @@ export default function EditProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
+          <label>Discount Price (Taka) - optional</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            value={discountPrice}
+            onChange={(e) => setDiscountPrice(e.target.value.replace(/[^0-9]/g, ""))}
+            placeholder="Leave empty for no discount"
+            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+          />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
           <label>Category</label>
           <input
             type="text"
@@ -177,13 +200,30 @@ export default function EditProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label>Sizes (comma separated)</label>
-          <input
-            type="text"
-            value={sizes}
-            onChange={(e) => setSizes(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
+          <label>Sizes</label>
+          <div style={{ display: "flex", gap: "10px", marginTop: "8px", flexWrap: "wrap" }}>
+            {availableSizes.map((size) => (
+              <label
+                key={size}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 12px",
+                  border: selectedSizes.includes(size) ? "2px solid #9C7A44" : "1px solid #ddd",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedSizes.includes(size)}
+                  onChange={() => toggleSize(size)}
+                />
+                {size}
+              </label>
+            ))}
+          </div>
         </div>
 
         <div style={{ marginBottom: "15px" }}>

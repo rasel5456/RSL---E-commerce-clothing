@@ -38,6 +38,7 @@ export async function PUT(
       name: body.name,
       description: body.description,
       price: body.price,
+      discount_price: body.discount_price,
       category: body.category,
       gender: body.gender,
       stock: body.stock,
@@ -79,3 +80,4 @@ export async function DELETE(
 
   return NextResponse.json({ success: true });
 }
+

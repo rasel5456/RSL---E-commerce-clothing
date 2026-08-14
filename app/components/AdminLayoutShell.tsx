@@ -9,6 +9,7 @@ const navItems = [
   { label: "Products", href: "/admin/products" },
   { label: "Banners", href: "/admin/banners" },
   { label: "Orders", href: "/admin/orders" },
+  { label: "Settings", href: "/admin/settings" },
 ];
 
 export default function AdminLayoutShell({ children }: { children: React.ReactNode }) {
@@ -79,3 +80,4 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
     </div>
   );
 }
+

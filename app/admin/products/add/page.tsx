@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const availableSizes = ["S", "M", "L", "XL", "XXL"];
+
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -12,12 +14,19 @@ export default function AddProductPage() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
   const [category, setCategory] = useState("");
   const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
-  const [sizes, setSizes] = useState("");
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [colors, setColors] = useState("");
   const [images, setImages] = useState<string[]>([]);
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes((prev) =>
+      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    );
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -59,10 +68,11 @@ export default function AddProductPage() {
       name,
       description,
       price: Number(price),
+      discount_price: discountPrice ? Number(discountPrice) : null,
       category,
       gender,
       stock: Number(stock),
-      sizes: sizes.split(",").map((s) => s.trim()).filter(Boolean),
+      sizes: selectedSizes,
       colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
       images,
     };
@@ -123,6 +133,21 @@ export default function AddProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
+          <label>Discount Price (Taka) - optional</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            value={discountPrice}
+            onChange={(e) => setDiscountPrice(e.target.value.replace(/[^0-9]/g, ""))}
+            placeholder="Leave empty for no discount"
+            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+          />
+          <p style={{ fontSize: "13px", color: "#666", marginTop: "5px" }}>
+            If set, this price will show instead of the regular price, with the regular price crossed out.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
           <label>Category</label>
           <input
             type="text"
@@ -160,14 +185,30 @@ export default function AddProductPage() {
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label>Sizes (comma separated)</label>
-          <input
-            type="text"
-            value={sizes}
-            onChange={(e) => setSizes(e.target.value)}
-            placeholder="S, M, L, XL"
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
+          <label>Sizes</label>
+          <div style={{ display: "flex", gap: "10px", marginTop: "8px", flexWrap: "wrap" }}>
+            {availableSizes.map((size) => (
+              <label
+                key={size}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 12px",
+                  border: selectedSizes.includes(size) ? "2px solid #9C7A44" : "1px solid #ddd",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedSizes.includes(size)}
+                  onChange={() => toggleSize(size)}
+                />
+                {size}
+              </label>
+            ))}
+          </div>
         </div>
 
         <div style={{ marginBottom: "15px" }}>

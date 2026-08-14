@@ -18,6 +18,9 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [shippingFee, setShippingFee] = useState(0);
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState(0);
+
   useEffect(() => {
     if (!user) return;
 
@@ -39,6 +42,23 @@ export default function CheckoutPage() {
     loadProfile();
   }, [user]);
 
+  useEffect(() => {
+    const loadSettings = async () => {
+      const { data } = await supabase.from("settings").select("*");
+      if (data) {
+        const feeRow = data.find((r) => r.key === "shipping_fee");
+        const thresholdRow = data.find((r) => r.key === "free_shipping_threshold");
+        setShippingFee(feeRow ? Number(feeRow.value) : 0);
+        setFreeShippingThreshold(thresholdRow ? Number(thresholdRow.value) : 0);
+      }
+    };
+    loadSettings();
+  }, []);
+
+  const qualifiesForFreeShipping = freeShippingThreshold > 0 && totalPrice >= freeShippingThreshold;
+  const actualShippingFee = qualifiesForFreeShipping ? 0 : shippingFee;
+  const grandTotal = totalPrice + actualShippingFee;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -56,7 +76,7 @@ export default function CheckoutPage() {
       customer_address: address,
       customer_city: city,
       items: cartItems,
-      total_amount: totalPrice,
+      total_amount: grandTotal,
       payment_method: "cod",
       customer_id: user ? user.id : null,
     };
@@ -177,9 +197,20 @@ export default function CheckoutPage() {
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-4 text-lg font-medium">
-          <p>Total</p>
-          <p>Taka {totalPrice}</p>
+
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="flex justify-between text-sm text-[#6E675C]">
+            <p>Subtotal</p>
+            <p>Taka {totalPrice}</p>
+          </div>
+          <div className="flex justify-between text-sm text-[#6E675C]">
+            <p>Shipping</p>
+            <p>{qualifiesForFreeShipping ? "Free" : "Taka " + actualShippingFee}</p>
+          </div>
+          <div className="flex justify-between text-lg font-medium border-t border-[#DDD6C8] pt-2 mt-1">
+            <p>Total</p>
+            <p>Taka {grandTotal}</p>
+          </div>
         </div>
       </div>
     </div>
