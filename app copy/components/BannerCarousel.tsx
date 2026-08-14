@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 interface Banner {
   id: string;
@@ -12,8 +12,6 @@ interface Banner {
 
 export default function BannerCarousel({ banners }: { banners: Banner[] }) {
   const [current, setCurrent] = useState(0);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
 
   if (!banners || banners.length === 0) return null;
 
@@ -25,38 +23,12 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
     setCurrent((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const distance = touchStartX.current - touchEndX.current;
-    const minSwipeDistance = 50;
-
-    if (distance > minSwipeDistance) {
-      // বামে swipe করেছে -> পরের banner
-      goNext();
-    } else if (distance < -minSwipeDistance) {
-      // ডানে swipe করেছে -> আগের banner
-      goPrev();
-    }
-  };
-
   const banner = banners[current];
 
   return (
-    <section
-      className="relative w-full h-[70vh] md:h-[86vh] overflow-hidden"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <img src={banner.image_url} alt={banner.title || "Banner"} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+    <section className="relative w-full h-[70vh] md:h-[86vh] overflow-hidden">
+      <img src={banner.image_url} alt={banner.title || "Banner"} className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
         {banner.title ? (

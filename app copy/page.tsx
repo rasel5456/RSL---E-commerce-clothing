@@ -1,8 +1,12 @@
 ﻿import { Cormorant_Garamond, Hind_Siliguri, Inter } from "next/font/google";
+import Link from "next/link";
 import ProductCard from "./components/ProductCard";
 import BannerCarousel from "./components/BannerCarousel";
 import CategorySlider from "./components/CategorySlider";
-import SiteHeader from "./components/SiteHeader";
+import CartIcon from "./components/CartIcon";
+import SearchBox from "./components/SearchBox";
+import WishlistIcon from "./components/WishlistIcon";
+import AccountIcon from "./components/AccountIcon";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -66,7 +70,27 @@ export default async function Home() {
         FREE SHIPPING ON ORDERS OVER TAKA 2000
       </div>
 
-      <SiteHeader />
+      <header className="sticky top-0 z-40 bg-[#F7F4EF]/95 backdrop-blur border-b border-[#DDD6C8]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
+          <Link href="/" className="text-2xl tracking-[0.2em]" style={{ fontFamily: "var(--font-display)" }}>RSL</Link>
+
+          <nav className="hidden md:flex items-center gap-9 text-[13px] tracking-[0.08em] text-[#3A3630]">
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">HOME</Link>
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">SHOP</Link>
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">MEN</Link>
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">WOMEN</Link>
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">NEW ARRIVALS</Link>
+            <Link href="#" className="hover:text-[#9C7A44] transition-colors">COLLECTIONS</Link>
+          </nav>
+
+          <div className="flex items-center gap-5 text-[#14120F]">
+            <SearchBox />
+            <AccountIcon />
+            <WishlistIcon />
+            <CartIcon />
+          </div>
+        </div>
+      </header>
 
       {banners && banners.length > 0 ? (
         <BannerCarousel banners={banners} />
@@ -94,7 +118,7 @@ export default async function Home() {
       <section id="new-arrivals" className="max-w-7xl mx-auto px-6 md:px-10 py-8 md:py-16">
         <div className="flex items-end justify-between mb-10">
           <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "var(--font-display)" }}>New Arrivals</h2>
-          <a href="/shop" className="text-[12px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">VIEW ALL</a>
+          <a href="#" className="text-[12px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">VIEW ALL</a>
         </div>
 
         {error ? <p className="text-red-600">Product load korte somossa hoyeche: {error.message}</p> : null}
@@ -135,7 +159,7 @@ export default async function Home() {
         <p className="text-[12px] tracking-[0.25em] text-[#9C7A44] mb-5">SIGNATURE COLLECTION</p>
         <h2 className="text-4xl md:text-6xl text-[#F7F4EF] mb-6" style={{ fontFamily: "var(--font-display)" }}>The Everyday Collection</h2>
         <p className="text-[#F7F4EF]/70 mb-10" style={{ fontFamily: "var(--font-sans)" }}>Designed for every version of you.</p>
-        <a href="/shop" className="inline-block bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">EXPLORE COLLECTION</a>
+        <a href="#" className="inline-block bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">EXPLORE COLLECTION</a>
       </section>
 
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 grid grid-cols-2 md:grid-cols-4 gap-10">
@@ -167,24 +191,24 @@ export default async function Home() {
           <div>
             <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">SHOP</p>
             <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/shop?gender=men" className="hover:text-[#9C7A44]">Men</a></li>
-              <li><a href="/shop?gender=women" className="hover:text-[#9C7A44]">Women</a></li>
-              <li><a href="/shop" className="hover:text-[#9C7A44]">New Arrivals</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Men</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Women</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">New Arrivals</a></li>
             </ul>
           </div>
           <div>
             <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">SUPPORT</p>
             <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/support" className="hover:text-[#9C7A44]">Customer Support</a></li>
-              <li><a href="/shipping-returns" className="hover:text-[#9C7A44]">Shipping & Returns</a></li>
-              <li><a href="/about" className="hover:text-[#9C7A44]">About RSL</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Customer Support</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Shipping & Returns</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">About RSL</a></li>
             </ul>
           </div>
           <div>
             <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">LEGAL</p>
             <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/privacy-policy" className="hover:text-[#9C7A44]">Privacy Policy</a></li>
-              <li><a href="/terms" className="hover:text-[#9C7A44]">Terms & Conditions</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-[#9C7A44]">Terms & Conditions</a></li>
             </ul>
           </div>
         </div>
