@@ -38,15 +38,11 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
     const minSwipeDistance = 50;
 
     if (distance > minSwipeDistance) {
-      // বামে swipe করেছে -> পরের banner
       goNext();
     } else if (distance < -minSwipeDistance) {
-      // ডানে swipe করেছে -> আগের banner
       goPrev();
     }
   };
-
-  const banner = banners[current];
 
   return (
     <section
@@ -55,36 +51,44 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <img src={banner.image_url} alt={banner.title || "Banner"} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+      {banners.map((banner, index) => (
+        <div
+          key={banner.id}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: index === current ? 1 : 0, pointerEvents: index === current ? "auto" : "none" }}
+        >
+          <img src={banner.image_url} alt={banner.title || "Banner"} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+          <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        {banner.title ? (
-          <h1 className="text-4xl md:text-6xl text-[#F7F4EF] mb-4" style={{ fontFamily: "var(--font-display)" }}>
-            {banner.title}
-          </h1>
-        ) : null}
+          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+            {banner.title ? (
+              <h1 className="text-4xl md:text-6xl text-[#F7F4EF] mb-4" style={{ fontFamily: "var(--font-display)" }}>
+                {banner.title}
+              </h1>
+            ) : null}
 
-        {banner.subtitle ? (
-          <p className="text-[#F7F4EF]/80 max-w-md mb-8" style={{ fontFamily: "var(--font-sans)" }}>
-            {banner.subtitle}
-          </p>
-        ) : null}
+            {banner.subtitle ? (
+              <p className="text-[#F7F4EF]/80 max-w-md mb-8" style={{ fontFamily: "var(--font-sans)" }}>
+                {banner.subtitle}
+              </p>
+            ) : null}
 
-        {banner.link_url ? (
-          <a href={banner.link_url} className="bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">
-            SHOP NOW
-          </a>
-        ) : null}
-      </div>
+            {banner.link_url ? (
+              <a href={banner.link_url} className="bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">
+                SHOP NOW
+              </a>
+            ) : null}
+          </div>
+        </div>
+      ))}
 
       {banners.length > 1 ? (
         <div>
-          <button onClick={goPrev} aria-label="Previous" className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
+          <button onClick={goPrev} aria-label="Previous" className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"></path></svg>
           </button>
 
-          <button onClick={goNext} aria-label="Next" className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
+          <button onClick={goNext} aria-label="Next" className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"></path></svg>
           </button>
 
@@ -94,7 +98,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                 key={index}
                 onClick={() => setCurrent(index)}
                 aria-label={"Go to slide " + (index + 1)}
-                className={index === current ? "w-2 h-2 rounded-full bg-[#F7F4EF]" : "w-2 h-2 rounded-full bg-[#F7F4EF]/40"}
+                className={index === current ? "w-2 h-2 rounded-full bg-[#F7F4EF] transition-colors" : "w-2 h-2 rounded-full bg-[#F7F4EF]/40 transition-colors"}
               />
             ))}
           </div>
