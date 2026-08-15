@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
 type Product = {
@@ -14,6 +15,7 @@ type Product = {
   colors?: string[];
   description?: string;
   stock?: number;
+  category?: string;
 };
 
 export default function ProductDetailClient({ product }: { product: Product }) {
@@ -36,8 +38,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedColor, setSelectedColor] = useState(colors[0] || "");
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
+  const [sizeError, setSizeError] = useState(false);
 
   const addItemsToCart = () => {
+    if (sizes.length > 0 && !selectedSize) {
+      setSizeError(true);
+      return false;
+    }
+    setSizeError(false);
     for (let i = 0; i < quantity; i++) {
       addToCart({
         id: product.id,
@@ -48,18 +56,21 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         color: selectedColor,
       });
     }
+    return true;
   };
 
   const handleAddToCart = () => {
     if (outOfStock) return;
-    addItemsToCart();
+    const ok = addItemsToCart();
+    if (!ok) return;
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
   };
 
   const handleOrderNow = () => {
     if (outOfStock) return;
-    addItemsToCart();
+    const ok = addItemsToCart();
+    if (!ok) return;
     router.push("/checkout");
   };
 
@@ -68,16 +79,35 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       className="min-h-screen bg-[#F7F4EF] text-[#14120F]"
       style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 grid md:grid-cols-2 gap-12">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8">
+        <nav className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-[#6E675C] mb-8">
+          <Link href="/" className="hover:text-[#9C7A44] transition-colors">HOME</Link>
+          <span>/</span>
+          <Link href="/shop" className="hover:text-[#9C7A44] transition-colors">SHOP</Link>
+          {product.category ? (
+            <>
+              <span>/</span>
+              <span className="text-[#14120F]">{product.category.toUpperCase()}</span>
+            </>
+          ) : null}
+        </nav>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 md:px-10 pb-24 grid md:grid-cols-2 gap-14 md:gap-20">
         <div>
           <div className="aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 relative">
             <img
               src={selectedImage}
               alt={product.name}
-              className={"w-full h-full object-cover" + (outOfStock ? " grayscale opacity-60" : "")}
+              className={"w-full h-full object-cover transition-opacity duration-300"}
             />
+            {hasDiscount && !outOfStock ? (
+              <span className="absolute top-5 left-5 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5">
+                SALE
+              </span>
+            ) : null}
             {outOfStock ? (
-              <span className="absolute top-4 left-4 bg-[#14120F] text-[#F7F4EF] text-[11px] tracking-[0.1em] px-3 py-1.5">
+              <span className="absolute top-5 left-5 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5">
                 OUT OF STOCK
               </span>
             ) : null}
@@ -89,8 +119,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-24 overflow-hidden border-2 ${
-                    selectedImage === img ? "border-[#14120F]" : "border-transparent"
+                  className={`w-20 h-24 overflow-hidden border transition-colors ${
+                    selectedImage === img ? "border-[#14120F]" : "border-[#DDD6C8] hover:border-[#9C7A44]"
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -101,37 +131,43 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
 
         <div style={{ fontFamily: "var(--font-sans)" }}>
-          <h1 className="text-3xl mb-2" style={{ fontFamily: "var(--font-display)" }}>
+          {product.category ? (
+            <p className="text-[11px] tracking-[0.2em] text-[#9C7A44] mb-3">{product.category.toUpperCase()}</p>
+          ) : null}
+
+          <h1 className="text-3xl md:text-4xl mb-4 leading-tight" style={{ fontFamily: "var(--font-display)" }}>
             {product.name}
           </h1>
 
-          <p className="text-xl mb-6">
+          <p className="text-xl mb-8">
             {hasDiscount ? (
               <>
-                <span className="text-[#6E675C] line-through mr-3">Taka {product.price}</span>
+                <span className="text-[#6E675C] line-through mr-3 text-base">Taka {product.price}</span>
                 <span className="text-[#9C7A44]">Taka {product.discount_price}</span>
               </>
             ) : (
-              <span className="text-[#6E675C]">Taka {product.price}</span>
+              <span className="text-[#14120F]">Taka {product.price}</span>
             )}
           </p>
 
           {product.description ? (
-            <p className="text-[#6E675C] mb-8 leading-relaxed">{product.description}</p>
+            <p className="text-[#6E675C] mb-10 leading-relaxed max-w-md">{product.description}</p>
           ) : null}
 
           {colors.length > 0 ? (
-            <div className="mb-6">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">COLOR</p>
+            <div className="mb-7">
+              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
+                COLOR{selectedColor ? <span className="text-[#14120F] ml-2">— {selectedColor}</span> : null}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {colors.map((color) => (
                   <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className={`px-4 py-2 text-sm border transition-colors ${
+                    className={`px-5 py-2.5 text-sm border transition-colors ${
                       selectedColor === color
-                        ? "border-[#14120F] text-[#14120F]"
-                        : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
+                        ? "border-[#14120F] bg-[#14120F] text-[#F7F4EF]"
+                        : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
                     }`}
                   >
                     {color}
@@ -142,40 +178,43 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           ) : null}
 
           {sizes.length > 0 ? (
-            <div className="mb-6">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">SIZE</p>
+            <div className="mb-7">
+              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
+                SIZE{selectedSize ? <span className="text-[#14120F] ml-2">— {selectedSize}</span> : null}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((size) => (
                   <button
                     key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-10 h-10 text-sm border transition-colors ${
+                    onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                    className={`w-12 h-12 text-sm border transition-colors ${
                       selectedSize === size
-                        ? "border-[#14120F] text-[#14120F]"
-                        : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
+                        ? "border-[#14120F] bg-[#14120F] text-[#F7F4EF]"
+                        : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
                     }`}
                   >
                     {size}
                   </button>
                 ))}
               </div>
+              {sizeError ? <p className="text-red-600 text-xs mt-2">Please select a size.</p> : null}
             </div>
           ) : null}
 
           {!outOfStock ? (
             <div className="mb-8">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2">QUANTITY</p>
+              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">QUANTITY</p>
               <div className="flex items-center border border-[#DDD6C8] w-fit">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-10 h-10 hover:bg-[#EFEAE0] transition-colors"
+                  className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
                 >
                   -
                 </button>
                 <span className="w-12 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="w-10 h-10 hover:bg-[#EFEAE0] transition-colors"
+                  className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
                 >
                   +
                 </button>
@@ -188,7 +227,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               CURRENTLY OUT OF STOCK
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 mb-10">
               <button
                 onClick={handleAddToCart}
                 className={`w-full py-4 text-[13px] tracking-[0.1em] transition-colors ${
@@ -206,8 +245,20 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </button>
             </div>
           )}
+
+          <div className="border-t border-[#DDD6C8] pt-6 flex flex-col gap-3 text-[13px] text-[#6E675C]">
+            <div className="flex items-center gap-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0"><rect x="1" y="7" width="15" height="13" rx="1"></rect><path d="M16 10h3l3 3v4h-6z"></path><circle cx="5.5" cy="20.5" r="1.5"></circle><circle cx="18.5" cy="20.5" r="1.5"></circle></svg>
+              Cash on Delivery available across Bangladesh
+            </div>
+            <div className="flex items-center gap-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0"><path d="M3 3h18v18H3z" opacity="0"></path><path d="M20 6L9 17l-5-5"></path></svg>
+              3-day easy exchange on unused items
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

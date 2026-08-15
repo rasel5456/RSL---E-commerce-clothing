@@ -1,140 +1,116 @@
-'use client';
+﻿"use client";
 
-import { useCart } from '@/context/CartContext';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, totalPrice } = useCart();
 
-  // যদি cart খালি থাকে, তাহলে "empty cart" message দেখাবো
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center bg-[#F7F4EF]">
-        <h1 className="text-2xl font-semibold text-[#14120F] mb-3">
-          আপনার কার্ট খালি
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center bg-[#F7F4EF]">
+        <p className="text-[11px] tracking-[0.2em] text-[#9C7A44] mb-4">YOUR CART</p>
+        <h1 className="text-3xl md:text-4xl mb-4" style={{ fontFamily: "var(--font-display)" }}>
+          Your cart is empty
         </h1>
-        <p className="text-[#14120F]/70 mb-6">
-          এখনো কোনো প্রোডাক্ট কার্টে যোগ করেননি
-        </p>
+        <p className="text-[#6E675C] mb-8 max-w-sm">Looks like you have not added anything yet. Let&apos;s find something you&apos;ll love.</p>
         <Link
           href="/"
-          className="bg-[#9C7A44] text-white px-6 py-3 rounded-md hover:bg-[#846636] transition-colors"
+          className="bg-[#14120F] text-[#F7F4EF] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] transition-colors"
         >
-          শপিং শুরু করুন
+          START SHOPPING
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F4EF] px-4 py-10 md:px-10">
-      <h1 className="text-2xl font-semibold text-[#14120F] mb-8">
-        আপনার কার্ট
-      </h1>
+    <div className="min-h-screen bg-[#F7F4EF]" style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-16">
+        <p className="text-[11px] tracking-[0.2em] text-[#9C7A44] mb-3">SHOPPING BAG</p>
+        <h1 className="text-3xl md:text-4xl mb-12" style={{ fontFamily: "var(--font-display)" }}>
+          Your Cart
+        </h1>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* বাম পাশে - Cart items list */}
-        <div className="flex-1 flex flex-col gap-4">
-          {cartItems.map((item) => (
-            <div
-              key={`${item.id}-${item.size}-${item.color}`}
-              className="flex items-center gap-4 bg-white rounded-lg p-4 shadow-sm"
-            >
-              {/* প্রোডাক্টের ছবি */}
-              <div className="relative w-20 h-24 flex-shrink-0 rounded-md overflow-hidden bg-[#F7F4EF]">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex-1 flex flex-col divide-y divide-[#DDD6C8] border-t border-[#DDD6C8]">
+            {cartItems.map((item) => (
+              <div key={`${item.id}-${item.size}-${item.color}`} className="flex items-center gap-5 py-6">
+                <div className="w-24 h-28 flex-shrink-0 bg-[#EFEAE0] overflow-hidden">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                </div>
 
-              {/* প্রোডাক্টের তথ্য */}
-              <div className="flex-1">
-                <h3 className="text-[#14120F] font-medium">{item.name}</h3>
-                <p className="text-sm text-[#14120F]/60 mt-1">
-                  সাইজ: {item.size} | কালার: {item.color}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-[#14120F] mb-1" style={{ fontFamily: "var(--font-display)" }}>{item.name}</h3>
+                  <p className="text-[13px] text-[#6E675C]">
+                    {item.size ? "Size: " + item.size : ""}{item.size && item.color ? " · " : ""}{item.color ? "Color: " + item.color : ""}
+                  </p>
+                  <p className="text-[#9C7A44] mt-2">Taka {item.price}</p>
+
+                  <button
+                    onClick={() => removeFromCart(item.id, item.size, item.color)}
+                    className="mt-2 text-[11px] tracking-[0.08em] text-[#6E675C] hover:text-[#9C7A44] transition-colors underline"
+                  >
+                    REMOVE
+                  </button>
+                </div>
+
+                <div className="flex items-center border border-[#DDD6C8]">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity - 1)}
+                    className="w-9 h-9 hover:bg-[#EFEAE0] transition-colors"
+                  >
+                    -
+                  </button>
+                  <span className="w-9 text-center text-sm">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity + 1)}
+                    className="w-9 h-9 hover:bg-[#EFEAE0] transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <p className="w-24 text-right text-[#14120F]" style={{ fontFamily: "var(--font-sans)" }}>
+                  Taka {item.price * item.quantity}
                 </p>
-                <p className="text-[#9C7A44] font-semibold mt-1">
-                  ৳{item.price}
-                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="w-full lg:w-96">
+            <div className="border border-[#DDD6C8] p-8 sticky top-24">
+              <h2 className="text-lg mb-6" style={{ fontFamily: "var(--font-display)" }}>Order Summary</h2>
+
+              <div className="flex justify-between text-sm text-[#6E675C] mb-3">
+                <span>Subtotal</span>
+                <span>Taka {totalPrice}</span>
+              </div>
+              <div className="flex justify-between text-sm text-[#6E675C] mb-5">
+                <span>Shipping</span>
+                <span>Calculated at checkout</span>
               </div>
 
-              {/* Quantity বাড়ানো/কমানোর বাটন */}
-              <div className="flex items-center gap-3 border border-[#14120F]/20 rounded-md px-2 py-1">
-                <button
-                  onClick={() =>
-                    updateQuantity(item.id, item.size, item.color, item.quantity - 1)
-                  }
-                  className="text-[#14120F] hover:text-[#9C7A44] transition-colors"
-                >
-                  <Minus size={16} />
-                </button>
-                <span className="w-6 text-center text-[#14120F]">
-                  {item.quantity}
-                </span>
-                <button
-                  onClick={() =>
-                    updateQuantity(item.id, item.size, item.color, item.quantity + 1)
-                  }
-                  className="text-[#14120F] hover:text-[#9C7A44] transition-colors"
-                >
-                  <Plus size={16} />
-                </button>
+              <div className="border-t border-[#DDD6C8] pt-5 flex justify-between mb-8">
+                <span style={{ fontFamily: "var(--font-display)" }} className="text-lg">Total</span>
+                <span className="text-lg text-[#14120F]">Taka {totalPrice}</span>
               </div>
 
-              {/* আইটেমের মোট দাম */}
-              <p className="w-20 text-right font-medium text-[#14120F]">
-                ৳{item.price * item.quantity}
-              </p>
-
-              {/* Remove বাটন */}
-              <button
-                onClick={() => removeFromCart(item.id, item.size, item.color)}
-                className="text-red-500 hover:text-red-700 transition-colors"
+              <Link
+                href="/checkout"
+                className="block text-center bg-[#14120F] text-[#F7F4EF] py-4 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] transition-colors mb-4"
               >
-                <Trash2 size={18} />
-              </button>
+                PROCEED TO CHECKOUT
+              </Link>
+
+              <Link
+                href="/"
+                className="block text-center text-[#6E675C] text-[13px] hover:text-[#9C7A44] transition-colors"
+              >
+                Continue Shopping
+              </Link>
             </div>
-          ))}
-        </div>
-
-        {/* ডান পাশে - Order Summary */}
-        <div className="w-full lg:w-80 bg-white rounded-lg p-6 shadow-sm h-fit">
-          <h2 className="text-lg font-semibold text-[#14120F] mb-4">
-            অর্ডার সামারি
-          </h2>
-
-          <div className="flex justify-between text-[#14120F]/80 mb-2">
-            <span>সাবটোটাল</span>
-            <span>৳{totalPrice}</span>
           </div>
-          <div className="flex justify-between text-[#14120F]/80 mb-4">
-            <span>ডেলিভারি চার্জ</span>
-            <span>চেকআউটে হিসাব হবে</span>
-          </div>
-
-          <div className="border-t border-[#14120F]/10 pt-4 flex justify-between font-semibold text-[#14120F] text-lg mb-6">
-            <span>মোট</span>
-            <span>৳{totalPrice}</span>
-          </div>
-
-          <Link
-            href="/checkout"
-            className="block text-center bg-[#9C7A44] text-white py-3 rounded-md hover:bg-[#846636] transition-colors"
-          >
-            চেকআউট করুন
-          </Link>
-
-          <Link
-            href="/"
-            className="block text-center text-[#14120F]/60 text-sm mt-3 hover:text-[#14120F] transition-colors"
-          >
-            শপিং চালিয়ে যান
-          </Link>
         </div>
       </div>
     </div>

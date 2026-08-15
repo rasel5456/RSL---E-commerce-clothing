@@ -26,10 +26,10 @@ const sans = Inter({
 });
 
 const whyItems = [
-  "Premium Quality",
-  "Modern Design",
-  "Secure Payment",
-  "Fast Delivery Across Bangladesh",
+  { label: "Premium Quality", icon: "Q" },
+  { label: "Modern Design", icon: "D" },
+  { label: "Secure Payment", icon: "P" },
+  { label: "Fast Delivery Across Bangladesh", icon: "S" },
 ];
 
 export default async function Home() {
@@ -62,6 +62,21 @@ export default async function Home() {
     { label: "NEW ARRIVALS", href: "/shop", image: newestProduct && newestProduct.images && newestProduct.images[0] ? newestProduct.images[0] : placeholderImg },
   ];
 
+  const iconMap: { [key: string]: React.ReactNode } = {
+    Q: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.5 6.8L12 17l-6.2 3.5 1.5-6.8-5.1-4.6 6.9-.8z"></path></svg>
+    ),
+    D: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 6h18M3 12h12M3 18h6"></path></svg>
+    ),
+    P: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path></svg>
+    ),
+    S: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="7" width="15" height="13" rx="1"></rect><path d="M16 10h3l3 3v4h-6z"></path><circle cx="5.5" cy="20.5" r="1.5"></circle><circle cx="18.5" cy="20.5" r="1.5"></circle></svg>
+    ),
+  };
+
   return (
     <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
       <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
@@ -77,15 +92,18 @@ export default async function Home() {
       )}
 
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28">
+        <div className="flex items-end justify-between mb-10">
+          <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Shop By Category</h2>
+        </div>
         <div className="grid md:grid-cols-3 gap-4">
           {categories.map(function (cat) {
             return (
-              <a key={cat.label} href={cat.href} className="group relative h-[420px] overflow-hidden flex items-end p-7">
+              <a key={cat.label} href={cat.href} className="group relative h-[440px] overflow-hidden flex items-end p-8">
                 <img src={cat.image} alt={cat.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,18,15,0) 40%, rgba(20,18,15,0.85) 100%)" }} />
                 <div className="relative text-[#F7F4EF]">
-                  <span className="block text-2xl mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
-                  <span className="text-[11px] tracking-[0.15em] border-b border-[#F7F4EF]/50 pb-1 group-hover:border-[#9C7A44] transition-colors">SHOP NOW</span>
+                  <span className="block text-[28px] mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
+                  <span className="text-[11px] tracking-[0.15em] border-b border-[#F7F4EF]/50 pb-1 group-hover:border-[#9C7A44] group-hover:pl-1 transition-all">SHOP NOW</span>
                 </div>
               </a>
             );
@@ -110,10 +128,10 @@ export default async function Home() {
                 id={product.id}
                 name={product.name}
                 price={product.price}
+                discountPrice={product.discount_price}
                 image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
                 sizes={product.sizes || []}
                 colors={product.colors || []}
-                discountPrice={product.discount_price}
                 stock={product.stock}
               />
             );
@@ -125,35 +143,37 @@ export default async function Home() {
         return <CategorySlider key={group.category} title={group.category} products={group.items} />;
       })}
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-2 gap-14 items-center">
-        <div className="h-[420px]" style={{ background: "linear-gradient(160deg, #E8E2D6, #DDD6C8)" }} />
+      <section className="max-w-7xl mx-auto px-6 md:px-10 py-28 md:py-40 grid md:grid-cols-2 gap-14 items-center">
+        <div className="h-[460px]" style={{ background: "linear-gradient(160deg, #E8E2D6, #DDD6C8)" }} />
         <div>
           <p className="text-[12px] tracking-[0.2em] text-[#9C7A44] mb-5">OUR PHILOSOPHY</p>
-          <h2 className="text-3xl md:text-4xl leading-tight mb-6" style={{ fontFamily: "var(--font-display)" }}>Built around modern essentials, refined details and effortless style.</h2>
-          <p className="text-[#6E675C] mb-8 max-w-md" style={{ fontFamily: "var(--font-sans)" }}>RSL suru hoyeche ekta e biswas theke shadharon poshak o joyto ar nikhut karukaje osadharon hoye othe.</p>
+          <h2 className="text-3xl md:text-5xl leading-tight mb-8" style={{ fontFamily: "var(--font-display)" }}>Built around modern essentials, refined details and effortless style.</h2>
+          <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL suru hoyeche ekta e biswas theke shadharon poshak o joyto ar nikhut karukaje osadharon hoye othe.</p>
           <a href="#" className="text-[13px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">OUR STORY</a>
         </div>
       </section>
 
-      <section className="relative py-28 md:py-36 px-6 text-center" style={{ background: "linear-gradient(160deg, #221F1B, #14120F)" }}>
+      <section className="relative py-32 md:py-44 px-6 text-center" style={{ background: "linear-gradient(160deg, #221F1B, #14120F)" }}>
         <p className="text-[12px] tracking-[0.25em] text-[#9C7A44] mb-5">SIGNATURE COLLECTION</p>
-        <h2 className="text-4xl md:text-6xl text-[#F7F4EF] mb-6" style={{ fontFamily: "var(--font-display)" }}>The Everyday Collection</h2>
+        <h2 className="text-4xl md:text-7xl text-[#F7F4EF] mb-6" style={{ fontFamily: "var(--font-display)" }}>The Everyday Collection</h2>
         <p className="text-[#F7F4EF]/70 mb-10" style={{ fontFamily: "var(--font-sans)" }}>Designed for every version of you.</p>
         <a href="/shop" className="inline-block bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">EXPLORE COLLECTION</a>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32 grid grid-cols-2 md:grid-cols-4 gap-10">
         {whyItems.map(function (item) {
           return (
-            <div key={item} className="text-center">
-              <div className="w-10 h-10 mx-auto mb-4 border border-[#9C7A44] rounded-full" />
-              <p className="text-[13px] tracking-[0.03em]" style={{ fontFamily: "var(--font-sans)" }}>{item}</p>
+            <div key={item.label} className="text-center">
+              <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center border border-[#9C7A44] rounded-full text-[#9C7A44]">
+                {iconMap[item.icon]}
+              </div>
+              <p className="text-[13px] tracking-[0.03em]" style={{ fontFamily: "var(--font-sans)" }}>{item.label}</p>
             </div>
           );
         })}
       </section>
 
-      <section className="bg-[#14120F] text-[#F7F4EF] py-20 px-6 text-center">
+      <section className="bg-[#14120F] text-[#F7F4EF] py-24 px-6 text-center">
         <h2 className="text-2xl md:text-3xl mb-3" style={{ fontFamily: "var(--font-display)" }}>Stay In The Loop</h2>
         <p className="text-[#F7F4EF]/70 max-w-md mx-auto mb-8 text-sm" style={{ fontFamily: "var(--font-sans)" }}>Be the first to discover new drops, exclusive collections and special offers.</p>
         <form className="flex max-w-sm mx-auto border-b border-[#F7F4EF]/40">
@@ -204,4 +224,3 @@ export default async function Home() {
     </div>
   );
 }
-

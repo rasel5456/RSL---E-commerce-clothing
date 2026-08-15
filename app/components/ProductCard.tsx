@@ -71,7 +71,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         <img
           src={image}
           alt={name}
-          className={"w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" + (outOfStock ? " grayscale opacity-60" : "")}
+          className={"w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"}
         />
 
         {hasDiscount ? (
@@ -179,3 +179,4 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
     </div>
   );
 }
+
