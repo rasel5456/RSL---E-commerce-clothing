@@ -10,12 +10,14 @@ type ProductCardProps = {
   id: string;
   name: string;
   price: number;
+  discountPrice?: number | null;
   image: string;
   sizes?: string[];
   colors?: string[];
+  stock?: number;
 };
 
-export default function ProductCard({ id, name, price, image, sizes = [], colors = [] }: ProductCardProps) {
+export default function ProductCard({ id, name, price, discountPrice, image, sizes = [], colors = [], stock = 1 }: ProductCardProps) {
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const router = useRouter();
@@ -25,13 +27,17 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
   const [justAdded, setJustAdded] = useState(false);
 
   const wishlisted = isInWishlist(id);
+  const outOfStock = stock <= 0;
+  const hasDiscount = discountPrice !== null && discountPrice !== undefined && discountPrice < price;
+  const effectivePrice = hasDiscount ? discountPrice! : price;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (outOfStock) return;
     addToCart({
       id,
       name,
-      price,
+      price: effectivePrice,
       image,
       size: selectedSize,
       color: selectedColor,
@@ -42,10 +48,11 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
 
   const handleOrderNow = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (outOfStock) return;
     addToCart({
       id,
       name,
-      price,
+      price: effectivePrice,
       image,
       size: selectedSize,
       color: selectedColor,
@@ -55,7 +62,7 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
-    toggleWishlist({ id, name, price, image });
+    toggleWishlist({ id, name, price: effectivePrice, image });
   };
 
   return (
@@ -64,8 +71,20 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className={"w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" + (outOfStock ? " grayscale opacity-60" : "")}
         />
+
+        {hasDiscount ? (
+          <span className="absolute top-3 left-3 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1">
+            SALE
+          </span>
+        ) : null}
+
+        {outOfStock ? (
+          <span className="absolute top-3 left-3 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1">
+            OUT OF STOCK
+          </span>
+        ) : null}
 
         <button
           onClick={handleWishlistToggle}
@@ -84,32 +103,44 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
           </svg>
         </button>
 
-        <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 transition-all duration-300">
-          <button
-            onClick={handleAddToCart}
-            className={`flex-1 py-3 text-[10px] tracking-[0.1em] transition-colors ${
-              justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
-            }`}
-          >
-            {justAdded ? "ADDED" : "QUICK ADD"}
-          </button>
+        {!outOfStock ? (
+          <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 transition-all duration-300">
+            <button
+              onClick={handleAddToCart}
+              className={`flex-1 py-3 text-[10px] tracking-[0.1em] transition-colors ${
+                justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
+              }`}
+            >
+              {justAdded ? "ADDED" : "QUICK ADD"}
+            </button>
 
-          <button
-            onClick={handleOrderNow}
-            className="flex-1 py-3 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
-          >
-            ORDER NOW
-          </button>
-        </div>
+            <button
+              onClick={handleOrderNow}
+              className="flex-1 py-3 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
+            >
+              ORDER NOW
+            </button>
+          </div>
+        ) : null}
       </Link>
 
       <div style={{ fontFamily: "var(--font-sans)" }}>
         <Link href={`/product/${id}`}>
           <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors">{name}</h3>
         </Link>
-        <p className="text-sm text-[#6E675C] mb-3">Taka {price}</p>
 
-        {colors.length > 0 && (
+        <p className="text-sm mb-3">
+          {hasDiscount ? (
+            <>
+              <span className="text-[#6E675C] line-through mr-2">Taka {price}</span>
+              <span className="text-[#9C7A44] font-medium">Taka {discountPrice}</span>
+            </>
+          ) : (
+            <span className="text-[#6E675C]">Taka {price}</span>
+          )}
+        </p>
+
+        {colors.length > 0 ? (
           <div className="flex flex-wrap gap-1.5 mb-2">
             {colors.map((color) => (
               <button
@@ -125,9 +156,9 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
               </button>
             ))}
           </div>
-        )}
+        ) : null}
 
-        {sizes.length > 0 && (
+        {sizes.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
             {sizes.map((size) => (
               <button
@@ -143,9 +174,8 @@ export default function ProductCard({ id, name, price, image, sizes = [], colors
               </button>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
 }
-

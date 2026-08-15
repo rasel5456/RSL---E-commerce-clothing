@@ -7,9 +7,11 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  discount_price?: number | null;
   images: string[] | null;
   sizes: string[] | null;
   colors: string[] | null;
+  stock?: number;
 }
 
 interface CategorySliderProps {
@@ -63,9 +65,11 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
               id={product.id}
               name={product.name}
               price={product.price}
+              discountPrice={product.discount_price}
               image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
               sizes={product.sizes || []}
               colors={product.colors || []}
+              stock={product.stock}
             />
           </div>
         ))}

@@ -113,6 +113,8 @@ export default async function Home() {
                 image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
                 sizes={product.sizes || []}
                 colors={product.colors || []}
+                discountPrice={product.discount_price}
+                stock={product.stock}
               />
             );
           }) : null}
@@ -202,3 +204,4 @@ export default async function Home() {
     </div>
   );
 }
+
