@@ -44,6 +44,7 @@ export async function PUT(
       stock: body.stock,
       sizes: body.sizes,
       colors: body.colors,
+      color_images: body.color_images,
       images: body.images,
     })
     .eq("id", id)
@@ -80,4 +81,5 @@ export async function DELETE(
 
   return NextResponse.json({ success: true });
 }
+
 

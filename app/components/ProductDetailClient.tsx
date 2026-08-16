@@ -13,6 +13,7 @@ type Product = {
   images?: string[];
   sizes?: string[];
   colors?: string[];
+  color_images?: { [key: string]: string };
   description?: string;
   stock?: number;
   category?: string;
@@ -22,23 +23,31 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const router = useRouter();
 
-  const images = product.images && product.images.length > 0
-    ? product.images
-    : ["https://placehold.co/600x750/F7F4EF/14120F?text=RSL"];
-
-  const sizes = product.sizes || [];
+  const colorImages = product.color_images || {};
   const colors = product.colors || [];
+  const sizes = product.sizes || [];
   const stock = product.stock ?? 1;
   const outOfStock = stock <= 0;
   const hasDiscount = product.discount_price !== null && product.discount_price !== undefined && product.discount_price < product.price;
   const effectivePrice = hasDiscount ? (product.discount_price as number) : product.price;
 
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const fallbackImage = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL";
+  const initialColor = colors[0] || "";
+  const initialImage = initialColor && colorImages[initialColor] ? colorImages[initialColor] : fallbackImage;
+
+  const [selectedColor, setSelectedColor] = useState(initialColor);
+  const [selectedImage, setSelectedImage] = useState(initialImage);
   const [selectedSize, setSelectedSize] = useState(sizes[0] || "");
-  const [selectedColor, setSelectedColor] = useState(colors[0] || "");
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const [sizeError, setSizeError] = useState(false);
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    if (colorImages[color]) {
+      setSelectedImage(colorImages[color]);
+    }
+  };
 
   const addItemsToCart = () => {
     if (sizes.length > 0 && !selectedSize) {
@@ -51,7 +60,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         id: product.id,
         name: product.name,
         price: effectivePrice,
-        image: images[0],
+        image: selectedImage,
         size: selectedSize,
         color: selectedColor,
       });
@@ -99,7 +108,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <img
               src={selectedImage}
               alt={product.name}
-              className={"w-full h-full object-cover transition-opacity duration-300"}
+              className="w-full h-full object-cover transition-opacity duration-300"
             />
             {hasDiscount && !outOfStock ? (
               <span className="absolute top-5 left-5 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5">
@@ -113,17 +122,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             ) : null}
           </div>
 
-          {images.length > 1 ? (
+          {colors.length > 1 ? (
             <div className="flex gap-3">
-              {images.map((img, idx) => (
+              {colors.map((color) => (
                 <button
-                  key={idx}
-                  onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-24 overflow-hidden border transition-colors ${
-                    selectedImage === img ? "border-[#14120F]" : "border-[#DDD6C8] hover:border-[#9C7A44]"
+                  key={color}
+                  onClick={() => handleColorSelect(color)}
+                  className={`w-20 h-24 overflow-hidden border-2 transition-colors ${
+                    selectedColor === color ? "border-[#14120F]" : "border-[#DDD6C8] hover:border-[#9C7A44]"
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={colorImages[color] || fallbackImage} alt={color} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -163,14 +172,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 {colors.map((color) => (
                   <button
                     key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`px-5 py-2.5 text-sm border transition-colors ${
+                    onClick={() => handleColorSelect(color)}
+                    className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 border transition-colors ${
                       selectedColor === color
                         ? "border-[#14120F] bg-[#14120F] text-[#F7F4EF]"
                         : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
                     }`}
                   >
-                    {color}
+                    <span className="w-8 h-8 overflow-hidden flex-shrink-0">
+                      <img src={colorImages[color] || fallbackImage} alt={color} className="w-full h-full object-cover" />
+                    </span>
+                    <span className="text-sm">{color}</span>
                   </button>
                 ))}
               </div>
@@ -252,7 +264,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               Cash on Delivery available across Bangladesh
             </div>
             <div className="flex items-center gap-3">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0"><path d="M3 3h18v18H3z" opacity="0"></path><path d="M20 6L9 17l-5-5"></path></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0"><path d="M20 6L9 17l-5-5"></path></svg>
               3-day easy exchange on unused items
             </div>
           </div>
@@ -261,4 +273,3 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
-

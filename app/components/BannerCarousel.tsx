@@ -46,7 +46,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
   return (
     <section
-      className="relative w-full h-[70vh] md:h-[86vh] overflow-hidden"
+      className="relative w-full h-[42vh] md:h-[60vh] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -107,3 +107,4 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
     </section>
   );
 }
+

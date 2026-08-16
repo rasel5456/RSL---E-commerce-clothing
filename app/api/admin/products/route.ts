@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       stock: body.stock,
       sizes: body.sizes,
       colors: body.colors,
+      color_images: body.color_images,
       images: body.images,
     })
     .select();
@@ -31,4 +32,5 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ success: true, product: data[0] });
 }
+
 

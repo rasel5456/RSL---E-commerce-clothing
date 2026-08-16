@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 
 const availableSizes = ["S", "M", "L", "XL", "XXL"];
 
+interface ColorVariant {
+  color: string;
+  image: string;
+}
+
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -19,8 +24,9 @@ export default function AddProductPage() {
   const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [colors, setColors] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  const [colorVariants, setColorVariants] = useState<ColorVariant[]>([]);
+  const [newColorName, setNewColorName] = useState("");
+  const [uploadingColorImage, setUploadingColorImage] = useState(false);
 
   const toggleSize = (size: string) => {
     setSelectedSizes((prev) =>
@@ -28,11 +34,17 @@ export default function AddProductPage() {
     );
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleColorImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploading(true);
+    if (!newColorName.trim()) {
+      setError("Please type a color name before uploading its image");
+      e.target.value = "";
+      return;
+    }
+
+    setUploadingColorImage(true);
     setError("");
 
     const formData = new FormData();
@@ -44,10 +56,11 @@ export default function AddProductPage() {
     });
 
     const data = await res.json();
-    setUploading(false);
+    setUploadingColorImage(false);
 
     if (data.success) {
-      setImages((prev) => [...prev, data.url]);
+      setColorVariants((prev) => [...prev, { color: newColorName.trim(), image: data.url }]);
+      setNewColorName("");
     } else {
       setError(data.message || "Image upload failed");
     }
@@ -55,14 +68,25 @@ export default function AddProductPage() {
     e.target.value = "";
   };
 
-  const removeImage = (indexToRemove: number) => {
-    setImages((prev) => prev.filter((_, index) => index !== indexToRemove));
+  const removeColorVariant = (index: number) => {
+    setColorVariants((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (colorVariants.length === 0) {
+      setError("Please add at least one color with an image");
+      return;
+    }
+
     setLoading(true);
+
+    const colorImagesObj: { [key: string]: string } = {};
+    colorVariants.forEach((v) => {
+      colorImagesObj[v.color] = v.image;
+    });
 
     const payload = {
       name,
@@ -73,8 +97,9 @@ export default function AddProductPage() {
       gender,
       stock: Number(stock),
       sizes: selectedSizes,
-      colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
-      images,
+      colors: colorVariants.map((v) => v.color),
+      color_images: colorImagesObj,
+      images: colorVariants.map((v) => v.image),
     };
 
     const res = await fetch("/api/admin/products", {
@@ -142,9 +167,6 @@ export default function AddProductPage() {
             placeholder="Leave empty for no discount"
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
-          <p style={{ fontSize: "13px", color: "#666", marginTop: "5px" }}>
-            If set, this price will show instead of the regular price, with the regular price crossed out.
-          </p>
         </div>
 
         <div style={{ marginBottom: "15px" }}>
@@ -211,41 +233,50 @@ export default function AddProductPage() {
           </div>
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Colors (comma separated)</label>
-          <input
-            type="text"
-            value={colors}
-            onChange={(e) => setColors(e.target.value)}
-            placeholder="Black, White, Navy Blue"
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
+        <div style={{ marginBottom: "15px", border: "1px solid #ddd", borderRadius: "8px", padding: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Colors & Their Photos</label>
+          <p style={{ fontSize: "13px", color: "#666", marginTop: "5px", marginBottom: "12px" }}>
+            Type a color name, then choose a photo of the product in that color. Repeat for each color.
+          </p>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Product Images</label>
-          <div style={{ marginTop: "5px" }}>
+          <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              disabled={uploading}
+              type="text"
+              value={newColorName}
+              onChange={(e) => setNewColorName(e.target.value)}
+              placeholder="e.g. Black"
+              style={{ flex: 1, padding: "8px" }}
             />
-            {uploading ? <p style={{ color: "#9C7A44" }}>Uploading...</p> : null}
+            <label
+              style={{
+                padding: "8px 14px",
+                backgroundColor: uploadingColorImage ? "#ccc" : "#9C7A44",
+                color: "white",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {uploadingColorImage ? "Uploading..." : "+ Add Photo"}
+              <input type="file" accept="image/*" onChange={handleColorImageUpload} style={{ display: "none" }} disabled={uploadingColorImage} />
+            </label>
           </div>
 
-          {images.length > 0 ? (
-            <div style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
-              {images.map((url, index) => (
-                <div key={index} style={{ position: "relative" }}>
+          {colorVariants.length > 0 ? (
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
+              {colorVariants.map((variant, index) => (
+                <div key={index} style={{ position: "relative", textAlign: "center" }}>
                   <img
-                    src={url}
-                    alt={"Product " + (index + 1)}
-                    style={{ width: "80px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                    src={variant.image}
+                    alt={variant.color}
+                    style={{ width: "70px", height: "88px", objectFit: "cover", borderRadius: "5px", border: "1px solid #ddd" }}
                   />
+                  <p style={{ fontSize: "12px", margin: "4px 0 0 0" }}>{variant.color}</p>
                   <button
                     type="button"
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeColorVariant(index)}
                     style={{
                       position: "absolute",
                       top: "-8px",
@@ -272,7 +303,7 @@ export default function AddProductPage() {
 
         <button
           type="submit"
-          disabled={loading || uploading}
+          disabled={loading || uploadingColorImage}
           style={{
             padding: "10px 20px",
             backgroundColor: "#9C7A44",

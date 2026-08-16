@@ -8,6 +8,7 @@ interface OrderItem {
   color: string;
   quantity: number;
   price: number;
+  image?: string;
 }
 
 interface Order {
@@ -127,11 +128,20 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
-              <div style={{ borderTop: "1px solid #eee", paddingTop: "10px" }}>
+              <div style={{ borderTop: "1px solid #eee", paddingTop: "10px", display: "flex", flexDirection: "column", gap: "10px" }}>
                 {order.items.map((item, idx) => (
-                  <p key={idx} style={{ margin: "4px 0", fontSize: "14px" }}>
-                    {item.name} ({item.size}/{item.color}) x {item.quantity} — Taka {item.price * item.quantity}
-                  </p>
+                  <div key={idx} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        style={{ width: "48px", height: "60px", objectFit: "cover", borderRadius: "4px", flexShrink: 0 }}
+                      />
+                    ) : null}
+                    <p style={{ margin: 0, fontSize: "14px" }}>
+                      {item.name} ({item.size}/{item.color}) x {item.quantity} — Taka {item.price * item.quantity}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>

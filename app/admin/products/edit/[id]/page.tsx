@@ -5,6 +5,11 @@ import { useRouter, useParams } from "next/navigation";
 
 const availableSizes = ["S", "M", "L", "XL", "XXL"];
 
+interface ColorVariant {
+  color: string;
+  image: string;
+}
+
 export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
@@ -22,8 +27,9 @@ export default function EditProductPage() {
   const [gender, setGender] = useState("unisex");
   const [stock, setStock] = useState("");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [colors, setColors] = useState("");
-  const [images, setImages] = useState("");
+  const [colorVariants, setColorVariants] = useState<ColorVariant[]>([]);
+  const [newColorName, setNewColorName] = useState("");
+  const [uploadingColorImage, setUploadingColorImage] = useState(false);
 
   const toggleSize = (size: string) => {
     setSelectedSizes((prev) =>
@@ -46,8 +52,13 @@ export default function EditProductPage() {
         setGender(p.gender || "unisex");
         setStock(String(p.stock));
         setSelectedSizes(p.sizes || []);
-        setColors((p.colors || []).join(", "));
-        setImages((p.images || []).join(", "));
+
+        const colorImagesObj = p.color_images || {};
+        const variants: ColorVariant[] = Object.keys(colorImagesObj).map((colorName) => ({
+          color: colorName,
+          image: colorImagesObj[colorName],
+        }));
+        setColorVariants(variants);
       } else {
         setError("Product not found");
       }
@@ -57,10 +68,59 @@ export default function EditProductPage() {
     fetchProduct();
   }, [id]);
 
+  const handleColorImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!newColorName.trim()) {
+      setError("Please type a color name before uploading its image");
+      e.target.value = "";
+      return;
+    }
+
+    setUploadingColorImage(true);
+    setError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    setUploadingColorImage(false);
+
+    if (data.success) {
+      setColorVariants((prev) => [...prev, { color: newColorName.trim(), image: data.url }]);
+      setNewColorName("");
+    } else {
+      setError(data.message || "Image upload failed");
+    }
+
+    e.target.value = "";
+  };
+
+  const removeColorVariant = (index: number) => {
+    setColorVariants((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (colorVariants.length === 0) {
+      setError("Please add at least one color with an image");
+      return;
+    }
+
     setLoading(true);
+
+    const colorImagesObj: { [key: string]: string } = {};
+    colorVariants.forEach((v) => {
+      colorImagesObj[v.color] = v.image;
+    });
 
     const payload = {
       name,
@@ -71,8 +131,9 @@ export default function EditProductPage() {
       gender,
       stock: Number(stock),
       sizes: selectedSizes,
-      colors: colors.split(",").map((c) => c.trim()).filter(Boolean),
-      images: images.split(",").map((i) => i.trim()).filter(Boolean),
+      colors: colorVariants.map((v) => v.color),
+      color_images: colorImagesObj,
+      images: colorVariants.map((v) => v.image),
     };
 
     const res = await fetch(`/api/admin/products/${id}`, {
@@ -158,7 +219,6 @@ export default function EditProductPage() {
             inputMode="numeric"
             value={discountPrice}
             onChange={(e) => setDiscountPrice(e.target.value.replace(/[^0-9]/g, ""))}
-            placeholder="Leave empty for no discount"
             style={{ width: "100%", padding: "8px", marginTop: "5px" }}
           />
         </div>
@@ -226,24 +286,70 @@ export default function EditProductPage() {
           </div>
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Colors (comma separated)</label>
-          <input
-            type="text"
-            value={colors}
-            onChange={(e) => setColors(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
+        <div style={{ marginBottom: "15px", border: "1px solid #ddd", borderRadius: "8px", padding: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Colors & Their Photos</label>
+          <p style={{ fontSize: "13px", color: "#666", marginTop: "5px", marginBottom: "12px" }}>
+            Type a color name, then choose a photo of the product in that color.
+          </p>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Image URLs (comma separated)</label>
-          <input
-            type="text"
-            value={images}
-            onChange={(e) => setImages(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
+          <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+            <input
+              type="text"
+              value={newColorName}
+              onChange={(e) => setNewColorName(e.target.value)}
+              placeholder="e.g. Black"
+              style={{ flex: 1, padding: "8px" }}
+            />
+            <label
+              style={{
+                padding: "8px 14px",
+                backgroundColor: uploadingColorImage ? "#ccc" : "#9C7A44",
+                color: "white",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {uploadingColorImage ? "Uploading..." : "+ Add Photo"}
+              <input type="file" accept="image/*" onChange={handleColorImageUpload} style={{ display: "none" }} disabled={uploadingColorImage} />
+            </label>
+          </div>
+
+          {colorVariants.length > 0 ? (
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
+              {colorVariants.map((variant, index) => (
+                <div key={index} style={{ position: "relative", textAlign: "center" }}>
+                  <img
+                    src={variant.image}
+                    alt={variant.color}
+                    style={{ width: "70px", height: "88px", objectFit: "cover", borderRadius: "5px", border: "1px solid #ddd" }}
+                  />
+                  <p style={{ fontSize: "12px", margin: "4px 0 0 0" }}>{variant.color}</p>
+                  <button
+                    type="button"
+                    onClick={() => removeColorVariant(index)}
+                    style={{
+                      position: "absolute",
+                      top: "-8px",
+                      right: "-8px",
+                      background: "#c0392b",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "20px",
+                      height: "20px",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         {error ? <p style={{ color: "red" }}>{error}</p> : null}
@@ -251,7 +357,7 @@ export default function EditProductPage() {
         <div style={{ display: "flex", gap: "10px" }}>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || uploadingColorImage}
             style={{
               padding: "10px 20px",
               backgroundColor: "#9C7A44",
