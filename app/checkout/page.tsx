@@ -193,7 +193,7 @@ export default function CheckoutPage() {
                 <p>{item.name}</p>
                 <p className="text-[#6E675C] text-xs">{item.size} / {item.color} x {item.quantity}</p>
               </div>
-              <p>Taka {item.price * item.quantity}</p>
+              <p>৳{item.price * item.quantity}</p>
             </div>
           ))}
         </div>
@@ -201,18 +201,19 @@ export default function CheckoutPage() {
         <div className="mt-4 flex flex-col gap-2">
           <div className="flex justify-between text-sm text-[#6E675C]">
             <p>Subtotal</p>
-            <p>Taka {totalPrice}</p>
+            <p>৳{totalPrice}</p>
           </div>
           <div className="flex justify-between text-sm text-[#6E675C]">
             <p>Shipping</p>
-            <p>{qualifiesForFreeShipping ? "Free" : "Taka " + actualShippingFee}</p>
+            <p>{qualifiesForFreeShipping ? "Free" : "৳" + actualShippingFee}</p>
           </div>
           <div className="flex justify-between text-lg font-medium border-t border-[#DDD6C8] pt-2 mt-1">
             <p>Total</p>
-            <p>Taka {grandTotal}</p>
+            <p>৳{grandTotal}</p>
           </div>
         </div>
       </div>
     </div>
   );
 }
+

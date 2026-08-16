@@ -151,11 +151,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <p className="text-xl mb-8">
             {hasDiscount ? (
               <>
-                <span className="text-[#6E675C] line-through mr-3 text-base">Taka {product.price}</span>
-                <span className="text-[#9C7A44]">Taka {product.discount_price}</span>
+                <span className="text-[#6E675C] line-through mr-3 text-base">৳{product.price}</span>
+                <span className="text-[#9C7A44]">৳{product.discount_price}</span>
               </>
             ) : (
-              <span className="text-[#14120F]">Taka {product.price}</span>
+              <span className="text-[#14120F]">৳{product.price}</span>
             )}
           </p>
 
@@ -273,3 +273,4 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
+

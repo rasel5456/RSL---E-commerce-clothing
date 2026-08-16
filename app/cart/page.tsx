@@ -45,7 +45,7 @@ export default function CartPage() {
                   <p className="text-[13px] text-[#6E675C]">
                     {item.size ? "Size: " + item.size : ""}{item.size && item.color ? " · " : ""}{item.color ? "Color: " + item.color : ""}
                   </p>
-                  <p className="text-[#9C7A44] mt-2">Taka {item.price}</p>
+                  <p className="text-[#9C7A44] mt-2">৳{item.price}</p>
 
                   <button
                     onClick={() => removeFromCart(item.id, item.size, item.color)}
@@ -72,7 +72,7 @@ export default function CartPage() {
                 </div>
 
                 <p className="w-24 text-right text-[#14120F]" style={{ fontFamily: "var(--font-sans)" }}>
-                  Taka {item.price * item.quantity}
+                  ৳{item.price * item.quantity}
                 </p>
               </div>
             ))}
@@ -84,7 +84,7 @@ export default function CartPage() {
 
               <div className="flex justify-between text-sm text-[#6E675C] mb-3">
                 <span>Subtotal</span>
-                <span>Taka {totalPrice}</span>
+                <span>৳{totalPrice}</span>
               </div>
               <div className="flex justify-between text-sm text-[#6E675C] mb-5">
                 <span>Shipping</span>
@@ -93,7 +93,7 @@ export default function CartPage() {
 
               <div className="border-t border-[#DDD6C8] pt-5 flex justify-between mb-8">
                 <span style={{ fontFamily: "var(--font-display)" }} className="text-lg">Total</span>
-                <span className="text-lg text-[#14120F]">Taka {totalPrice}</span>
+                <span className="text-lg text-[#14120F]">৳{totalPrice}</span>
               </div>
 
               <Link
@@ -116,3 +116,4 @@ export default function CartPage() {
     </div>
   );
 }
+

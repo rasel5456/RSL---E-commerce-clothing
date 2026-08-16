@@ -154,7 +154,7 @@ export default function AccountDashboardPage() {
                 <div key={order.id} className="border border-[#DDD6C8] p-4">
                   <div className="flex justify-between mb-2">
                     <p className="font-medium text-sm">Order #{order.order_number}</p>
-                    <p className="text-sm text-[#9C7A44]">Taka {order.total_amount}</p>
+                    <p className="text-sm text-[#9C7A44]">৳{order.total_amount}</p>
                   </div>
                   <p className="text-xs text-[#6E675C] uppercase">{order.status}</p>
                   <p className="text-xs text-[#999] mt-1">{new Date(order.created_at).toLocaleDateString()}</p>
@@ -167,3 +167,4 @@ export default function AccountDashboardPage() {
     </div>
   );
 }
+

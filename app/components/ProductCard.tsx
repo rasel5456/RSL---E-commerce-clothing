@@ -22,14 +22,16 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
   const { isInWishlist, toggleWishlist } = useWishlist();
   const router = useRouter();
 
-  const [selectedSize, setSelectedSize] = useState(sizes[0] || "");
-  const [selectedColor, setSelectedColor] = useState(colors[0] || "");
   const [justAdded, setJustAdded] = useState(false);
 
   const wishlisted = isInWishlist(id);
   const outOfStock = stock <= 0;
   const hasDiscount = discountPrice !== null && discountPrice !== undefined && discountPrice < price;
   const effectivePrice = hasDiscount ? discountPrice! : price;
+  const discountPercent = hasDiscount ? Math.round(((price - discountPrice!) / price) * 100) : 0;
+
+  const defaultSize = sizes[0] || "";
+  const defaultColor = colors[0] || "";
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,8 +41,8 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
       name,
       price: effectivePrice,
       image,
-      size: selectedSize,
-      color: selectedColor,
+      size: defaultSize,
+      color: defaultColor,
     });
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
@@ -54,8 +56,8 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
       name,
       price: effectivePrice,
       image,
-      size: selectedSize,
-      color: selectedColor,
+      size: defaultSize,
+      color: defaultColor,
     });
     router.push("/checkout");
   };
@@ -67,16 +69,16 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
   return (
     <div className="group">
-      <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 block">
+      <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-3 block">
         <img
           src={image}
           alt={name}
-          className={"w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"}
+          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
 
         {hasDiscount ? (
           <span className="absolute top-3 left-3 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1">
-            SALE
+            -{discountPercent}%
           </span>
         ) : null}
 
@@ -107,7 +109,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
           <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 transition-all duration-300">
             <button
               onClick={handleAddToCart}
-              className={`flex-1 py-3 text-[10px] tracking-[0.1em] transition-colors ${
+              className={`flex-1 py-2.5 text-[10px] tracking-[0.1em] transition-colors ${
                 justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
               }`}
             >
@@ -116,7 +118,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
             <button
               onClick={handleOrderNow}
-              className="flex-1 py-3 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
+              className="flex-1 py-2.5 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
             >
               ORDER NOW
             </button>
@@ -126,57 +128,20 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
       <div style={{ fontFamily: "var(--font-sans)" }}>
         <Link href={`/product/${id}`}>
-          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors">{name}</h3>
+          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors truncate">{name}</h3>
         </Link>
 
-        <p className="text-sm mb-3">
+        <p className="text-sm">
           {hasDiscount ? (
             <>
-              <span className="text-[#6E675C] line-through mr-2">Taka {price}</span>
-              <span className="text-[#9C7A44] font-medium">Taka {discountPrice}</span>
+              <span className="text-[#6E675C] line-through mr-2">৳{price.toLocaleString()}</span>
+              <span className="text-[#9C7A44] font-medium">৳{discountPrice!.toLocaleString()}</span>
             </>
           ) : (
-            <span className="text-[#6E675C]">Taka {price}</span>
+            <span className="text-[#3A3630]">৳{price.toLocaleString()}</span>
           )}
         </p>
-
-        {colors.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5 mb-2">
-            {colors.map((color) => (
-              <button
-                key={color}
-                onClick={() => setSelectedColor(color)}
-                className={`px-2.5 py-1 text-[10px] tracking-[0.05em] border transition-colors ${
-                  selectedColor === color
-                    ? "border-[#14120F] text-[#14120F]"
-                    : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
-                }`}
-              >
-                {color}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        {sizes.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
-            {sizes.map((size) => (
-              <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
-                className={`w-7 h-7 text-[10px] border transition-colors ${
-                  selectedSize === size
-                    ? "border-[#14120F] text-[#14120F]"
-                    : "border-[#DDD6C8] text-[#6E675C] hover:border-[#9C7A44]"
-                }`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        ) : null}
       </div>
     </div>
   );
 }
-

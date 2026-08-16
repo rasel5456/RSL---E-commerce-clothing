@@ -21,7 +21,7 @@ export default function WishlistPage() {
               <Link href={"/product/" + item.id}>
                 <img src={item.image} alt={item.name} className="w-full h-48 object-cover mb-2 rounded" />
                 <p className="text-sm font-medium">{item.name}</p>
-                <p className="text-sm text-[#9C7A44]">Taka {item.price}</p>
+                <p className="text-sm text-[#9C7A44]">৳{item.price}</p>
               </Link>
               <button
                 onClick={() => removeFromWishlist(item.id)}
@@ -36,3 +36,4 @@ export default function WishlistPage() {
     </div>
   );
 }
+

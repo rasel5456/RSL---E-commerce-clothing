@@ -80,7 +80,7 @@ export default async function Home() {
   return (
     <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
       <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
-        FREE SHIPPING ON ORDERS OVER TAKA 2000
+        FREE SHIPPING ON ORDERS OVER TAKA 2,000
       </div>
 
       <SiteHeader />
@@ -114,13 +114,13 @@ export default async function Home() {
       <section id="new-arrivals" className="max-w-7xl mx-auto px-6 md:px-10 py-8 md:py-16">
         <div className="flex items-end justify-between mb-10">
           <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "var(--font-display)" }}>New Arrivals</h2>
-          <a href="/shop" className="text-[12px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">VIEW ALL</a>
+          <a href="/shop" className="text-[11px] tracking-[0.08em] text-[#6E675C] hover:text-[#9C7A44] transition-colors">View All</a>
         </div>
 
         {error ? <p className="text-red-600">Product load korte somossa hoyeche: {error.message}</p> : null}
         {!error && (!products || products.length === 0) ? <p className="text-[#6E675C]">Ekhono kono product jog kora hoyni.</p> : null}
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
           {products ? products.map(function (product) {
             return (
               <ProductCard
@@ -224,3 +224,4 @@ export default async function Home() {
     </div>
   );
 }
+
