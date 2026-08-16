@@ -42,10 +42,12 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             colors={product.colors || []}
             discountPrice={product.discount_price}
             stock={product.stock}
+            soldCount={product.sold_count}
           />
         )) : null}
       </div>
     </div>
   );
 }
+
 

@@ -215,7 +215,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {!outOfStock ? (
             <div className="mb-8">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">QUANTITY</p>
+              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">QUANTITY <span className="text-[#9C7A44] ml-2">({stock} in stock)</span></p>
               <div className="flex items-center border border-[#DDD6C8] w-fit">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -273,4 +273,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
+
+
 

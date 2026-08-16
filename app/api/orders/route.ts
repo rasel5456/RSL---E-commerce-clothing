@@ -7,6 +7,21 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
+  for (const item of body.items) {
+    const { data: productData } = await supabaseAdmin
+      .from("products")
+      .select("stock, name")
+      .eq("id", item.id)
+      .single();
+
+    if (productData && productData.stock < item.quantity) {
+      return NextResponse.json(
+        { success: false, message: "Sorry, " + productData.name + " does not have enough stock (only " + productData.stock + " left)." },
+        { status: 400 }
+      );
+    }
+  }
+
   const { data, error } = await supabaseAdmin
     .from("orders")
     .insert({
@@ -29,6 +44,23 @@ export async function POST(request: NextRequest) {
   }
 
   const order = data[0];
+
+  for (const item of body.items) {
+    const { data: productData } = await supabaseAdmin
+      .from("products")
+      .select("stock, sold_count")
+      .eq("id", item.id)
+      .single();
+
+    if (productData) {
+      const newStock = Math.max(0, productData.stock - item.quantity);
+      const newSoldCount = (productData.sold_count || 0) + item.quantity;
+      await supabaseAdmin
+        .from("products")
+        .update({ stock: newStock, sold_count: newSoldCount })
+        .eq("id", item.id);
+    }
+  }
 
   const itemsListHtml = body.items
     .map(function (item: any) {
@@ -56,4 +88,3 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ success: true, order: order });
 }
-

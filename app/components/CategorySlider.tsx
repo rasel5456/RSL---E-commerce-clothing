@@ -12,6 +12,7 @@ interface Product {
   sizes: string[] | null;
   colors: string[] | null;
   stock?: number;
+  sold_count?: number;
 }
 
 interface CategorySliderProps {
@@ -70,6 +71,7 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
               sizes={product.sizes || []}
               colors={product.colors || []}
               stock={product.stock}
+              soldCount={product.sold_count}
             />
           </div>
         ))}
@@ -77,3 +79,5 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
     </section>
   );
 }
+
+

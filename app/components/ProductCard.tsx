@@ -15,9 +15,10 @@ type ProductCardProps = {
   sizes?: string[];
   colors?: string[];
   stock?: number;
+  soldCount?: number;
 };
 
-export default function ProductCard({ id, name, price, discountPrice, image, sizes = [], colors = [], stock = 1 }: ProductCardProps) {
+export default function ProductCard({ id, name, price, discountPrice, image, sizes = [], colors = [], stock = 1, soldCount = 0 }: ProductCardProps) {
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
   const hasDiscount = discountPrice !== null && discountPrice !== undefined && discountPrice < price;
   const effectivePrice = hasDiscount ? discountPrice! : price;
   const discountPercent = hasDiscount ? Math.round(((price - discountPrice!) / price) * 100) : 0;
+  const displaySold = 100 + soldCount;
 
   const defaultSize = sizes[0] || "";
   const defaultColor = colors[0] || "";
@@ -128,10 +130,10 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
       <div style={{ fontFamily: "var(--font-sans)" }}>
         <Link href={`/product/${id}`}>
-          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors truncate">{name}</h3>
+          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors line-clamp-2 leading-snug min-h-[2.5em]">{name}</h3>
         </Link>
 
-        <p className="text-sm">
+        <p className="text-sm mb-1">
           {hasDiscount ? (
             <>
               <span className="text-[#6E675C] line-through mr-2">৳{price.toLocaleString()}</span>
@@ -140,6 +142,10 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
           ) : (
             <span className="text-[#3A3630]">৳{price.toLocaleString()}</span>
           )}
+        </p>
+
+        <p className="text-[11px] text-[#6E675C]">
+          {outOfStock ? "Out of stock" : stock + " in stock"} &middot; {displaySold}+ sold
         </p>
       </div>
     </div>

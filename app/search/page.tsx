@@ -41,10 +41,12 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             colors={product.colors || []}
             discountPrice={product.discount_price}
             stock={product.stock}
+            soldCount={product.sold_count}
           />
         )) : null}
       </div>
     </div>
   );
 }
+
 

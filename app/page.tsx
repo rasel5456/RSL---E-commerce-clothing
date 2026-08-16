@@ -133,6 +133,7 @@ export default async function Home() {
                 sizes={product.sizes || []}
                 colors={product.colors || []}
                 stock={product.stock}
+                soldCount={product.sold_count}
               />
             );
           }) : null}
@@ -224,4 +225,5 @@ export default async function Home() {
     </div>
   );
 }
+
 

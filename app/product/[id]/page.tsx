@@ -59,6 +59,7 @@ export default async function ProductPage({
                 sizes={p.sizes || []}
                 colors={p.colors || []}
                 stock={p.stock}
+                soldCount={p.sold_count}
               />
             ))}
           </div>
@@ -67,3 +68,4 @@ export default async function ProductPage({
     </div>
   );
 }
+
