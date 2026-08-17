@@ -79,7 +79,7 @@ export default async function Home() {
 
   return (
     <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
-      <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
+      <div className="bg-[#B5651D] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
         FREE SHIPPING ON ORDERS OVER TAKA 2,000
       </div>
 
@@ -225,5 +225,6 @@ export default async function Home() {
     </div>
   );
 }
+
 
 
