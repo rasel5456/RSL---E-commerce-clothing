@@ -14,7 +14,7 @@ export default async function AdminProductsPage() {
   }
 
   return (
-    <div style={{ padding: "20px", maxWidth: "1000px", margin: "0 auto" }}>
+    <div style={{ padding: "20px", maxWidth: "1100px", margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <h1>Product Management</h1>
         <Link
@@ -34,6 +34,7 @@ export default async function AdminProductsPage() {
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr style={{ borderBottom: "2px solid #ccc", textAlign: "left" }}>
+            <th style={{ padding: "10px" }}>Image</th>
             <th style={{ padding: "10px" }}>Name</th>
             <th style={{ padding: "10px" }}>Category</th>
             <th style={{ padding: "10px" }}>Price</th>
@@ -45,9 +46,20 @@ export default async function AdminProductsPage() {
           {products && products.length > 0 ? (
             products.map((product) => (
               <tr key={product.id} style={{ borderBottom: "1px solid #eee" }}>
+                <td style={{ padding: "10px" }}>
+                  {product.images && product.images[0] ? (
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      style={{ width: "40px", height: "50px", objectFit: "cover", borderRadius: "4px" }}
+                    />
+                  ) : (
+                    <div style={{ width: "40px", height: "50px", backgroundColor: "#eee", borderRadius: "4px" }} />
+                  )}
+                </td>
                 <td style={{ padding: "10px" }}>{product.name}</td>
                 <td style={{ padding: "10px" }}>{product.category}</td>
-                <td style={{ padding: "10px" }}>à§³{product.price}</td>
+                <td style={{ padding: "10px" }}>&#2547;{product.price}</td>
                 <td style={{ padding: "10px" }}>{product.stock ?? "N/A"}</td>
                 <td style={{ padding: "10px" }}>
                   <Link href={`/admin/products/edit/${product.id}`} style={{ marginRight: "10px" }}>
@@ -58,7 +70,7 @@ export default async function AdminProductsPage() {
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ padding: "10px", textAlign: "center" }}>
+              <td colSpan={6} style={{ padding: "10px", textAlign: "center" }}>
                 No products found
               </td>
             </tr>

@@ -56,7 +56,7 @@ export default function SiteHeader() {
       </div>
 
       {menuOpen ? (
-        <div className="md:hidden fixed inset-0 z-50 bg-[#F7F4EF]">
+        <div className="md:hidden fixed inset-0 z-50" style={{ backgroundColor: "#F7F4EF" }}>
           <div className="flex items-center justify-between px-6 py-4 border-b border-[#DDD6C8]">
             <span className="text-2xl tracking-[0.2em]" style={{ fontFamily: "var(--font-display)" }}>RSL</span>
             <button onClick={() => setMenuOpen(false)} aria-label="Close menu">
@@ -64,14 +64,13 @@ export default function SiteHeader() {
             </button>
           </div>
 
-          <nav className="flex flex-col px-6 py-8 gap-3">
+          <nav className="flex flex-col px-6 py-5 gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-3.5 border border-[#DDD6C8] rounded hover:border-[#9C7A44] hover:bg-white transition-colors text-lg"
-                style={{ fontFamily: "var(--font-display)" }}
+                className="px-4 py-2.5 border border-[#DDD6C8] rounded hover:border-[#9C7A44] hover:bg-white transition-colors text-sm"
               >
                 {link.label}
               </Link>
@@ -82,4 +81,3 @@ export default function SiteHeader() {
     </header>
   );
 }
-
