@@ -74,7 +74,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
       <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-3 block">
         <img
           src={image}
-          alt={name}
+          alt={name + " - RSL premium fashion, price starting " + price + " Taka"}
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
 
@@ -151,3 +151,4 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
     </div>
   );
 }
+

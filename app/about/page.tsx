@@ -1,4 +1,9 @@
-﻿export default function AboutPage() {
+﻿export const metadata = {
+  title: "About RSL | Our Story and Philosophy",
+  description: "Learn about RSL, a Bangladeshi fashion brand established in 2026, built around modern essentials, refined details and effortless style.",
+};
+
+export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 md:px-10 py-16 min-h-[50vh]">
       <h1 className="text-2xl md:text-3xl mb-6" style={{ fontFamily: "var(--font-display)" }}>About RSL</h1>
@@ -8,3 +13,4 @@
     </div>
   );
 }
+

@@ -3,14 +3,46 @@ import { notFound } from "next/navigation";
 import ProductDetailClient from "@/app/components/ProductDetailClient";
 import ReviewSection from "@/app/components/ReviewSection";
 import ProductCard from "@/app/components/ProductCard";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductPage({
-  params,
-}: {
+type ProductPageProps = {
   params: Promise<{ id: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { id } = await params;
+
+  const { data: product } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (!product) {
+    return { title: "Product Not Found | RSL" };
+  }
+
+  const description = product.description
+    ? product.description.slice(0, 155)
+    : "Shop " + product.name + " at RSL. Premium quality clothing with fast delivery across Bangladesh.";
+
+  const image = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL";
+
+  return {
+    title: product.name + " | RSL Fashion Store",
+    description: description,
+    openGraph: {
+      title: product.name + " | RSL",
+      description: description,
+      images: [image],
+      type: "website",
+    },
+  };
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
   const { data: product, error } = await supabase
@@ -37,8 +69,27 @@ export default async function ProductPage({
     .neq("id", id)
     .limit(4);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || product.name,
+    image: product.images && product.images[0] ? product.images[0] : undefined,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "BDT",
+      price: product.discount_price || product.price,
+      availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <ProductDetailClient product={product} />
 
       {relatedProducts && relatedProducts.length > 0 ? (

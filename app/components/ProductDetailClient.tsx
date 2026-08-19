@@ -107,7 +107,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <div className="aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 relative">
             <img
               src={selectedImage}
-              alt={product.name}
+              alt={product.name + (product.category ? " - " + product.category : "") + " | RSL Fashion Store"}
               className="w-full h-full object-cover transition-opacity duration-300"
             />
             {hasDiscount && !outOfStock ? (
@@ -273,6 +273,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
+
 
 
 

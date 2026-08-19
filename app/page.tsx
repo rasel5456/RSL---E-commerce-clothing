@@ -7,6 +7,16 @@ import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "RSL - Premium Fashion Store in Bangladesh | Buy Trendy Clothing Online",
+  description: "Shop the latest fashion trends at RSL. Premium quality men's and women's clothing with fast delivery across Bangladesh. Cash on delivery available.",
+  openGraph: {
+    title: "RSL - Premium Fashion Store in Bangladesh",
+    description: "Shop the latest fashion trends at RSL. Premium quality clothing with fast delivery across Bangladesh.",
+    type: "website",
+  },
+};
+
 const display = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -84,6 +94,7 @@ export default async function Home() {
       </div>
 
       <SiteHeader />
+      <h1 className="sr-only">RSL - Premium Fashion Store in Bangladesh</h1>
 
       {banners && banners.length > 0 ? <BannerCarousel banners={banners} /> : (
         <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 text-center text-[#6E675C]">
@@ -150,7 +161,7 @@ export default async function Home() {
           <p className="text-[12px] tracking-[0.2em] text-[#9C7A44] mb-5">OUR PHILOSOPHY</p>
           <h2 className="text-3xl md:text-5xl leading-tight mb-8" style={{ fontFamily: "var(--font-display)" }}>Built around modern essentials, refined details and effortless style.</h2>
           <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL suru hoyeche ekta e biswas theke shadharon poshak o joyto ar nikhut karukaje osadharon hoye othe.</p>
-          <a href="#" className="text-[13px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">OUR STORY</a>
+          <a href="/about" className="text-[13px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">OUR STORY</a>
         </div>
       </section>
 
@@ -225,6 +236,9 @@ export default async function Home() {
     </div>
   );
 }
+
+
+
 
 
 

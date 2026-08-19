@@ -3,6 +3,11 @@ import ProductCard from "../components/ProductCard";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "Shop All Products | RSL Fashion Store Bangladesh",
+  description: "Browse our full collection of men's and women's clothing. Trendy, premium quality fashion with fast delivery across Bangladesh.",
+};
+
 type ShopPageProps = {
   searchParams: Promise<{ gender?: string }>;
 };
@@ -49,5 +54,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     </div>
   );
 }
+
 
 
