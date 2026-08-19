@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 
@@ -72,20 +73,22 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
   return (
     <div className="group">
       <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-3 block">
-        <img
+        <Image
           src={image}
           alt={name + " - RSL premium fashion, price starting " + price + " Taka"}
-          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
 
         {hasDiscount ? (
-          <span className="absolute top-3 left-3 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1">
+          <span className="absolute top-3 left-3 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
             -{discountPercent}%
           </span>
         ) : null}
 
         {outOfStock ? (
-          <span className="absolute top-3 left-3 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1">
+          <span className="absolute top-3 left-3 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
             OUT OF STOCK
           </span>
         ) : null}
@@ -93,7 +96,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         <button
           onClick={handleWishlistToggle}
           aria-label="Wishlist"
-          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-[#F7F4EF]/90 backdrop-blur"
+          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-[#F7F4EF]/90 backdrop-blur z-10"
         >
           <svg
             width="15"
@@ -108,7 +111,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         </button>
 
         {!outOfStock ? (
-          <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 transition-all duration-300">
+          <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 transition-all duration-300 z-10">
             <button
               onClick={handleAddToCart}
               className={`flex-1 py-2.5 text-[10px] tracking-[0.1em] transition-colors ${
@@ -151,4 +154,3 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
     </div>
   );
 }
-
