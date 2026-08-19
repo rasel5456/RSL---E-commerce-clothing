@@ -8,17 +8,22 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 type ProductPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const { id } = await params;
+async function fetchProduct(slug: string) {
+  // প্রথমে slug দিয়ে খুঁজছি (নতুন, SEO-friendly URL)
+  const { data: bySlug } = await supabase.from("products").select("*").eq("slug", slug).single();
+  if (bySlug) return bySlug;
 
-  const { data: product } = await supabase
-    .from("products")
-    .select("*")
-    .eq("id", id)
-    .single();
+  // slug দিয়ে না পেলে, পুরনো UUID হিসেবে চেষ্টা করছি (আগের Link গুলো ভেঙে না যাওয়ার জন্য)
+  const { data: byId } = await supabase.from("products").select("*").eq("id", slug).single();
+  return byId;
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await fetchProduct(slug);
 
   if (!product) {
     return { title: "Product Not Found | RSL" };
@@ -43,22 +48,17 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = await params;
+  const { slug } = await params;
+  const product = await fetchProduct(slug);
 
-  const { data: product, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error || !product) {
+  if (!product) {
     notFound();
   }
 
   const { data: reviews } = await supabase
     .from("reviews")
     .select("*")
-    .eq("product_id", id)
+    .eq("product_id", product.id)
     .eq("is_approved", true)
     .order("created_at", { ascending: false });
 
@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .from("products")
     .select("*")
     .eq("category", product.category)
-    .neq("id", id)
+    .neq("id", product.id)
     .limit(4);
 
   const jsonLd = {
@@ -101,7 +101,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {relatedProducts.map((p) => (
               <ProductCard
                 key={p.id}
-                id={p.id}
+                id={p.slug || p.id}
                 name={p.name}
                 price={p.price}
                 discountPrice={p.discount_price}
@@ -116,7 +116,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </section>
       ) : null}
 
-      <ReviewSection productId={id} initialReviews={reviews || []} />
+      <ReviewSection productId={product.id} initialReviews={reviews || []} />
     </div>
   );
 }

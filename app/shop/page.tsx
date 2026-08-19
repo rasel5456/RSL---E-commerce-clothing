@@ -39,7 +39,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         {products ? products.map((product) => (
           <ProductCard
             key={product.id}
-            id={product.id}
+            id={product.slug || product.id}
             name={product.name}
             price={product.price}
             image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
@@ -54,6 +54,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     </div>
   );
 }
+
 
 
 

@@ -13,6 +13,7 @@ interface Product {
   colors: string[] | null;
   stock?: number;
   sold_count?: number;
+  slug?: string;
 }
 
 interface CategorySliderProps {
@@ -63,7 +64,7 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
         {products.map((product) => (
           <div key={product.id} className="flex-shrink-0 w-[45vw] sm:w-[220px] md:w-[240px]">
             <ProductCard
-              id={product.id}
+              id={product.slug || product.id}
               name={product.name}
               price={product.price}
               discountPrice={product.discount_price}
@@ -79,5 +80,7 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
     </section>
   );
 }
+
+
 
 

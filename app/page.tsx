@@ -136,7 +136,7 @@ export default async function Home() {
             return (
               <ProductCard
                 key={product.id}
-                id={product.id}
+                id={product.slug || product.id}
                 name={product.name}
                 price={product.price}
                 discountPrice={product.discount_price}
@@ -236,6 +236,7 @@ export default async function Home() {
     </div>
   );
 }
+
 
 
 
