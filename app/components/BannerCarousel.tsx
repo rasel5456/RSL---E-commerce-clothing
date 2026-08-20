@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 
 interface Banner {
   id: string;
@@ -57,14 +58,21 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
           className="absolute inset-0 transition-opacity duration-700 ease-in-out"
           style={{ opacity: index === current ? 1 : 0, pointerEvents: index === current ? "auto" : "none" }}
         >
-          <img src={banner.image_url} alt={banner.title || "Banner"} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+          <Image
+            src={banner.image_url}
+            alt={banner.title || "RSL Fashion Store Banner"}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover pointer-events-none"
+          />
           <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
             {banner.title ? (
-              <h1 className="text-4xl md:text-6xl text-[#F7F4EF] mb-4" style={{ fontFamily: "var(--font-display)" }}>
+              <h2 className="text-4xl md:text-6xl text-[#F7F4EF] mb-4" style={{ fontFamily: "var(--font-display)" }}>
                 {banner.title}
-              </h1>
+              </h2>
             ) : null}
 
             {banner.subtitle ? (
@@ -107,4 +115,3 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
     </section>
   );
 }
-

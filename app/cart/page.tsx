@@ -2,6 +2,7 @@
 
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, totalPrice } = useCart();
@@ -36,8 +37,8 @@ export default function CartPage() {
           <div className="flex-1 flex flex-col divide-y divide-[#DDD6C8] border-t border-[#DDD6C8]">
             {cartItems.map((item) => (
               <div key={`${item.id}-${item.size}-${item.color}`} className="flex items-center gap-5 py-6">
-                <div className="w-24 h-28 flex-shrink-0 bg-[#EFEAE0] overflow-hidden">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                <div className="relative w-24 h-28 flex-shrink-0 bg-[#EFEAE0] overflow-hidden">
+                  <Image src={item.image} alt={item.name} fill sizes="96px" className="object-cover" />
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -116,4 +117,5 @@ export default function CartPage() {
     </div>
   );
 }
+
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 
 type Product = {
@@ -41,6 +42,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const [sizeError, setSizeError] = useState(false);
+
+  const imageAlt = product.name + (product.category ? " - " + product.category : "") + " | RSL Fashion Store";
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
@@ -105,18 +108,21 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       <div className="max-w-6xl mx-auto px-6 md:px-10 pb-24 grid md:grid-cols-2 gap-14 md:gap-20">
         <div>
           <div className="aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 relative">
-            <img
+            <Image
               src={selectedImage}
-              alt={product.name + (product.category ? " - " + product.category : "") + " | RSL Fashion Store"}
-              className="w-full h-full object-cover transition-opacity duration-300"
+              alt={imageAlt}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover transition-opacity duration-300"
             />
             {hasDiscount && !outOfStock ? (
-              <span className="absolute top-5 left-5 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5">
+              <span className="absolute top-5 left-5 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
                 SALE
               </span>
             ) : null}
             {outOfStock ? (
-              <span className="absolute top-5 left-5 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5">
+              <span className="absolute top-5 left-5 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
                 OUT OF STOCK
               </span>
             ) : null}
@@ -128,11 +134,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 <button
                   key={color}
                   onClick={() => handleColorSelect(color)}
-                  className={`w-20 h-24 overflow-hidden border-2 transition-colors ${
+                  className={`relative w-20 h-24 overflow-hidden border-2 transition-colors ${
                     selectedColor === color ? "border-[#14120F]" : "border-[#DDD6C8] hover:border-[#9C7A44]"
                   }`}
                 >
-                  <img src={colorImages[color] || fallbackImage} alt={color} className="w-full h-full object-cover" />
+                  <Image src={colorImages[color] || fallbackImage} alt={product.name + " in " + color} fill sizes="80px" className="object-cover" />
                 </button>
               ))}
             </div>
@@ -166,7 +172,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {colors.length > 0 ? (
             <div className="mb-7">
               <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
-                COLOR{selectedColor ? <span className="text-[#14120F] ml-2">— {selectedColor}</span> : null}
+                COLOR{selectedColor ? <span className="text-[#14120F] ml-2">&mdash; {selectedColor}</span> : null}
               </p>
               <div className="flex flex-wrap gap-2">
                 {colors.map((color) => (
@@ -179,8 +185,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
                     }`}
                   >
-                    <span className="w-8 h-8 overflow-hidden flex-shrink-0">
-                      <img src={colorImages[color] || fallbackImage} alt={color} className="w-full h-full object-cover" />
+                    <span className="relative w-8 h-8 overflow-hidden flex-shrink-0">
+                      <Image src={colorImages[color] || fallbackImage} alt={color} fill sizes="32px" className="object-cover" />
                     </span>
                     <span className="text-sm">{color}</span>
                   </button>
@@ -192,7 +198,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {sizes.length > 0 ? (
             <div className="mb-7">
               <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
-                SIZE{selectedSize ? <span className="text-[#14120F] ml-2">— {selectedSize}</span> : null}
+                SIZE{selectedSize ? <span className="text-[#14120F] ml-2">&mdash; {selectedSize}</span> : null}
               </p>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((size) => (
@@ -273,7 +279,3 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     </div>
   );
 }
-
-
-
-
