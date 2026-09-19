@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function AdminForgotPasswordPage() {
   const subject = encodeURIComponent("RSL Admin Password Reset Request");
-  const body = encodeURIComponent("Hello RSL team,\n\nI need help resetting the RSL Admin password.\n\nMy recovery email: ");
+  const body = encodeURIComponent("Hello RSL team,\n\nI need help resetting the RSL Admin password.\n\nI am contacting you from the registered RSL support email.");
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex items-center justify-center px-6 py-16 text-[#14212B]">
@@ -10,7 +10,7 @@ export default function AdminForgotPasswordPage() {
         <div className="text-center mb-10">
           <p className="text-[11px] tracking-[0.25em] text-[#B28B52] mb-4">RSL / ADMIN ACCESS</p>
           <h1 className="text-3xl mb-3" style={{ fontFamily: "Georgia, serif" }}>Recover your access</h1>
-          <p className="text-sm text-[#66727A] leading-relaxed">Use the secure contact options below to request an Admin password reset.</p>
+          <p className="text-sm text-[#66727A] leading-relaxed">Password recovery is available only through the registered RSL support contacts below.</p>
         </div>
 
         <div className="bg-white border border-[#D7DDE0] p-7 md:p-8 shadow-sm">
@@ -41,7 +41,7 @@ export default function AdminForgotPasswordPage() {
           </div>
 
           <div className="mt-7 pt-6 border-t border-[#D7DDE0] text-xs text-[#66727A] leading-relaxed">
-            For security, do not send your current or new password in chat. RSL support will verify the request and provide the reset steps.
+            For security, do not send your current or new password in chat. Requests from any other email address or phone number will not be accepted. RSL support will verify ownership before providing reset steps.
           </div>
         </div>
 
