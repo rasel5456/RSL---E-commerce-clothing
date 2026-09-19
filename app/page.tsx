@@ -1,4 +1,5 @@
 ﻿import { Cormorant_Garamond, Hind_Siliguri, Inter } from "next/font/google";
+import Image from "next/image";
 import ProductCard from "./components/ProductCard";
 import BannerCarousel from "./components/BannerCarousel";
 import CategorySlider from "./components/CategorySlider";
@@ -108,8 +109,8 @@ export default async function Home() {
 
   return (
     <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
-      <div className="bg-[#B5651D] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4" role="note">
-        FREE SHIPPING ON ORDERS OVER ৳2,000 · DELIVERY ACROSS BANGLADESH
+      <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[10px] sm:text-[11px] tracking-[0.16em] py-2.5 px-4" role="note">
+        <span className="text-[#D9B879]">RSL / 01</span>&nbsp;&nbsp; FREE SHIPPING ON ORDERS OVER ৳2,000 &nbsp;·&nbsp; DELIVERY ACROSS BANGLADESH
       </div>
 
       <SiteHeader />
@@ -121,19 +122,24 @@ export default async function Home() {
         </section>
       )}
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28">
-        <div className="flex items-end justify-between mb-10">
-          <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Shop By Category</h2>
+      <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-32">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 md:mb-12">
+          <div>
+            <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-3">CURATED WORLDS</p>
+            <h2 className="text-4xl md:text-5xl leading-none" style={{ fontFamily: "var(--font-display)" }}>Shop by category</h2>
+          </div>
+          <p className="max-w-xs text-sm leading-relaxed text-[#6E675C]" style={{ fontFamily: "var(--font-sans)" }}>Modern silhouettes and everyday pieces, selected for your wardrobe.</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          {categories.map(function (cat) {
+        <div className="grid md:grid-cols-3 gap-3 md:gap-5">
+          {categories.map(function (cat, index) {
             return (
-              <a key={cat.label} href={cat.href} className="group relative h-[440px] overflow-hidden flex items-end p-8">
-                <img src={cat.image} alt={cat.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,18,15,0) 40%, rgba(20,18,15,0.85) 100%)" }} />
+              <a key={cat.label} href={cat.href} className="group relative h-[360px] sm:h-[440px] overflow-hidden flex items-end p-6 md:p-8 bg-[#DDD6C8]">
+                <Image src={cat.image} alt={cat.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/85 via-[#14120F]/10 to-transparent" />
+                <span className="absolute top-5 right-5 text-[10px] tracking-[0.2em] text-[#F7F4EF]/80">0{index + 1}</span>
                 <div className="relative text-[#F7F4EF]">
-                  <span className="block text-[28px] mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
-                  <span className="text-[11px] tracking-[0.15em] border-b border-[#F7F4EF]/50 pb-1 group-hover:border-[#9C7A44] group-hover:pl-1 transition-all">SHOP NOW</span>
+                  <span className="block text-3xl md:text-4xl mb-3 tracking-[0.04em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
+                  <span className="inline-flex items-center gap-3 text-[10px] tracking-[0.18em] border-b border-[#F7F4EF]/60 pb-2 group-hover:border-[#D9B879] transition-colors">EXPLORE <span aria-hidden="true" className="text-base leading-none transition-transform group-hover:translate-x-1">→</span></span>
                 </div>
               </a>
             );
@@ -141,16 +147,20 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="new-arrivals" className="max-w-7xl mx-auto px-6 md:px-10 py-8 md:py-16">
-        <div className="flex items-end justify-between mb-10">
-          <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "var(--font-display)" }}>New Arrivals</h2>
-          <a href="/shop" className="text-[11px] tracking-[0.08em] text-[#6E675C] hover:text-[#9C7A44] transition-colors">View All</a>
+      <section id="new-arrivals" className="bg-[#EDE8DF] border-y border-[#DDD6C8]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-28">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10 md:mb-12">
+          <div>
+            <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-3">THE LATEST EDIT</p>
+            <h2 className="text-4xl md:text-5xl leading-none" style={{ fontFamily: "var(--font-display)" }}>New arrivals</h2>
+          </div>
+          <a href="/shop" className="self-start md:self-end inline-flex items-center gap-3 text-[11px] tracking-[0.14em] text-[#6E675C] hover:text-[#9C7A44] transition-colors border-b border-[#6E675C]/40 pb-2">VIEW ALL <span aria-hidden="true" className="text-base">→</span></a>
         </div>
 
         {error ? <p className="text-red-600">Product load korte somossa hoyeche: {error.message}</p> : null}
         {!error && (!products || products.length === 0) ? <p className="text-[#6E675C]">Ekhono kono product jog kora hoyni.</p> : null}
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-10">
           {products.map(function (product) {
             return (
               <ProductCard
@@ -168,37 +178,45 @@ export default async function Home() {
             );
           })}
         </div>
+        </div>
       </section>
 
       {productsByCategory.filter((group) => group.items.length >= 2).map(function (group) {
         return <CategorySlider key={group.category} title={group.category} products={group.items} />;
       })}
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-28 md:py-40 grid md:grid-cols-2 gap-14 items-center">
-        <div className="h-[460px]" style={{ background: "linear-gradient(160deg, #E8E2D6, #DDD6C8)" }} />
+      <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-24 md:py-36 grid md:grid-cols-[1.05fr_0.95fr] gap-12 md:gap-20 items-center">
+        <div className="relative h-[420px] md:h-[560px] overflow-hidden bg-[#DDD6C8]">
+          <Image src={newestProduct?.images?.[0] || placeholderImg} alt="RSL everyday collection" fill sizes="(max-width: 768px) 100vw, 55vw" className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/30 to-transparent" />
+          <span className="absolute left-6 bottom-6 text-[10px] tracking-[0.2em] text-[#F7F4EF]">RSL / EVERYDAY 01</span>
+        </div>
         <div>
-          <p className="text-[12px] tracking-[0.2em] text-[#9C7A44] mb-5">OUR PHILOSOPHY</p>
-          <h2 className="text-3xl md:text-5xl leading-tight mb-8" style={{ fontFamily: "var(--font-display)" }}>Built around modern essentials, refined details and effortless style.</h2>
+          <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-5">THE RSL POINT OF VIEW</p>
+          <h2 className="text-4xl md:text-6xl leading-[0.98] mb-8" style={{ fontFamily: "var(--font-display)" }}>Quiet confidence, made for every day.</h2>
           <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL শুরু হয়েছে একটি বিশ্বাস থেকে—সাধারণ পোশাক ও যত্নশীল কারুকাজ মিলেই অসাধারণ হয়ে ওঠে।</p>
-          <a href="/about" className="text-[13px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">OUR STORY</a>
+          <a href="/about" className="inline-flex items-center gap-4 text-[11px] tracking-[0.16em] border-b border-[#14120F] pb-2 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">READ OUR STORY <span aria-hidden="true" className="text-base">→</span></a>
         </div>
       </section>
 
-      <section className="relative py-32 md:py-44 px-6 text-center" style={{ background: "linear-gradient(160deg, #221F1B, #14120F)" }}>
-        <p className="text-[12px] tracking-[0.25em] text-[#9C7A44] mb-5">SIGNATURE COLLECTION</p>
-        <h2 className="text-4xl md:text-7xl text-[#F7F4EF] mb-6" style={{ fontFamily: "var(--font-display)" }}>The Everyday Collection</h2>
+      <section className="relative overflow-hidden py-28 md:py-40 px-6 text-center" style={{ background: "radial-gradient(circle at 50% 0%, #3B342B 0%, #221F1B 36%, #14120F 78%)" }}>
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(247,244,239,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(247,244,239,.18) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
+        <div className="relative">
+        <p className="text-[10px] tracking-[0.28em] text-[#D9B879] mb-5">SIGNATURE COLLECTION / 01</p>
+        <h2 className="text-5xl md:text-8xl leading-[0.9] text-[#F7F4EF] mb-7" style={{ fontFamily: "var(--font-display)" }}>The everyday<br /><em>collection.</em></h2>
         <p className="text-[#F7F4EF]/70 mb-10" style={{ fontFamily: "var(--font-sans)" }}>Designed for every version of you.</p>
-        <a href="/shop" className="inline-block bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">EXPLORE COLLECTION</a>
+        <a href="/shop" className="inline-flex items-center gap-4 bg-[#F7F4EF] text-[#14120F] px-8 py-4 text-[11px] tracking-[0.16em] hover:bg-[#D9B879] transition-colors">EXPLORE COLLECTION <span aria-hidden="true" className="text-base">→</span></a>
+        </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-28 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10 md:gap-5">
         {whyItems.map(function (item) {
           return (
-            <div key={item.label} className="text-center">
-              <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center border border-[#9C7A44] rounded-full text-[#9C7A44]">
+            <div key={item.label} className="text-center md:text-left md:border-l md:border-[#DDD6C8] md:pl-6">
+              <div className="w-12 h-12 mb-4 flex items-center justify-center border border-[#9C7A44] rounded-full text-[#9C7A44] mx-auto md:mx-0">
                 {iconMap[item.icon]}
               </div>
-              <p className="text-[13px] tracking-[0.03em]" style={{ fontFamily: "var(--font-sans)" }}>{item.label}</p>
+              <p className="text-[12px] leading-relaxed tracking-[0.03em]" style={{ fontFamily: "var(--font-sans)" }}>{item.label}</p>
             </div>
           );
         })}
@@ -256,8 +274,3 @@ export default async function Home() {
     </div>
   );
 }
-
-
-
-
-
