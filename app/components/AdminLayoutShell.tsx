@@ -5,12 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { label: "Dashboard", href: "/admin" },
-  { label: "Products", href: "/admin/products" },
-  { label: "Banners", href: "/admin/banners" },
-  { label: "Orders", href: "/admin/orders" },
-  { label: "Settings", href: "/admin/settings" },
+  { label: "Dashboard", href: "/admin", icon: "grid" },
+  { label: "Products", href: "/admin/products", icon: "box" },
+  { label: "Banners", href: "/admin/banners", icon: "image" },
+  { label: "Orders", href: "/admin/orders", icon: "receipt" },
+  { label: "Settings", href: "/admin/settings", icon: "settings" },
 ];
+
+function NavIcon({ name }: { name: string }) {
+  const paths: Record<string, React.ReactNode> = {
+    grid: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
+    box: <><path d="m21 8-9-5-9 5 9 5 9-5Z" /><path d="M3 8v8l9 5 9-5V8" /><path d="M12 13v8" /></>,
+    image: <><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9" r="1.5" /><path d="m21 15-5-5L5 20" /></>,
+    receipt: <><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Z" /><path d="M8 8h8M8 12h8M8 16h4" /></>,
+    settings: <><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" /><path d="m19.4 15 .1.1a2 2 0 1 1-2.8 2.8l-.1-.1a2 2 0 0 0-3.4 1.4v.3a2 2 0 1 1-4 0v-.2A2 2 0 0 0 5.8 18l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A2 2 0 0 0 1.6 12.8h-.2a2 2 0 1 1 0-4h.2A2 2 0 0 0 3 5.4l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A2 2 0 0 0 9.2 1.2V1a2 2 0 1 1 4 0v.2A2 2 0 0 0 16.6 3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a2 2 0 0 0 1.4 3.4h.2a2 2 0 1 1 0 4h-.2A2 2 0 0 0 19.4 15Z" /></>,
+  };
+  return <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
+}
 
 export default function AdminLayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -52,19 +63,20 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
                 className={
-                  "px-4 py-3 rounded text-sm tracking-[0.03em] transition-colors " +
+                  "px-4 py-3 rounded text-sm tracking-[0.03em] transition-colors flex items-center gap-3 " +
                   (isActive ? "bg-[#B28B52] text-[#F7F5F0]" : "text-[#F7F5F0]/70 hover:bg-[#F7F5F0]/10 hover:text-[#F7F5F0]")
                 }
               >
-                {item.label}
+                <NavIcon name={item.icon} />
+                <span>{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
         <div className="px-6 py-6 border-t border-[#F7F5F0]/10">
-          <a href="/" target="_blank" rel="noopener noreferrer" className="text-[12px] text-[#F7F5F0]/50 hover:text-[#F7F5F0] transition-colors">
-            View Live Site &rarr;
+          <a href="/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[12px] text-[#F7F5F0]/50 hover:text-[#F7F5F0] transition-colors">
+            <span aria-hidden="true">↗</span> View Live Site
           </a>
         </div>
       </aside>
@@ -80,4 +92,3 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
     </div>
   );
 }
-
