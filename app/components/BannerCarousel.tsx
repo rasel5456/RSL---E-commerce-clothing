@@ -47,7 +47,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
   return (
     <section
-      className="relative w-full h-[42vh] md:h-[60vh] overflow-hidden"
+      className="relative w-full min-h-[440px] h-[58vh] md:h-[68vh] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -66,17 +66,17 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
             sizes="100vw"
             className="object-cover pointer-events-none"
           />
-          <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10 pointer-events-none" />
 
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
             {banner.title ? (
-              <h2 className="text-4xl md:text-6xl text-[#F7F4EF] mb-4" style={{ fontFamily: "var(--font-display)" }}>
+              <h2 className="max-w-4xl text-3xl sm:text-4xl md:text-6xl leading-[1.08] text-[#F7F4EF] mb-4 drop-shadow-md" style={{ fontFamily: "var(--font-display)" }}>
                 {banner.title}
               </h2>
             ) : null}
 
             {banner.subtitle ? (
-              <p className="text-[#F7F4EF]/80 max-w-md mb-8" style={{ fontFamily: "var(--font-sans)" }}>
+              <p className="text-[#F7F4EF]/90 max-w-xl mb-8 text-sm md:text-base drop-shadow" style={{ fontFamily: "var(--font-sans)" }}>
                 {banner.subtitle}
               </p>
             ) : null}
@@ -106,7 +106,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                 key={index}
                 onClick={() => setCurrent(index)}
                 aria-label={"Go to slide " + (index + 1)}
-                className={index === current ? "w-2 h-2 rounded-full bg-[#F7F4EF] transition-colors" : "w-2 h-2 rounded-full bg-[#F7F4EF]/40 transition-colors"}
+                className={index === current ? "w-2.5 h-2.5 rounded-full bg-[#F7F4EF] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F4EF]" : "w-2.5 h-2.5 rounded-full bg-[#F7F4EF]/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F4EF]"}
               />
             ))}
           </div>

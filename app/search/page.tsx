@@ -20,7 +20,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 min-h-[60vh]">
       <h1 className="text-2xl md:text-3xl mb-8" style={{ fontFamily: "var(--font-display)" }}>
-        Search results for: "{query}"
+        Search results for: &quot;{query}&quot;
       </h1>
 
       {error ? <p className="text-red-600">Something went wrong: {error.message}</p> : null}
@@ -48,6 +48,5 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     </div>
   );
 }
-
 
 

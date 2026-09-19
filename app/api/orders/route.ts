@@ -4,6 +4,14 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+type OrderEmailItem = {
+  name: string;
+  size?: string;
+  color?: string;
+  quantity: number;
+  price: number;
+};
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
@@ -62,8 +70,9 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const itemsListHtml = body.items
-    .map(function (item: any) {
+  const items = body.items as OrderEmailItem[];
+  const itemsListHtml = items
+    .map(function (item) {
       return "<li>" + item.name + " (" + item.size + "/" + item.color + ") x " + item.quantity + " - Taka " + (item.price * item.quantity) + "</li>";
     })
     .join("");

@@ -34,6 +34,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const savedCart = localStorage.getItem('rsl_cart');
     if (savedCart) {
+      // Hydrate client state from browser storage after mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCartItems(JSON.parse(savedCart));
     }
     setIsLoaded(true);

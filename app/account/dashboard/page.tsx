@@ -5,6 +5,14 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 
+type OrderSummary = {
+  id: string;
+  order_number: string | number;
+  total_amount: number;
+  status: string;
+  created_at: string;
+};
+
 export default function AccountDashboardPage() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
@@ -15,7 +23,7 @@ export default function AccountDashboardPage() {
   const [city, setCity] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderSummary[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -167,4 +175,3 @@ export default function AccountDashboardPage() {
     </div>
   );
 }
-

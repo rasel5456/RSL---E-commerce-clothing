@@ -42,6 +42,25 @@ const whyItems = [
   { label: "Fast Delivery Across Bangladesh", icon: "S" },
 ];
 
+type StorefrontProduct = {
+  name?: unknown;
+  price?: unknown;
+  stock?: unknown;
+  images?: unknown;
+};
+
+function isStorefrontReady(product: StorefrontProduct) {
+  return Boolean(
+    product &&
+      typeof product.name === "string" &&
+      product.name.trim().length >= 4 &&
+      Number(product.price) > 0 &&
+      Number(product.stock) > 0 &&
+      Array.isArray(product.images) &&
+      product.images[0]
+  );
+}
+
 export default async function Home() {
   const [productsRes, bannersRes, allProductsRes] = await Promise.all([
     supabase.from("products").select("*").order("created_at", { ascending: false }).limit(6),
@@ -49,10 +68,10 @@ export default async function Home() {
     supabase.from("products").select("*").order("created_at", { ascending: false }),
   ]);
 
-  const products = productsRes.data;
+  const products = (productsRes.data || []).filter(isStorefrontReady).slice(0, 8);
   const error = productsRes.error;
   const banners = bannersRes.data;
-  const allProducts = allProductsRes.data || [];
+  const allProducts = (allProductsRes.data || []).filter(isStorefrontReady);
 
   const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category).filter(Boolean)));
 
@@ -60,9 +79,9 @@ export default async function Home() {
     return { category: cat, items: allProducts.filter((p) => p.category === cat) };
   });
 
-  const menProduct = allProducts.find((p) => p.gender === "men" && p.images && p.images[0]);
-  const womenProduct = allProducts.find((p) => p.gender === "women" && p.images && p.images[0]);
-  const newestProduct = allProducts.find((p) => p.images && p.images[0]);
+  const menProduct = allProducts.find((p) => p.gender === "men");
+  const womenProduct = allProducts.find((p) => p.gender === "women");
+  const newestProduct = allProducts[0];
 
   const placeholderImg = "https://placehold.co/600x750/26221C/F7F4EF?text=RSL";
 
@@ -89,8 +108,8 @@ export default async function Home() {
 
   return (
     <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
-      <div className="bg-[#B5651D] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4">
-        FREE SHIPPING ON ORDERS OVER TAKA 2,000
+      <div className="bg-[#B5651D] text-[#F7F4EF] text-center text-[11px] tracking-[0.15em] py-2.5 px-4" role="note">
+        FREE SHIPPING ON ORDERS OVER ৳2,000 · DELIVERY ACROSS BANGLADESH
       </div>
 
       <SiteHeader />
@@ -132,7 +151,7 @@ export default async function Home() {
         {!error && (!products || products.length === 0) ? <p className="text-[#6E675C]">Ekhono kono product jog kora hoyni.</p> : null}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
-          {products ? products.map(function (product) {
+          {products.map(function (product) {
             return (
               <ProductCard
                 key={product.id}
@@ -147,11 +166,11 @@ export default async function Home() {
                 soldCount={product.sold_count}
               />
             );
-          }) : null}
+          })}
         </div>
       </section>
 
-      {productsByCategory.map(function (group) {
+      {productsByCategory.filter((group) => group.items.length >= 2).map(function (group) {
         return <CategorySlider key={group.category} title={group.category} products={group.items} />;
       })}
 
@@ -160,7 +179,7 @@ export default async function Home() {
         <div>
           <p className="text-[12px] tracking-[0.2em] text-[#9C7A44] mb-5">OUR PHILOSOPHY</p>
           <h2 className="text-3xl md:text-5xl leading-tight mb-8" style={{ fontFamily: "var(--font-display)" }}>Built around modern essentials, refined details and effortless style.</h2>
-          <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL suru hoyeche ekta e biswas theke shadharon poshak o joyto ar nikhut karukaje osadharon hoye othe.</p>
+          <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL শুরু হয়েছে একটি বিশ্বাস থেকে—সাধারণ পোশাক ও যত্নশীল কারুকাজ মিলেই অসাধারণ হয়ে ওঠে।</p>
           <a href="/about" className="text-[13px] tracking-[0.1em] border-b border-[#14120F] pb-1 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">OUR STORY</a>
         </div>
       </section>
@@ -188,8 +207,9 @@ export default async function Home() {
       <section className="bg-[#14120F] text-[#F7F4EF] py-24 px-6 text-center">
         <h2 className="text-2xl md:text-3xl mb-3" style={{ fontFamily: "var(--font-display)" }}>Stay In The Loop</h2>
         <p className="text-[#F7F4EF]/70 max-w-md mx-auto mb-8 text-sm" style={{ fontFamily: "var(--font-sans)" }}>Be the first to discover new drops, exclusive collections and special offers.</p>
-        <form className="flex max-w-sm mx-auto border-b border-[#F7F4EF]/40">
-          <input type="email" placeholder="Your email address" className="flex-1 bg-transparent py-3 text-sm placeholder:text-[#F7F4EF]/40 focus:outline-none" />
+        <form action="mailto:rslbdshop@gmail.com" method="post" encType="text/plain" className="flex max-w-sm mx-auto border-b border-[#F7F4EF]/40">
+          <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+          <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" className="flex-1 bg-transparent py-3 text-sm placeholder:text-[#F7F4EF]/40 focus:outline-none" />
           <button type="submit" className="text-[12px] tracking-[0.1em] px-3 hover:text-[#9C7A44] transition-colors">SUBSCRIBE</button>
         </form>
       </section>
@@ -236,8 +256,6 @@ export default async function Home() {
     </div>
   );
 }
-
-
 
 
 
