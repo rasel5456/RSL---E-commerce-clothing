@@ -27,7 +27,7 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (pathname === "/admin/login") {
+  if (pathname === "/admin/login" || pathname === "/admin/forgot-password") {
     return <div>{children}</div>;
   }
 

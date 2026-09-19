@@ -6,6 +6,7 @@ export function middleware(request: NextRequest) {
   if (
     request.nextUrl.pathname.startsWith("/admin") &&
     request.nextUrl.pathname !== "/admin/login" &&
+    request.nextUrl.pathname !== "/admin/forgot-password" &&
     !isLoggedIn
   ) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
