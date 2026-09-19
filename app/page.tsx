@@ -53,7 +53,12 @@ export default async function Home() {
 
   const products = (productsRes.data || []).filter(isStorefrontReady).slice(0, 8);
   const error = productsRes.error;
-  const banners = bannersRes.data;
+  const blockedBannerCopy = new Set(["sdgfdh", "zc"]);
+  const banners = (bannersRes.data || []).filter((banner) => {
+    const title = banner.title?.trim().toLowerCase() || "";
+    const subtitle = banner.subtitle?.trim().toLowerCase() || "";
+    return !blockedBannerCopy.has(title) && !blockedBannerCopy.has(subtitle);
+  });
   const allProducts = (allProductsRes.data || []).filter(isStorefrontReady);
 
   const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category).filter(Boolean)));
