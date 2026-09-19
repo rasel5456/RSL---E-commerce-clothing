@@ -68,7 +68,7 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
               name={product.name}
               price={product.price}
               discountPrice={product.discount_price}
-              image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
+              image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F5F0/14212B?text=RSL"}
               sizes={product.sizes || []}
               colors={product.colors || []}
               stock={product.stock}

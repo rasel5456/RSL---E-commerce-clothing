@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     ? product.description.slice(0, 155)
     : "Shop " + product.name + " at RSL. Premium quality clothing with fast delivery across Bangladesh.";
 
-  const image = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL";
+  const image = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F5F0/14212B?text=RSL";
 
   return {
     title: product.name + " | RSL Fashion Store",
@@ -105,7 +105,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 name={p.name}
                 price={p.price}
                 discountPrice={p.discount_price}
-                image={p.images && p.images[0] ? p.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
+                image={p.images && p.images[0] ? p.images[0] : "https://placehold.co/600x750/F7F5F0/14212B?text=RSL"}
                 sizes={p.sizes || []}
                 colors={p.colors || []}
                 stock={p.stock}

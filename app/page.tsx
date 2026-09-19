@@ -71,7 +71,7 @@ export default async function Home() {
   const womenProduct = allProducts.find((p) => p.gender === "women");
   const newestProduct = allProducts[0];
 
-  const placeholderImg = "https://placehold.co/600x750/26221C/F7F4EF?text=RSL";
+  const placeholderImg = "https://placehold.co/600x750/14212B/F7F5F0?text=RSL";
 
   const categories = [
     { label: "MEN", href: "/shop?gender=men", image: menProduct && menProduct.images && menProduct.images[0] ? menProduct.images[0] : placeholderImg },
@@ -156,7 +156,7 @@ export default async function Home() {
                 name={product.name}
                 price={product.price}
                 discountPrice={product.discount_price}
-                image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL"}
+                image={product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F5F0/14212B?text=RSL"}
                 sizes={product.sizes || []}
                 colors={product.colors || []}
                 stock={product.stock}

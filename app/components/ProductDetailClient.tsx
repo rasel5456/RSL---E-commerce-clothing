@@ -32,7 +32,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const hasDiscount = product.discount_price !== null && product.discount_price !== undefined && product.discount_price < product.price;
   const effectivePrice = hasDiscount ? (product.discount_price as number) : product.price;
 
-  const fallbackImage = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F4EF/14120F?text=RSL";
+  const fallbackImage = product.images && product.images[0] ? product.images[0] : "https://placehold.co/600x750/F7F5F0/14212B?text=RSL";
   const initialColor = colors[0] || "";
   const initialImage = initialColor && colorImages[initialColor] ? colorImages[initialColor] : fallbackImage;
 
