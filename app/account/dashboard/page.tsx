@@ -84,7 +84,7 @@ export default function AccountDashboardPage() {
   };
 
   if (loading || !user) {
-    return <div className="max-w-4xl mx-auto px-6 py-24 text-center text-[#6E675C]">Loading...</div>;
+    return <div className="max-w-4xl mx-auto px-6 py-24 text-center text-[#66727A]">Loading...</div>;
   }
 
   return (
@@ -105,45 +105,45 @@ export default function AccountDashboardPage() {
           </h2>
           <form onSubmit={handleSaveProfile}>
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">FULL NAME</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">FULL NAME</label>
               <input
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">PHONE</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">PHONE</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">ADDRESS</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">ADDRESS</label>
               <textarea
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={3}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
             <div className="mb-6">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">CITY</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">CITY</label>
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
             <button
               type="submit"
               disabled={saving}
-              className="bg-[#14120F] text-[#F7F4EF] px-6 py-3 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] transition-colors"
+              className="bg-[#14212B] text-[#F7F5F0] px-6 py-3 text-[13px] tracking-[0.1em] hover:bg-[#B28B52] transition-colors"
             >
               {saving ? "SAVING..." : saved ? "SAVED" : "SAVE DETAILS"}
             </button>
@@ -155,16 +155,16 @@ export default function AccountDashboardPage() {
             Order History
           </h2>
           {orders.length === 0 ? (
-            <p className="text-[#6E675C] text-sm">You have not placed any orders yet.</p>
+            <p className="text-[#66727A] text-sm">You have not placed any orders yet.</p>
           ) : (
             <div className="flex flex-col gap-4">
               {orders.map((order) => (
-                <div key={order.id} className="border border-[#DDD6C8] p-4">
+                <div key={order.id} className="border border-[#D7DDE0] p-4">
                   <div className="flex justify-between mb-2">
                     <p className="font-medium text-sm">Order #{order.order_number}</p>
-                    <p className="text-sm text-[#9C7A44]">৳{order.total_amount}</p>
+                    <p className="text-sm text-[#B28B52]">৳{order.total_amount}</p>
                   </div>
-                  <p className="text-xs text-[#6E675C] uppercase">{order.status}</p>
+                  <p className="text-xs text-[#66727A] uppercase">{order.status}</p>
                   <p className="text-xs text-[#999] mt-1">{new Date(order.created_at).toLocaleDateString()}</p>
                 </div>
               ))}

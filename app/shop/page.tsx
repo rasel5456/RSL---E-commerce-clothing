@@ -35,7 +35,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       </h1>
 
       {error ? <p className="text-red-600">Something went wrong: {error.message}</p> : null}
-      {!error && (!products || products.length === 0) ? <p className="text-[#6E675C]">No products found.</p> : null}
+      {!error && (!products || products.length === 0) ? <p className="text-[#66727A]">No products found.</p> : null}
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
         {products ? products.map((product) => (

@@ -72,7 +72,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
   return (
     <div className="group">
-      <div className="relative aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-3">
+      <div className="relative aspect-[4/5] bg-[#E9EEF0] overflow-hidden mb-3">
         <Link href={`/product/${id}`} aria-label={`View ${name}`} className="absolute inset-0 block">
         <Image
           src={image}
@@ -83,13 +83,13 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         />
 
         {hasDiscount ? (
-          <span className="absolute top-3 left-3 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
+          <span className="absolute top-3 left-3 bg-[#B28B52] text-[#F7F5F0] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
             -{discountPercent}%
           </span>
         ) : null}
 
         {outOfStock ? (
-          <span className="absolute top-3 left-3 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
+          <span className="absolute top-3 left-3 bg-[#14212B] text-[#F7F5F0] text-[10px] tracking-[0.05em] px-2 py-1 z-10">
             OUT OF STOCK
           </span>
         ) : null}
@@ -99,14 +99,14 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         <button
           onClick={handleWishlistToggle}
           aria-label={wishlisted ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
-          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-[#F7F4EF]/90 backdrop-blur z-10"
+          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-[#F7F5F0]/90 backdrop-blur z-10"
         >
           <svg
             width="15"
             height="15"
             viewBox="0 0 24 24"
-            fill={wishlisted ? "#9C7A44" : "none"}
-            stroke={wishlisted ? "#9C7A44" : "#14120F"}
+            fill={wishlisted ? "#B28B52" : "none"}
+            stroke={wishlisted ? "#B28B52" : "#14212B"}
             strokeWidth="1.5"
           >
             <path d="M12 21s-7-4.4-9.5-8.9C.7 8.6 2 5 5.5 5c2 0 3.5 1.2 4.5 2.8C11 6.2 12.5 5 14.5 5 18 5 19.3 8.6 21.5 12.1 19 16.6 12 21 12 21Z" />
@@ -119,7 +119,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
               type="button"
               onClick={handleAddToCart}
               className={`flex-1 py-2.5 text-[10px] tracking-[0.1em] transition-colors ${
-                justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
+                justAdded ? "bg-[#B28B52] text-[#F7F5F0]" : "bg-[#14212B] text-[#F7F5F0] hover:bg-[#B28B52]"
               }`}
             >
               {justAdded ? "ADDED" : "QUICK ADD"}
@@ -128,7 +128,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
             <button
               type="button"
               onClick={handleOrderNow}
-              className="flex-1 py-2.5 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
+              className="flex-1 py-2.5 text-[10px] tracking-[0.1em] bg-[#B28B52] text-[#F7F5F0] hover:bg-[#14212B] transition-colors border-l border-[#F7F5F0]/30"
             >
               ORDER NOW
             </button>
@@ -138,21 +138,21 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
 
       <div style={{ fontFamily: "var(--font-sans)" }}>
         <Link href={`/product/${id}`}>
-          <h3 className="text-sm text-[#14120F] mb-1 hover:text-[#9C7A44] transition-colors line-clamp-2 leading-snug min-h-[2.5em]">{name}</h3>
+          <h3 className="text-sm text-[#14212B] mb-1 hover:text-[#B28B52] transition-colors line-clamp-2 leading-snug min-h-[2.5em]">{name}</h3>
         </Link>
 
         <p className="text-sm mb-1">
           {hasDiscount ? (
             <>
-              <span className="text-[#6E675C] line-through mr-2">৳{price.toLocaleString()}</span>
-              <span className="text-[#9C7A44] font-medium">৳{discountPrice!.toLocaleString()}</span>
+              <span className="text-[#66727A] line-through mr-2">৳{price.toLocaleString()}</span>
+              <span className="text-[#B28B52] font-medium">৳{discountPrice!.toLocaleString()}</span>
             </>
           ) : (
-            <span className="text-[#3A3630]">৳{price.toLocaleString()}</span>
+            <span className="text-[#334651]">৳{price.toLocaleString()}</span>
           )}
         </p>
 
-        <p className="text-[11px] text-[#6E675C]">
+        <p className="text-[11px] text-[#66727A]">
           {outOfStock ? "Currently unavailable" : `${stock} in stock`}
           {displaySold > 0 ? <> &middot; {displaySold} sold</> : null}
         </p>

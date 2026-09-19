@@ -88,18 +88,18 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   return (
     <div
-      className="min-h-screen bg-[#F7F4EF] text-[#14120F]"
+      className="min-h-screen bg-[#F7F5F0] text-[#14212B]"
       style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}
     >
       <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8">
-        <nav className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-[#6E675C] mb-8">
-          <Link href="/" className="hover:text-[#9C7A44] transition-colors">HOME</Link>
+        <nav className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-[#66727A] mb-8">
+          <Link href="/" className="hover:text-[#B28B52] transition-colors">HOME</Link>
           <span>/</span>
-          <Link href="/shop" className="hover:text-[#9C7A44] transition-colors">SHOP</Link>
+          <Link href="/shop" className="hover:text-[#B28B52] transition-colors">SHOP</Link>
           {product.category ? (
             <>
               <span>/</span>
-              <span className="text-[#14120F]">{product.category.toUpperCase()}</span>
+              <span className="text-[#14212B]">{product.category.toUpperCase()}</span>
             </>
           ) : null}
         </nav>
@@ -107,7 +107,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
       <div className="max-w-6xl mx-auto px-6 md:px-10 pb-24 grid md:grid-cols-2 gap-14 md:gap-20">
         <div>
-          <div className="aspect-[4/5] bg-[#EFEAE0] overflow-hidden mb-4 relative">
+          <div className="aspect-[4/5] bg-[#E9EEF0] overflow-hidden mb-4 relative">
             <Image
               src={selectedImage}
               alt={imageAlt}
@@ -117,12 +117,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               className="object-cover transition-opacity duration-300"
             />
             {hasDiscount && !outOfStock ? (
-              <span className="absolute top-5 left-5 bg-[#9C7A44] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
+              <span className="absolute top-5 left-5 bg-[#B28B52] text-[#F7F5F0] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
                 SALE
               </span>
             ) : null}
             {outOfStock ? (
-              <span className="absolute top-5 left-5 bg-[#14120F] text-[#F7F4EF] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
+              <span className="absolute top-5 left-5 bg-[#14212B] text-[#F7F5F0] text-[10px] tracking-[0.15em] px-3 py-1.5 z-10">
                 OUT OF STOCK
               </span>
             ) : null}
@@ -135,7 +135,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   key={color}
                   onClick={() => handleColorSelect(color)}
                   className={`relative w-20 h-24 overflow-hidden border-2 transition-colors ${
-                    selectedColor === color ? "border-[#14120F]" : "border-[#DDD6C8] hover:border-[#9C7A44]"
+                    selectedColor === color ? "border-[#14212B]" : "border-[#D7DDE0] hover:border-[#B28B52]"
                   }`}
                 >
                   <Image src={colorImages[color] || fallbackImage} alt={product.name + " in " + color} fill sizes="80px" className="object-cover" />
@@ -147,7 +147,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
         <div style={{ fontFamily: "var(--font-sans)" }}>
           {product.category ? (
-            <p className="text-[11px] tracking-[0.2em] text-[#9C7A44] mb-3">{product.category.toUpperCase()}</p>
+            <p className="text-[11px] tracking-[0.2em] text-[#B28B52] mb-3">{product.category.toUpperCase()}</p>
           ) : null}
 
           <h1 className="text-3xl md:text-4xl mb-4 leading-tight" style={{ fontFamily: "var(--font-display)" }}>
@@ -157,22 +157,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <p className="text-xl mb-8">
             {hasDiscount ? (
               <>
-                <span className="text-[#6E675C] line-through mr-3 text-base">৳{product.price}</span>
-                <span className="text-[#9C7A44]">৳{product.discount_price}</span>
+                <span className="text-[#66727A] line-through mr-3 text-base">৳{product.price}</span>
+                <span className="text-[#B28B52]">৳{product.discount_price}</span>
               </>
             ) : (
-              <span className="text-[#14120F]">৳{product.price}</span>
+              <span className="text-[#14212B]">৳{product.price}</span>
             )}
           </p>
 
           {product.description ? (
-            <p className="text-[#6E675C] mb-10 leading-relaxed max-w-md">{product.description}</p>
+            <p className="text-[#66727A] mb-10 leading-relaxed max-w-md">{product.description}</p>
           ) : null}
 
           {colors.length > 0 ? (
             <div className="mb-7">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
-                COLOR{selectedColor ? <span className="text-[#14120F] ml-2">&mdash; {selectedColor}</span> : null}
+              <p className="text-[11px] tracking-[0.15em] text-[#66727A] mb-3">
+                COLOR{selectedColor ? <span className="text-[#14212B] ml-2">&mdash; {selectedColor}</span> : null}
               </p>
               <div className="flex flex-wrap gap-2">
                 {colors.map((color) => (
@@ -181,8 +181,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     onClick={() => handleColorSelect(color)}
                     className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 border transition-colors ${
                       selectedColor === color
-                        ? "border-[#14120F] bg-[#14120F] text-[#F7F4EF]"
-                        : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
+                        ? "border-[#14212B] bg-[#14212B] text-[#F7F5F0]"
+                        : "border-[#D7DDE0] text-[#334651] hover:border-[#B28B52]"
                     }`}
                   >
                     <span className="relative w-8 h-8 overflow-hidden flex-shrink-0">
@@ -197,8 +197,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {sizes.length > 0 ? (
             <div className="mb-7">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">
-                SIZE{selectedSize ? <span className="text-[#14120F] ml-2">&mdash; {selectedSize}</span> : null}
+              <p className="text-[11px] tracking-[0.15em] text-[#66727A] mb-3">
+                SIZE{selectedSize ? <span className="text-[#14212B] ml-2">&mdash; {selectedSize}</span> : null}
               </p>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((size) => (
@@ -207,8 +207,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     onClick={() => { setSelectedSize(size); setSizeError(false); }}
                     className={`w-12 h-12 text-sm border transition-colors ${
                       selectedSize === size
-                        ? "border-[#14120F] bg-[#14120F] text-[#F7F4EF]"
-                        : "border-[#DDD6C8] text-[#3A3630] hover:border-[#9C7A44]"
+                        ? "border-[#14212B] bg-[#14212B] text-[#F7F5F0]"
+                        : "border-[#D7DDE0] text-[#334651] hover:border-[#B28B52]"
                     }`}
                   >
                     {size}
@@ -221,13 +221,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {!outOfStock ? (
             <div className="mb-8">
-              <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">QUANTITY <span className="text-[#9C7A44] ml-2">({stock} in stock)</span></p>
-              <div className="flex items-center border border-[#DDD6C8] w-fit">
+              <p className="text-[11px] tracking-[0.15em] text-[#66727A] mb-3">QUANTITY <span className="text-[#B28B52] ml-2">({stock} in stock)</span></p>
+              <div className="flex items-center border border-[#D7DDE0] w-fit">
                 <button
                   type="button"
                   aria-label="Decrease quantity"
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
+                  className="w-11 h-11 hover:bg-[#E9EEF0] transition-colors text-lg"
                 >
                   -
                 </button>
@@ -236,7 +236,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   type="button"
                   aria-label="Increase quantity"
                   onClick={() => setQuantity((q) => Math.min(stock, q + 1))}
-                  className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
+                  className="w-11 h-11 hover:bg-[#E9EEF0] transition-colors text-lg"
                 >
                   +
                 </button>
@@ -245,7 +245,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           ) : null}
 
           {outOfStock ? (
-            <div className="w-full py-4 text-center text-[13px] tracking-[0.1em] bg-[#EFEAE0] text-[#6E675C]">
+            <div className="w-full py-4 text-center text-[13px] tracking-[0.1em] bg-[#E9EEF0] text-[#66727A]">
               CURRENTLY OUT OF STOCK
             </div>
           ) : (
@@ -254,7 +254,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 type="button"
                 onClick={handleAddToCart}
                 className={`w-full py-4 text-[13px] tracking-[0.1em] transition-colors ${
-                  justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
+                  justAdded ? "bg-[#B28B52] text-[#F7F5F0]" : "bg-[#14212B] text-[#F7F5F0] hover:bg-[#B28B52]"
                 }`}
               >
                 {justAdded ? "ADDED TO CART" : "ADD TO CART"}
@@ -263,14 +263,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={handleOrderNow}
-                className="w-full py-4 text-[13px] tracking-[0.1em] border-2 border-[#14120F] text-[#14120F] hover:bg-[#14120F] hover:text-[#F7F4EF] transition-colors"
+                className="w-full py-4 text-[13px] tracking-[0.1em] border-2 border-[#14212B] text-[#14212B] hover:bg-[#14212B] hover:text-[#F7F5F0] transition-colors"
               >
                 ORDER NOW
               </button>
             </div>
           )}
 
-          <div className="border-t border-[#DDD6C8] pt-6 flex flex-col gap-3 text-[13px] text-[#6E675C]">
+          <div className="border-t border-[#D7DDE0] pt-6 flex flex-col gap-3 text-[13px] text-[#66727A]">
             <div className="flex items-center gap-3">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="flex-shrink-0"><rect x="1" y="7" width="15" height="13" rx="1"></rect><path d="M16 10h3l3 3v4h-6z"></path><circle cx="5.5" cy="20.5" r="1.5"></circle><circle cx="18.5" cy="20.5" r="1.5"></circle></svg>
               Cash on Delivery available across Bangladesh

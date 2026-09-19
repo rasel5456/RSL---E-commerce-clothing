@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       {error ? <p className="text-red-600">Something went wrong: {error.message}</p> : null}
 
       {!error && (!products || products.length === 0) ? (
-        <p className="text-[#6E675C]">No products found matching your search.</p>
+        <p className="text-[#66727A]">No products found matching your search.</p>
       ) : null}
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">

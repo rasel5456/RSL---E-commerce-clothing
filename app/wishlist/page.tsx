@@ -13,15 +13,15 @@ export default function WishlistPage() {
       </h1>
 
       {wishlistItems.length === 0 ? (
-        <p className="text-[#6E675C]">Your wishlist is empty.</p>
+        <p className="text-[#66727A]">Your wishlist is empty.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {wishlistItems.map((item) => (
-            <div key={item.id} className="border border-[#DDD6C8] rounded p-3">
+            <div key={item.id} className="border border-[#D7DDE0] rounded p-3">
               <Link href={"/product/" + item.id}>
                 <img src={item.image} alt={item.name} className="w-full h-48 object-cover mb-2 rounded" />
                 <p className="text-sm font-medium">{item.name}</p>
-                <p className="text-sm text-[#9C7A44]">৳{item.price}</p>
+                <p className="text-sm text-[#B28B52]">৳{item.price}</p>
               </Link>
               <button
                 onClick={() => removeFromWishlist(item.id)}

@@ -27,7 +27,7 @@ interface Order {
 const statusOptions = ["pending", "shipped", "delivered", "cancelled"];
 
 const statusColors: { [key: string]: string } = {
-  pending: "#9C7A44",
+  pending: "#B28B52",
   shipped: "#3A6EA5",
   delivered: "#2E7D32",
   cancelled: "#C0392B",
@@ -100,7 +100,7 @@ export default function AdminOrdersPage() {
                 </div>
 
                 <div style={{ textAlign: "right" }}>
-                  <p style={{ margin: 0, fontWeight: "bold", color: "#9C7A44" }}>Taka {order.total_amount}</p>
+                  <p style={{ margin: 0, fontWeight: "bold", color: "#B28B52" }}>Taka {order.total_amount}</p>
                   <p style={{ margin: "4px 0", fontSize: "12px", color: "#999" }}>
                     {new Date(order.created_at).toLocaleString()}
                   </p>

@@ -21,7 +21,7 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-[#F7F4EF]/90 backdrop-blur-xl border-b border-[#DDD6C8]/80">
+    <header className="sticky top-0 z-40 bg-[#F7F5F0]/90 backdrop-blur-xl border-b border-[#D7DDE0]/80">
       <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-10 py-4 md:py-5 flex items-center justify-between gap-5">
         <button
           onClick={() => setMenuOpen(true)}
@@ -36,19 +36,19 @@ export default function SiteHeader() {
           <span className="text-2xl md:text-3xl tracking-[0.22em]" style={{ fontFamily: "var(--font-display)" }}>RSL</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-[10px] tracking-[0.16em] text-[#3A3630]">
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-[10px] tracking-[0.16em] text-[#334651]">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="relative py-2 after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-[#9C7A44] after:transition-transform hover:after:scale-x-100 hover:text-[#9C7A44] transition-colors"
+              className="relative py-2 after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-[#B28B52] after:transition-transform hover:after:scale-x-100 hover:text-[#B28B52] transition-colors"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-4 md:gap-5 text-[#14120F]">
+        <div className="flex items-center gap-4 md:gap-5 text-[#14212B]">
           <SearchBox />
           <AccountIcon />
           <WishlistIcon />
@@ -57,8 +57,8 @@ export default function SiteHeader() {
       </div>
 
       {menuOpen ? (
-        <div className="md:hidden fixed inset-0 z-50" style={{ backgroundColor: "#F7F4EF" }}>
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#DDD6C8]">
+        <div className="md:hidden fixed inset-0 z-50" style={{ backgroundColor: "#F7F5F0" }}>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#D7DDE0]">
             <span className="text-2xl tracking-[0.2em]" style={{ fontFamily: "var(--font-display)" }}>RSL</span>
             <button onClick={() => setMenuOpen(false)} aria-label="Close menu">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
@@ -71,7 +71,7 @@ export default function SiteHeader() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-2.5 border border-[#DDD6C8] rounded hover:border-[#9C7A44] hover:bg-white transition-colors text-sm"
+                className="px-4 py-2.5 border border-[#D7DDE0] rounded hover:border-[#B28B52] hover:bg-white transition-colors text-sm"
               >
                 {link.label}
               </Link>

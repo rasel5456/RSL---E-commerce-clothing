@@ -93,7 +93,7 @@ export default function AddBannerPage() {
               onChange={handleImageUpload}
               disabled={uploading}
             />
-            {uploading && <p style={{ color: "#9C7A44" }}>Uploading...</p>}
+            {uploading && <p style={{ color: "#B28B52" }}>Uploading...</p>}
           </div>
 
           {imageUrl && (
@@ -168,7 +168,7 @@ export default function AddBannerPage() {
           disabled={loading || uploading}
           style={{
             padding: "10px 20px",
-            backgroundColor: "#9C7A44",
+            backgroundColor: "#B28B52",
             color: "white",
             border: "none",
             borderRadius: "5px",

@@ -270,7 +270,7 @@ export default function EditProductPage() {
                   alignItems: "center",
                   gap: "6px",
                   padding: "6px 12px",
-                  border: selectedSizes.includes(size) ? "2px solid #9C7A44" : "1px solid #ddd",
+                  border: selectedSizes.includes(size) ? "2px solid #B28B52" : "1px solid #ddd",
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
@@ -303,7 +303,7 @@ export default function EditProductPage() {
             <label
               style={{
                 padding: "8px 14px",
-                backgroundColor: uploadingColorImage ? "#ccc" : "#9C7A44",
+                backgroundColor: uploadingColorImage ? "#ccc" : "#B28B52",
                 color: "white",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -360,7 +360,7 @@ export default function EditProductPage() {
             disabled={loading || uploadingColorImage}
             style={{
               padding: "10px 20px",
-              backgroundColor: "#9C7A44",
+              backgroundColor: "#B28B52",
               color: "white",
               border: "none",
               borderRadius: "5px",

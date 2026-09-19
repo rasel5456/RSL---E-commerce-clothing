@@ -82,7 +82,7 @@ export default function AdminSettingsPage() {
           disabled={saving}
           style={{
             padding: "10px 20px",
-            backgroundColor: "#9C7A44",
+            backgroundColor: "#B28B52",
             color: "white",
             border: "none",
             borderRadius: "5px",

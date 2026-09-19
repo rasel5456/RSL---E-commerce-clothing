@@ -42,14 +42,14 @@ export default function CategorySlider({ title, products }: CategorySliderProps)
           <button
             onClick={() => scroll("left")}
             aria-label="Scroll left"
-            className="w-9 h-9 flex items-center justify-center border border-[#DDD6C8] hover:border-[#9C7A44] hover:text-[#9C7A44] transition-colors"
+            className="w-9 h-9 flex items-center justify-center border border-[#D7DDE0] hover:border-[#B28B52] hover:text-[#B28B52] transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"></path></svg>
           </button>
           <button
             onClick={() => scroll("right")}
             aria-label="Scroll right"
-            className="w-9 h-9 flex items-center justify-center border border-[#DDD6C8] hover:border-[#9C7A44] hover:text-[#9C7A44] transition-colors"
+            className="w-9 h-9 flex items-center justify-center border border-[#D7DDE0] hover:border-[#B28B52] hover:text-[#B28B52] transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"></path></svg>
           </button>

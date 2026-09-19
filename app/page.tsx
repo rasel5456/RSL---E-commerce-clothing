@@ -95,16 +95,16 @@ export default async function Home() {
   };
 
   return (
-    <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F4EF] text-[#14120F]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
-      <div className="bg-[#14120F] text-[#F7F4EF] text-center text-[10px] sm:text-[11px] tracking-[0.16em] py-2.5 px-4" role="note">
-        <span className="text-[#D9B879]">RSL / 01</span>&nbsp;&nbsp; FREE SHIPPING ON ORDERS OVER ৳2,000 &nbsp;·&nbsp; DELIVERY ACROSS BANGLADESH
+    <div className={display.variable + " " + bangla.variable + " " + sans.variable + " min-h-screen bg-[#F7F5F0] text-[#14212B]"} style={{ fontFamily: "var(--font-bangla), var(--font-sans), sans-serif" }}>
+      <div className="bg-[#14212B] text-[#F7F5F0] text-center text-[10px] sm:text-[11px] tracking-[0.16em] py-2.5 px-4" role="note">
+        <span className="text-[#D8B878]">RSL / 01</span>&nbsp;&nbsp; FREE SHIPPING ON ORDERS OVER ৳2,000 &nbsp;·&nbsp; DELIVERY ACROSS BANGLADESH
       </div>
 
       <SiteHeader />
       <h1 className="sr-only">RSL - Premium Fashion Store in Bangladesh</h1>
 
       {banners && banners.length > 0 ? <BannerCarousel banners={banners} /> : (
-        <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 text-center text-[#6E675C]">
+        <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 text-center text-[#66727A]">
           Ekhono kono Banner jog kora hoyni. Admin Panel theke Banner jog korun.
         </section>
       )}
@@ -112,21 +112,21 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-32">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 md:mb-12">
           <div>
-            <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-3">CURATED WORLDS</p>
+            <p className="text-[10px] tracking-[0.25em] text-[#B28B52] mb-3">CURATED WORLDS</p>
             <h2 className="text-4xl md:text-5xl leading-none" style={{ fontFamily: "var(--font-display)" }}>Shop by category</h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-[#6E675C]" style={{ fontFamily: "var(--font-sans)" }}>Modern silhouettes and everyday pieces, selected for your wardrobe.</p>
+          <p className="max-w-xs text-sm leading-relaxed text-[#66727A]" style={{ fontFamily: "var(--font-sans)" }}>Modern silhouettes and everyday pieces, selected for your wardrobe.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-3 md:gap-5">
           {categories.map(function (cat, index) {
             return (
-              <a key={cat.label} href={cat.href} className="group relative h-[360px] sm:h-[440px] overflow-hidden flex items-end p-6 md:p-8 bg-[#DDD6C8]">
+              <a key={cat.label} href={cat.href} className="group relative h-[360px] sm:h-[440px] overflow-hidden flex items-end p-6 md:p-8 bg-[#D7DDE0]">
                 <Image src={cat.image} alt={cat.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/85 via-[#14120F]/10 to-transparent" />
-                <span className="absolute top-5 right-5 text-[10px] tracking-[0.2em] text-[#F7F4EF]/80">0{index + 1}</span>
-                <div className="relative text-[#F7F4EF]">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#14212B]/85 via-[#14212B]/10 to-transparent" />
+                <span className="absolute top-5 right-5 text-[10px] tracking-[0.2em] text-[#F7F5F0]/80">0{index + 1}</span>
+                <div className="relative text-[#F7F5F0]">
                   <span className="block text-3xl md:text-4xl mb-3 tracking-[0.04em]" style={{ fontFamily: "var(--font-display)" }}>{cat.label}</span>
-                  <span className="inline-flex items-center gap-3 text-[10px] tracking-[0.18em] border-b border-[#F7F4EF]/60 pb-2 group-hover:border-[#D9B879] transition-colors">EXPLORE <span aria-hidden="true" className="text-base leading-none transition-transform group-hover:translate-x-1">→</span></span>
+                  <span className="inline-flex items-center gap-3 text-[10px] tracking-[0.18em] border-b border-[#F7F5F0]/60 pb-2 group-hover:border-[#D8B878] transition-colors">EXPLORE <span aria-hidden="true" className="text-base leading-none transition-transform group-hover:translate-x-1">→</span></span>
                 </div>
               </a>
             );
@@ -134,18 +134,18 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="new-arrivals" className="bg-[#EDE8DF] border-y border-[#DDD6C8]">
+      <section id="new-arrivals" className="bg-[#EEF1F2] border-y border-[#D7DDE0]">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-28">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10 md:mb-12">
           <div>
-            <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-3">THE LATEST EDIT</p>
+            <p className="text-[10px] tracking-[0.25em] text-[#B28B52] mb-3">THE LATEST EDIT</p>
             <h2 className="text-4xl md:text-5xl leading-none" style={{ fontFamily: "var(--font-display)" }}>New arrivals</h2>
           </div>
-          <a href="/shop" className="self-start md:self-end inline-flex items-center gap-3 text-[11px] tracking-[0.14em] text-[#6E675C] hover:text-[#9C7A44] transition-colors border-b border-[#6E675C]/40 pb-2">VIEW ALL <span aria-hidden="true" className="text-base">→</span></a>
+          <a href="/shop" className="self-start md:self-end inline-flex items-center gap-3 text-[11px] tracking-[0.14em] text-[#66727A] hover:text-[#B28B52] transition-colors border-b border-[#66727A]/40 pb-2">VIEW ALL <span aria-hidden="true" className="text-base">→</span></a>
         </div>
 
         {error ? <p className="text-red-600">Product load korte somossa hoyeche: {error.message}</p> : null}
-        {!error && (!products || products.length === 0) ? <p className="text-[#6E675C]">Ekhono kono product jog kora hoyni.</p> : null}
+        {!error && (!products || products.length === 0) ? <p className="text-[#66727A]">Ekhono kono product jog kora hoyni.</p> : null}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-10">
           {products.map(function (product) {
@@ -173,34 +173,34 @@ export default async function Home() {
       })}
 
       <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-24 md:py-36 grid md:grid-cols-[1.05fr_0.95fr] gap-12 md:gap-20 items-center">
-        <div className="relative h-[420px] md:h-[560px] overflow-hidden bg-[#DDD6C8]">
+        <div className="relative h-[420px] md:h-[560px] overflow-hidden bg-[#D7DDE0]">
           <Image src={newestProduct?.images?.[0] || placeholderImg} alt="RSL everyday collection" fill sizes="(max-width: 768px) 100vw, 55vw" className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/30 to-transparent" />
-          <span className="absolute left-6 bottom-6 text-[10px] tracking-[0.2em] text-[#F7F4EF]">RSL / EVERYDAY 01</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14212B]/30 to-transparent" />
+          <span className="absolute left-6 bottom-6 text-[10px] tracking-[0.2em] text-[#F7F5F0]">RSL / EVERYDAY 01</span>
         </div>
         <div>
-          <p className="text-[10px] tracking-[0.25em] text-[#9C7A44] mb-5">THE RSL POINT OF VIEW</p>
+          <p className="text-[10px] tracking-[0.25em] text-[#B28B52] mb-5">THE RSL POINT OF VIEW</p>
           <h2 className="text-4xl md:text-6xl leading-[0.98] mb-8" style={{ fontFamily: "var(--font-display)" }}>Quiet confidence, made for every day.</h2>
-          <p className="text-[#6E675C] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL শুরু হয়েছে একটি বিশ্বাস থেকে—সাধারণ পোশাক ও যত্নশীল কারুকাজ মিলেই অসাধারণ হয়ে ওঠে।</p>
-          <a href="/about" className="inline-flex items-center gap-4 text-[11px] tracking-[0.16em] border-b border-[#14120F] pb-2 hover:text-[#9C7A44] hover:border-[#9C7A44] transition-colors">READ OUR STORY <span aria-hidden="true" className="text-base">→</span></a>
+          <p className="text-[#66727A] mb-10 max-w-md leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>RSL শুরু হয়েছে একটি বিশ্বাস থেকে—সাধারণ পোশাক ও যত্নশীল কারুকাজ মিলেই অসাধারণ হয়ে ওঠে।</p>
+          <a href="/about" className="inline-flex items-center gap-4 text-[11px] tracking-[0.16em] border-b border-[#14212B] pb-2 hover:text-[#B28B52] hover:border-[#B28B52] transition-colors">READ OUR STORY <span aria-hidden="true" className="text-base">→</span></a>
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-28 md:py-40 px-6 text-center" style={{ background: "radial-gradient(circle at 50% 0%, #3B342B 0%, #221F1B 36%, #14120F 78%)" }}>
+      <section className="relative overflow-hidden py-28 md:py-40 px-6 text-center" style={{ background: "radial-gradient(circle at 50% 0%, #284558 0%, #0F2637 36%, #14212B 78%)" }}>
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(247,244,239,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(247,244,239,.18) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
         <div className="relative">
-        <p className="text-[10px] tracking-[0.28em] text-[#D9B879] mb-5">SIGNATURE COLLECTION / 01</p>
-        <h2 className="text-5xl md:text-8xl leading-[0.9] text-[#F7F4EF] mb-7" style={{ fontFamily: "var(--font-display)" }}>The everyday<br /><em>collection.</em></h2>
-        <p className="text-[#F7F4EF]/70 mb-10" style={{ fontFamily: "var(--font-sans)" }}>Designed for every version of you.</p>
-        <a href="/shop" className="inline-flex items-center gap-4 bg-[#F7F4EF] text-[#14120F] px-8 py-4 text-[11px] tracking-[0.16em] hover:bg-[#D9B879] transition-colors">EXPLORE COLLECTION <span aria-hidden="true" className="text-base">→</span></a>
+        <p className="text-[10px] tracking-[0.28em] text-[#D8B878] mb-5">SIGNATURE COLLECTION / 01</p>
+        <h2 className="text-5xl md:text-8xl leading-[0.9] text-[#F7F5F0] mb-7" style={{ fontFamily: "var(--font-display)" }}>The everyday<br /><em>collection.</em></h2>
+        <p className="text-[#F7F5F0]/70 mb-10" style={{ fontFamily: "var(--font-sans)" }}>Designed for every version of you.</p>
+        <a href="/shop" className="inline-flex items-center gap-4 bg-[#F7F5F0] text-[#14212B] px-8 py-4 text-[11px] tracking-[0.16em] hover:bg-[#D8B878] transition-colors">EXPLORE COLLECTION <span aria-hidden="true" className="text-base">→</span></a>
         </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-10 py-20 md:py-28 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10 md:gap-5">
         {whyItems.map(function (item) {
           return (
-            <div key={item.label} className="text-center md:text-left md:border-l md:border-[#DDD6C8] md:pl-6">
-              <div className="w-12 h-12 mb-4 flex items-center justify-center border border-[#9C7A44] rounded-full text-[#9C7A44] mx-auto md:mx-0">
+            <div key={item.label} className="text-center md:text-left md:border-l md:border-[#D7DDE0] md:pl-6">
+              <div className="w-12 h-12 mb-4 flex items-center justify-center border border-[#B28B52] rounded-full text-[#B28B52] mx-auto md:mx-0">
                 {iconMap[item.icon]}
               </div>
               <p className="text-[12px] leading-relaxed tracking-[0.03em]" style={{ fontFamily: "var(--font-sans)" }}>{item.label}</p>
@@ -209,52 +209,52 @@ export default async function Home() {
         })}
       </section>
 
-      <section className="bg-[#14120F] text-[#F7F4EF] py-24 px-6 text-center">
+      <section className="bg-[#14212B] text-[#F7F5F0] py-24 px-6 text-center">
         <h2 className="text-2xl md:text-3xl mb-3" style={{ fontFamily: "var(--font-display)" }}>Stay In The Loop</h2>
-        <p className="text-[#F7F4EF]/70 max-w-md mx-auto mb-8 text-sm" style={{ fontFamily: "var(--font-sans)" }}>Be the first to discover new drops, exclusive collections and special offers.</p>
-        <form action="mailto:rslbdshop@gmail.com" method="post" encType="text/plain" className="flex max-w-sm mx-auto border-b border-[#F7F4EF]/40">
+        <p className="text-[#F7F5F0]/70 max-w-md mx-auto mb-8 text-sm" style={{ fontFamily: "var(--font-sans)" }}>Be the first to discover new drops, exclusive collections and special offers.</p>
+        <form action="mailto:rslbdshop@gmail.com" method="post" encType="text/plain" className="flex max-w-sm mx-auto border-b border-[#F7F5F0]/40">
           <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-          <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" className="flex-1 bg-transparent py-3 text-sm placeholder:text-[#F7F4EF]/40 focus:outline-none" />
-          <button type="submit" className="text-[12px] tracking-[0.1em] px-3 hover:text-[#9C7A44] transition-colors">SUBSCRIBE</button>
+          <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" className="flex-1 bg-transparent py-3 text-sm placeholder:text-[#F7F5F0]/40 focus:outline-none" />
+          <button type="submit" className="text-[12px] tracking-[0.1em] px-3 hover:text-[#B28B52] transition-colors">SUBSCRIBE</button>
         </form>
       </section>
 
-      <footer className="border-t border-[#DDD6C8] px-6 md:px-10 py-16">
+      <footer className="border-t border-[#D7DDE0] px-6 md:px-10 py-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-10 mb-12">
           <div className="md:col-span-2">
             <p className="text-2xl tracking-[0.2em] mb-2" style={{ fontFamily: "var(--font-display)" }}>RSL</p>
-            <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-4">EST. 2026</p>
+            <p className="text-[11px] tracking-[0.15em] text-[#66727A] mb-4">EST. 2026</p>
             <div className="flex gap-4">
-              <a href="https://wa.me/8801409000421" target="_blank" rel="noopener noreferrer" className="hover:text-[#9C7A44] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2m0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.27-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.25 8.24m4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.43-.06-.13-.56-1.36-.77-1.86-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31s-.87.85-.87 2.07.89 2.4 1.02 2.57c.12.16 1.75 2.68 4.25 3.75.59.26 1.06.41 1.42.53.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29"/></svg></a>
-              <a href="https://www.facebook.com/share/18S865vmAM/" target="_blank" rel="noopener noreferrer" className="hover:text-[#9C7A44] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.45 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94"/></svg></a>
-              <a href="mailto:rslbdshop@gmail.com" className="hover:text-[#9C7A44] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg></a>
+              <a href="https://wa.me/8801409000421" target="_blank" rel="noopener noreferrer" className="hover:text-[#B28B52] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2m0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.27-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.25 8.24m4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.43-.06-.13-.56-1.36-.77-1.86-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31s-.87.85-.87 2.07.89 2.4 1.02 2.57c.12.16 1.75 2.68 4.25 3.75.59.26 1.06.41 1.42.53.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29"/></svg></a>
+              <a href="https://www.facebook.com/share/18S865vmAM/" target="_blank" rel="noopener noreferrer" className="hover:text-[#B28B52] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.45 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94"/></svg></a>
+              <a href="mailto:rslbdshop@gmail.com" className="hover:text-[#B28B52] transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg></a>
             </div>
           </div>
           <div>
-            <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">SHOP</p>
-            <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/shop?gender=men" className="hover:text-[#9C7A44]">Men</a></li>
-              <li><a href="/shop?gender=women" className="hover:text-[#9C7A44]">Women</a></li>
-              <li><a href="/shop" className="hover:text-[#9C7A44]">New Arrivals</a></li>
+            <p className="text-[11px] tracking-[0.15em] text-[#B28B52] mb-4">SHOP</p>
+            <ul className="space-y-2 text-sm text-[#334651]">
+              <li><a href="/shop?gender=men" className="hover:text-[#B28B52]">Men</a></li>
+              <li><a href="/shop?gender=women" className="hover:text-[#B28B52]">Women</a></li>
+              <li><a href="/shop" className="hover:text-[#B28B52]">New Arrivals</a></li>
             </ul>
           </div>
           <div>
-            <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">SUPPORT</p>
-            <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/support" className="hover:text-[#9C7A44]">Customer Support</a></li>
-              <li><a href="/shipping-returns" className="hover:text-[#9C7A44]">Shipping & Returns</a></li>
-              <li><a href="/about" className="hover:text-[#9C7A44]">About RSL</a></li>
+            <p className="text-[11px] tracking-[0.15em] text-[#B28B52] mb-4">SUPPORT</p>
+            <ul className="space-y-2 text-sm text-[#334651]">
+              <li><a href="/support" className="hover:text-[#B28B52]">Customer Support</a></li>
+              <li><a href="/shipping-returns" className="hover:text-[#B28B52]">Shipping & Returns</a></li>
+              <li><a href="/about" className="hover:text-[#B28B52]">About RSL</a></li>
             </ul>
           </div>
           <div>
-            <p className="text-[11px] tracking-[0.15em] text-[#9C7A44] mb-4">LEGAL</p>
-            <ul className="space-y-2 text-sm text-[#3A3630]">
-              <li><a href="/privacy-policy" className="hover:text-[#9C7A44]">Privacy Policy</a></li>
-              <li><a href="/terms" className="hover:text-[#9C7A44]">Terms & Conditions</a></li>
+            <p className="text-[11px] tracking-[0.15em] text-[#B28B52] mb-4">LEGAL</p>
+            <ul className="space-y-2 text-sm text-[#334651]">
+              <li><a href="/privacy-policy" className="hover:text-[#B28B52]">Privacy Policy</a></li>
+              <li><a href="/terms" className="hover:text-[#B28B52]">Terms & Conditions</a></li>
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto border-t border-[#DDD6C8] pt-6 text-center text-[12px] text-[#6E675C]">
+        <div className="max-w-7xl mx-auto border-t border-[#D7DDE0] pt-6 text-center text-[12px] text-[#66727A]">
           © 2026 RSL. সর্বস্বত্ব সংরক্ষিত।
         </div>
       </footer>

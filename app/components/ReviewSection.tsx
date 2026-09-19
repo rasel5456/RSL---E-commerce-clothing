@@ -64,17 +64,17 @@ export default function ReviewSection({ productId, initialReviews }: ReviewSecti
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 md:px-10 py-16 border-t border-[#DDD6C8]">
+    <div className="max-w-6xl mx-auto px-6 md:px-10 py-16 border-t border-[#D7DDE0]">
       <h2 className="text-2xl mb-2" style={{ fontFamily: "var(--font-display)" }}>
         Customer Reviews
       </h2>
 
       {averageRating ? (
-        <p className="text-[#6E675C] mb-8">
+        <p className="text-[#66727A] mb-8">
           {averageRating} out of 5 ({reviews.length} review{reviews.length > 1 ? "s" : ""})
         </p>
       ) : (
-        <p className="text-[#6E675C] mb-8">No reviews yet. Be the first to review this product.</p>
+        <p className="text-[#66727A] mb-8">No reviews yet. Be the first to review this product.</p>
       )}
 
       <div className="grid md:grid-cols-2 gap-12">
@@ -82,12 +82,12 @@ export default function ReviewSection({ productId, initialReviews }: ReviewSecti
           {reviews.length === 0 ? null : (
             <div className="flex flex-col gap-6">
               {reviews.map((review) => (
-                <div key={review.id} className="border-b border-[#DDD6C8] pb-6">
+                <div key={review.id} className="border-b border-[#D7DDE0] pb-6">
                   <div className="flex items-center justify-between mb-1">
                     <p className="font-medium text-sm">{review.customer_name}</p>
-                    <p className="text-[#9C7A44] text-sm">{"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}</p>
+                    <p className="text-[#B28B52] text-sm">{"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}</p>
                   </div>
-                  <p className="text-[#6E675C] text-sm">{review.comment}</p>
+                  <p className="text-[#66727A] text-sm">{review.comment}</p>
                 </div>
               ))}
             </div>
@@ -101,28 +101,28 @@ export default function ReviewSection({ productId, initialReviews }: ReviewSecti
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">YOUR NAME</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">YOUR NAME</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
 
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">EMAIL (optional)</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">EMAIL (optional)</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
 
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">RATING</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">RATING</label>
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -138,13 +138,13 @@ export default function ReviewSection({ productId, initialReviews }: ReviewSecti
             </div>
 
             <div className="mb-4">
-              <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">YOUR REVIEW</label>
+              <label className="text-[11px] tracking-[0.15em] text-[#66727A] mb-2 block">YOUR REVIEW</label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 required
                 rows={4}
-                className="w-full border border-[#DDD6C8] px-4 py-2.5 focus:outline-none focus:border-[#9C7A44]"
+                className="w-full border border-[#D7DDE0] px-4 py-2.5 focus:outline-none focus:border-[#B28B52]"
               />
             </div>
 
@@ -154,7 +154,7 @@ export default function ReviewSection({ productId, initialReviews }: ReviewSecti
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#14120F] text-[#F7F4EF] px-6 py-3 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] transition-colors"
+              className="bg-[#14212B] text-[#F7F5F0] px-6 py-3 text-[13px] tracking-[0.1em] hover:bg-[#B28B52] transition-colors"
             >
               {loading ? "SUBMITTING..." : "SUBMIT REVIEW"}
             </button>

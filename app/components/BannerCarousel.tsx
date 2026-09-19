@@ -70,19 +70,19 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
             {banner.title ? (
-              <h2 className="max-w-4xl text-3xl sm:text-4xl md:text-6xl leading-[1.08] text-[#F7F4EF] mb-4 drop-shadow-md" style={{ fontFamily: "var(--font-display)" }}>
+              <h2 className="max-w-4xl text-3xl sm:text-4xl md:text-6xl leading-[1.08] text-[#F7F5F0] mb-4 drop-shadow-md" style={{ fontFamily: "var(--font-display)" }}>
                 {banner.title}
               </h2>
             ) : null}
 
             {banner.subtitle ? (
-              <p className="text-[#F7F4EF]/90 max-w-xl mb-8 text-sm md:text-base drop-shadow" style={{ fontFamily: "var(--font-sans)" }}>
+              <p className="text-[#F7F5F0]/90 max-w-xl mb-8 text-sm md:text-base drop-shadow" style={{ fontFamily: "var(--font-sans)" }}>
                 {banner.subtitle}
               </p>
             ) : null}
 
             {banner.link_url ? (
-              <a href={banner.link_url} className="bg-[#F7F4EF] text-[#14120F] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#9C7A44] hover:text-[#F7F4EF] transition-colors">
+              <a href={banner.link_url} className="bg-[#F7F5F0] text-[#14212B] px-8 py-3.5 text-[13px] tracking-[0.1em] hover:bg-[#B28B52] hover:text-[#F7F5F0] transition-colors">
                 SHOP NOW
               </a>
             ) : null}
@@ -92,11 +92,11 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
 
       {banners.length > 1 ? (
         <div>
-          <button onClick={goPrev} aria-label="Previous" className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
+          <button onClick={goPrev} aria-label="Previous" className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F5F0]/80 hover:bg-[#F7F5F0] rounded-full transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"></path></svg>
           </button>
 
-          <button onClick={goNext} aria-label="Next" className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F4EF]/80 hover:bg-[#F7F4EF] rounded-full transition-colors">
+          <button onClick={goNext} aria-label="Next" className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-[#F7F5F0]/80 hover:bg-[#F7F5F0] rounded-full transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"></path></svg>
           </button>
 
@@ -106,7 +106,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                 key={index}
                 onClick={() => setCurrent(index)}
                 aria-label={"Go to slide " + (index + 1)}
-                className={index === current ? "w-2.5 h-2.5 rounded-full bg-[#F7F4EF] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F4EF]" : "w-2.5 h-2.5 rounded-full bg-[#F7F4EF]/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F4EF]"}
+                className={index === current ? "w-2.5 h-2.5 rounded-full bg-[#F7F5F0] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F5F0]" : "w-2.5 h-2.5 rounded-full bg-[#F7F5F0]/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7F5F0]"}
               />
             ))}
           </div>

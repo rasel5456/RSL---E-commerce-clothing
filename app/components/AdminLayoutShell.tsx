@@ -21,10 +21,10 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F4EF] flex" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div className="min-h-screen bg-[#F7F5F0] flex" style={{ fontFamily: "Inter, sans-serif" }}>
       <button
         onClick={() => setSidebarOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-[#14120F] text-[#F7F4EF] w-10 h-10 flex items-center justify-center rounded"
+        className="md:hidden fixed top-4 left-4 z-50 bg-[#14212B] text-[#F7F5F0] w-10 h-10 flex items-center justify-center rounded"
         aria-label="Open menu"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
@@ -32,11 +32,11 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
 
       <aside
         className={
-          "fixed md:sticky top-0 left-0 h-screen w-64 bg-[#14120F] text-[#F7F4EF] flex flex-col z-40 transition-transform duration-300 " +
+          "fixed md:sticky top-0 left-0 h-screen w-64 bg-[#14212B] text-[#F7F5F0] flex flex-col z-40 transition-transform duration-300 " +
           (sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0")
         }
       >
-        <div className="px-6 py-6 border-b border-[#F7F4EF]/10 flex items-center justify-between">
+        <div className="px-6 py-6 border-b border-[#F7F5F0]/10 flex items-center justify-between">
           <span className="text-xl tracking-[0.2em]" style={{ fontFamily: "Georgia, serif" }}>RSL Admin</span>
           <button onClick={() => setSidebarOpen(false)} className="md:hidden" aria-label="Close menu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
@@ -53,7 +53,7 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
                 onClick={() => setSidebarOpen(false)}
                 className={
                   "px-4 py-3 rounded text-sm tracking-[0.03em] transition-colors " +
-                  (isActive ? "bg-[#9C7A44] text-[#F7F4EF]" : "text-[#F7F4EF]/70 hover:bg-[#F7F4EF]/10 hover:text-[#F7F4EF]")
+                  (isActive ? "bg-[#B28B52] text-[#F7F5F0]" : "text-[#F7F5F0]/70 hover:bg-[#F7F5F0]/10 hover:text-[#F7F5F0]")
                 }
               >
                 {item.label}
@@ -62,8 +62,8 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
           })}
         </nav>
 
-        <div className="px-6 py-6 border-t border-[#F7F4EF]/10">
-          <a href="/" target="_blank" rel="noopener noreferrer" className="text-[12px] text-[#F7F4EF]/50 hover:text-[#F7F4EF] transition-colors">
+        <div className="px-6 py-6 border-t border-[#F7F5F0]/10">
+          <a href="/" target="_blank" rel="noopener noreferrer" className="text-[12px] text-[#F7F5F0]/50 hover:text-[#F7F5F0] transition-colors">
             View Live Site &rarr;
           </a>
         </div>

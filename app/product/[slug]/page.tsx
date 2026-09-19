@@ -93,7 +93,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ProductDetailClient product={product} />
 
       {relatedProducts && relatedProducts.length > 0 ? (
-        <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 border-t border-[#DDD6C8]">
+        <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 border-t border-[#D7DDE0]">
           <h2 className="text-2xl md:text-3xl mb-8" style={{ fontFamily: "var(--font-display)" }}>
             You May Also Like
           </h2>

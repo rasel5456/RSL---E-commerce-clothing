@@ -21,7 +21,7 @@ export default async function AdminProductsPage() {
           href="/admin/products/add"
           style={{
             padding: "10px 20px",
-            backgroundColor: "#9C7A44",
+            backgroundColor: "#B28B52",
             color: "white",
             textDecoration: "none",
             borderRadius: "5px",

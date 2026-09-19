@@ -6,19 +6,19 @@ export default function AdminDashboardPage() {
       title: "Products",
       description: "Add, edit, or delete products",
       href: "/admin/products",
-      color: "#9C7A44",
+      color: "#B28B52",
     },
     {
       title: "Banners",
       description: "Manage homepage banner images",
       href: "/admin/banners",
-      color: "#14120F",
+      color: "#14212B",
     },
     {
       title: "Orders",
       description: "View customer orders",
       href: "/admin/orders",
-      color: "#6E675C",
+      color: "#66727A",
     },
   ];
 
@@ -39,7 +39,7 @@ export default function AdminDashboardPage() {
                 border: "1px solid #eee",
                 borderRadius: "10px",
                 textDecoration: "none",
-                color: "#14120F",
+                color: "#14212B",
                 borderTop: "4px solid " + section.color,
                 transition: "box-shadow 0.2s",
               }}
