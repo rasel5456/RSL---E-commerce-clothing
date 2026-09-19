@@ -36,12 +36,12 @@ export default function CartPage() {
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="flex-1 flex flex-col divide-y divide-[#DDD6C8] border-t border-[#DDD6C8]">
             {cartItems.map((item) => (
-              <div key={`${item.id}-${item.size}-${item.color}`} className="flex items-center gap-5 py-6">
+              <div key={`${item.id}-${item.size}-${item.color}`} className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-5 py-6">
                 <div className="relative w-24 h-28 flex-shrink-0 bg-[#EFEAE0] overflow-hidden">
                   <Image src={item.image} alt={item.name} fill sizes="96px" className="object-cover" />
                 </div>
 
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-[calc(100%-7rem)] sm:min-w-0">
                   <h3 className="text-[#14120F] mb-1" style={{ fontFamily: "var(--font-display)" }}>{item.name}</h3>
                   <p className="text-[13px] text-[#6E675C]">
                     {item.size ? "Size: " + item.size : ""}{item.size && item.color ? " · " : ""}{item.color ? "Color: " + item.color : ""}
@@ -56,7 +56,7 @@ export default function CartPage() {
                   </button>
                 </div>
 
-                <div className="flex items-center border border-[#DDD6C8]">
+                <div className="flex items-center border border-[#DDD6C8] ml-[7rem] sm:ml-0">
                   <button
                     onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity - 1)}
                     className="w-9 h-9 hover:bg-[#EFEAE0] transition-colors"
@@ -72,7 +72,7 @@ export default function CartPage() {
                   </button>
                 </div>
 
-                <p className="w-24 text-right text-[#14120F]" style={{ fontFamily: "var(--font-sans)" }}>
+                <p className="ml-auto w-24 text-right text-[#14120F]" style={{ fontFamily: "var(--font-sans)" }}>
                   ৳{item.price * item.quantity}
                 </p>
               </div>
@@ -117,5 +117,4 @@ export default function CartPage() {
     </div>
   );
 }
-
 

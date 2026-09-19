@@ -82,20 +82,24 @@ export default function CheckoutPage() {
       customer_id: user ? user.id : null,
     };
 
-    const res = await fetch("/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await res.json();
-    setLoading(false);
-
-    if (data.success) {
-      clearCart();
-      router.push("/order-confirmation?order_number=" + data.order.order_number);
-    } else {
-      setError(data.message || "Something went wrong. Please try again.");
+      const data = await res.json();
+      if (data.success) {
+        clearCart();
+        router.push("/order-confirmation?order_number=" + data.order.order_number);
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("We could not connect to RSL right now. Please try again or contact us on WhatsApp.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,16 +136,17 @@ export default function CheckoutPage() {
           <div className="md:col-span-3">
             {!user ? (
               <p className="text-[#6E675C] text-sm mb-8 border border-[#DDD6C8] px-4 py-3">
-                Have an account? <a href="/account" className="text-[#9C7A44] underline">Sign in</a> to auto-fill your details next time.
+                Have an account? <Link href="/account" className="text-[#9C7A44] underline">Sign in</Link> to auto-fill your details next time.
               </p>
             ) : null}
 
             <form onSubmit={handleSubmit}>
               <div className="grid sm:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">FULL NAME</label>
+                    <label htmlFor="checkout-name" className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">FULL NAME</label>
                   <input
                     type="text"
+                    id="checkout-name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -150,9 +155,10 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">PHONE NUMBER</label>
+                    <label htmlFor="checkout-phone" className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">PHONE NUMBER</label>
                   <input
                     type="tel"
+                    id="checkout-phone"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
@@ -162,8 +168,9 @@ export default function CheckoutPage() {
               </div>
 
               <div className="mb-5">
-                <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">FULL ADDRESS</label>
+                <label htmlFor="checkout-address" className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">FULL ADDRESS</label>
                 <textarea
+                  id="checkout-address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   required
@@ -173,9 +180,10 @@ export default function CheckoutPage() {
               </div>
 
               <div className="mb-8 sm:w-1/2 sm:pr-2.5">
-                <label className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">CITY</label>
+                <label htmlFor="checkout-city" className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-2 block">CITY</label>
                 <input
                   type="text"
+                  id="checkout-city"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   required

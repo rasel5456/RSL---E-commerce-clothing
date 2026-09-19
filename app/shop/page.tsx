@@ -1,5 +1,6 @@
 ﻿import { supabase } from "@/lib/supabase";
 import ProductCard from "../components/ProductCard";
+import { isStorefrontReady } from "@/lib/storefront";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     query = query.eq("gender", gender);
   }
 
-  const { data: products, error } = await query;
+  const { data: rawProducts, error } = await query;
+  const products = (rawProducts || []).filter(isStorefrontReady);
 
   const title = gender ? gender.charAt(0).toUpperCase() + gender.slice(1) : "All Products";
 
@@ -54,7 +56,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     </div>
   );
 }
-
 
 
 

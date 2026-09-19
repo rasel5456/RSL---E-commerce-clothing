@@ -1,5 +1,6 @@
 ﻿import { supabase } from "@/lib/supabase";
 import ProductCard from "../components/ProductCard";
+import { isStorefrontReady } from "@/lib/storefront";
 
 export const dynamic = "force-dynamic";
 
@@ -11,11 +12,12 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams;
   const query = params.q || "";
 
-  const { data: products, error } = await supabase
+  const { data: rawProducts, error } = await supabase
     .from("products")
     .select("*")
     .or("name.ilike.%" + query + "%,category.ilike.%" + query + "%")
     .order("created_at", { ascending: false });
+  const products = (rawProducts || []).filter(isStorefrontReady);
 
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 min-h-[60vh]">
@@ -48,5 +50,4 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     </div>
   );
 }
-
 

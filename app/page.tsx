@@ -5,6 +5,7 @@ import BannerCarousel from "./components/BannerCarousel";
 import CategorySlider from "./components/CategorySlider";
 import SiteHeader from "./components/SiteHeader";
 import { supabase } from "@/lib/supabase";
+import { isStorefrontReady } from "@/lib/storefront";
 
 export const dynamic = "force-dynamic";
 
@@ -42,25 +43,6 @@ const whyItems = [
   { label: "Secure Payment", icon: "P" },
   { label: "Fast Delivery Across Bangladesh", icon: "S" },
 ];
-
-type StorefrontProduct = {
-  name?: unknown;
-  price?: unknown;
-  stock?: unknown;
-  images?: unknown;
-};
-
-function isStorefrontReady(product: StorefrontProduct) {
-  return Boolean(
-    product &&
-      typeof product.name === "string" &&
-      product.name.trim().length >= 4 &&
-      Number(product.price) > 0 &&
-      Number(product.stock) > 0 &&
-      Array.isArray(product.images) &&
-      product.images[0]
-  );
-}
 
 export default async function Home() {
   const [productsRes, bannersRes, allProductsRes] = await Promise.all([
@@ -268,7 +250,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto border-t border-[#DDD6C8] pt-6 text-center text-[12px] text-[#6E675C]">
-          (c) 2026 RSL. Sarbossotto songrokkhito.
+          © 2026 RSL. সর্বস্বত্ব সংরক্ষিত।
         </div>
       </footer>
     </div>

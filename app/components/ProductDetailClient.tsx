@@ -224,6 +224,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <p className="text-[11px] tracking-[0.15em] text-[#6E675C] mb-3">QUANTITY <span className="text-[#9C7A44] ml-2">({stock} in stock)</span></p>
               <div className="flex items-center border border-[#DDD6C8] w-fit">
                 <button
+                  type="button"
+                  aria-label="Decrease quantity"
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
                 >
@@ -231,7 +233,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 </button>
                 <span className="w-12 text-center">{quantity}</span>
                 <button
-                  onClick={() => setQuantity((q) => q + 1)}
+                  type="button"
+                  aria-label="Increase quantity"
+                  onClick={() => setQuantity((q) => Math.min(stock, q + 1))}
                   className="w-11 h-11 hover:bg-[#EFEAE0] transition-colors text-lg"
                 >
                   +
@@ -247,6 +251,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           ) : (
             <div className="flex flex-col gap-3 mb-10">
               <button
+                type="button"
                 onClick={handleAddToCart}
                 className={`w-full py-4 text-[13px] tracking-[0.1em] transition-colors ${
                   justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
@@ -256,6 +261,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </button>
 
               <button
+                type="button"
                 onClick={handleOrderNow}
                 className="w-full py-4 text-[13px] tracking-[0.1em] border-2 border-[#14120F] text-[#14120F] hover:bg-[#14120F] hover:text-[#F7F4EF] transition-colors"
               >
