@@ -114,8 +114,9 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
         </button>
 
         {!outOfStock ? (
-          <div className="absolute left-0 right-0 bottom-0 flex translate-y-full group-hover:translate-y-0 focus-within:translate-y-0 transition-transform duration-300 z-10">
+          <div className="absolute left-0 right-0 bottom-0 flex translate-y-0 sm:translate-y-full group-hover:translate-y-0 focus-within:translate-y-0 transition-transform duration-300 z-10">
             <button
+              type="button"
               onClick={handleAddToCart}
               className={`flex-1 py-2.5 text-[10px] tracking-[0.1em] transition-colors ${
                 justAdded ? "bg-[#9C7A44] text-[#F7F4EF]" : "bg-[#14120F] text-[#F7F4EF] hover:bg-[#9C7A44]"
@@ -125,6 +126,7 @@ export default function ProductCard({ id, name, price, discountPrice, image, siz
             </button>
 
             <button
+              type="button"
               onClick={handleOrderNow}
               className="flex-1 py-2.5 text-[10px] tracking-[0.1em] bg-[#9C7A44] text-[#F7F4EF] hover:bg-[#14120F] transition-colors border-l border-[#F7F4EF]/30"
             >
